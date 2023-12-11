@@ -373,6 +373,23 @@
                 v-model="formData.sections"
             />
         </div>
+
+        <div class="bg-white mt-6 p-6 shadow-subtle rounded-lg">
+            <h2>Labels - SEO</h2>
+            <select-multiple-group
+                class="mt-4"
+                :label-hidden="true"
+                label-text="Labels"
+                :input-any-option-enabled="false"
+                input-class="form-control form-control-short"
+                input-id="labels"
+                input-name="labels"
+                input-option-label-key="name"
+                input-option-value-key="id"
+                :input-options="labels"
+                v-model="formData.labels"
+            />
+        </div>
     </form>
 </template>
 
@@ -386,6 +403,7 @@
     import SectionItemsEditor from "../../../../components/admin/edu/sections/SectionItemsEditor";
     import _ from "lodash";
     import WysiwygField from "../../../../components/admin/cms/content/content_fields/WysiwygField";
+    import SelectMultipleGroup from "../../../../components/core/forms/SelectMultipleGroup";
 
     export default {
         name: "AdminEduCourseEdit",
@@ -397,6 +415,7 @@
             CheckboxGroup,
             SelectGroup,
             DateTimePickerGroup,
+            SelectMultipleGroup
         },
         layout: 'admin-layout',
         props: {
@@ -409,6 +428,10 @@
                 type: Object|Array,
             },
             'statuses': {
+                required: true,
+                type: Object|Array,
+            },
+            'labels': {
                 required: true,
                 type: Object|Array,
             },

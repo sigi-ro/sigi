@@ -126,6 +126,9 @@ trait CourseActions
             $sections = $data['sections'];
             unset($data['sections']);
 
+            $labels = $data['labels'];
+            unset($data['labels']);
+
             // Create course
             $data['status'] = CourseInterface::STATUS_DRAFT;
             $course->update($data);
@@ -142,6 +145,7 @@ trait CourseActions
                 }
             }
 
+            $course->labels->sync($labels);
             $course->fresh();
             $course->load('sections');
 

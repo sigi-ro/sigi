@@ -16,6 +16,7 @@ use App\Interfaces\EDU\Course\CourseInterface;
 use App\Interfaces\EDU\Purchase\PurchaseInterface;
 use App\Interfaces\PermissionInterface;
 use App\Models\EDU\Course\Course;
+use App\Models\EDU\Label\Label;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -76,6 +77,7 @@ class CourseController extends AdminController
     {
         $this->addMetaTitleSection('Edit - ' . $course->name)->shareMeta();
         $course->load('sections');
+        $course->load('labels');
 
         return Inertia::render('admin/edu/course/Edit', [
             'course' => function () use ($course) {
@@ -87,6 +89,9 @@ class CourseController extends AdminController
             },
             'statuses' => function () {
                 return CourseInterface::STATUSES_EDIT;
+            },
+            'labels' => function () {
+                return Label::all()->pluck('name', 'id');
             }
         ]);
     }
@@ -118,6 +123,7 @@ class CourseController extends AdminController
 
     public function update(CourseUpdateRequest $request, Course $course): RedirectResponse
     {
+        dd($request->input('labels'));
         $course = app(CourseUpdateAction::class)->handle($course, $request->validated());
 
         return Redirect::to(route('admin.edu.courses.edit', $course))

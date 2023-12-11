@@ -15,7 +15,7 @@ class CourseUpdateRequest extends BaseIndexRequest
             'description' => 'nullable|string',
             'status' => 'nullable|string',
             'available_from' => 'nullable|date_format:Y-m-d H:i:s|before:available_to',
-            'available_to' => 'nullable|date_format:Y-m-d H:i|after:available_from',
+            'available_to' => 'nullable|date_format:Y-m-d H:i:s|after:available_from',
             'content_length_video' => 'nullable|string',
             'banner' => 'nullable|string',
             'primary_image' => 'nullable|string',
@@ -33,6 +33,7 @@ class CourseUpdateRequest extends BaseIndexRequest
             'has_pdfs' => 'nullable|boolean',
             'has_free_seo_exposure' => 'nullable|boolean',
             'sections' => 'nullable|array',
+            'labels' => 'nullable|array',
         ]);
     }
 }

@@ -69,8 +69,8 @@ class Course extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'available_from' => 'datetime',
-        'available_to' => 'datetime',
+//        'available_from' => 'datetime',
+//        'available_to' => 'datetime',
         'has_certificate' => 'boolean',
         'has_captions' => 'boolean',
         'has_lifetime_access' => 'boolean',
