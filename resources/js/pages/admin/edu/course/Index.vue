@@ -73,7 +73,7 @@
 
                 <!-- Search Results -->
                 <div class="block mt-8 overflow-x-auto w-full">
-                    <table class="table table-hover table-striped w-full">
+                    <table class="table table-hover table-striped w-full text-sm">
                         <thead>
                         <tr>
                             <th>Image</th>
@@ -83,106 +83,106 @@
                             <th>Summary</th>
                             <th>Created By</th>
                             <th>Length</th>
-                            <th>Total Sold</th>
-                            <th>Total Participants</th>
+<!--                            <th>Total Sold</th>-->
+<!--                            <th>Total Participants</th>-->
                             <th v-if="showActions"></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr
-                            v-for="(item, index) in coursesData"
-                            :key="`item-${item.id}`"
-                        >
-                            <td>
-                                <img :src="item.primary_image" :alt="item.name" class="w-32 square-full"/>
-                            </td>
-                            <td>
-                                {{ item.name }}
-                                <br>
-                                <small>{{ item.slug}}</small>
-                            </td>
-                            <td>
-                                {{ item.price + ' ' + item.currency }}
-                            </td>
-                            <td>
-                                {{ item.status }}
-                            </td>
-                            <td>
-                                {{ item.summary.length > 60 ? item.summary.substring(0,60) + ' ...':'' }}
-                            </td>
-                            <td>
-                                {{ item.creator ? item.creator.first_name + ' ' + item.creator.last_name:'' }}
-                            </td>
-                            <td>
-                                {{ item.content_length_video }}
-                            </td>
-                            <td>
-                                {{ item.total_quantity_sold }}
-                            </td>
-                            <td>
-                                {{ item.total_profit }}
-                            </td>
-                            <td v-if="showActions">
-                                <div class="flex flex-row items-center justify-end -mx-1">
-                                    <button
-                                        v-if="userCan('courses.publish')"
-                                        class="
-                                            flex flex-row items-center inline-flex mx-1 px-2 py-1 rounded text-theme-base-subtle-contrast text-sm tracking-wide
-                                            focus:outline-none focus:ring
-                                            hover:bg-theme-success hover:text-theme-success-contrast
-                                        "
-                                        title="Publish"
-                                        @click="checkPublishCourse(item)"
-                                    >
-                                        <icon-check
-                                            class="w-4"
-                                        />
-                                    </button>
-                                    <inertia-link
-                                        v-if="userCan('courses.edit')"
-                                        class="
-                                            flex flex-row items-center inline-flex mx-1 px-2 py-1 rounded text-theme-base-subtle-contrast text-sm tracking-wide
-                                            focus:outline-none focus:ring
-                                            hover:bg-theme-info hover:text-theme-info-contrast
-                                        "
-                                        :href="$route('admin.edu.courses.edit', item.id)"
-                                        title="Edit"
-                                    >
-                                        <icon-edit
-                                            class="w-4"
-                                        />
-                                    </inertia-link>
-                                    <inertia-link
-                                        v-if="userCan('courses.view')"
-                                        class="
-                                            flex flex-row items-center inline-flex mx-1 px-2 py-1 rounded text-theme-base-subtle-contrast text-sm tracking-wide
-                                            focus:outline-none focus:ring
-                                            hover:bg-theme-info hover:text-theme-info-contrast
-                                        "
-                                        :href="$route('admin.edu.courses.preview', item.id)"
-                                        title="Preview"
-                                    >
-                                        <icon-eye
-                                            class="w-4"
-                                        />
-                                    </inertia-link>
-                                    <button
-                                        v-if="userCan('courses.delete')"
-                                        class="
-                                            flex flex-row items-center inline-flex mx-1 px-2 py-1 rounded text-theme-base-subtle-contrast text-sm tracking-wide
-                                            focus:outline-none focus:ring
-                                            hover:bg-theme-danger hover:text-theme-danger-contrast
-                                        "
-                                        title="Delete"
-                                        @click="checkDelete(item)"
-                                    >
-                                        <icon-trash
-                                            class="w-4"
-                                        />
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                            <tr
+                                v-for="(item, index) in coursesData"
+                                :key="`item-${item.id}-${index}`"
+                            >
+                                <td>
+                                    <img :src="item.primary_image" :alt="item.name" class="w-32 square-full"/>
+                                </td>
+                                <td>
+                                    {{ item.name }}
+                                    <br>
+<!--                                    <small>{{ item.slug}}</small>-->
+                                </td>
+                                <td>
+                                    {{ item.price + ' ' + item.currency }}
+                                </td>
+                                <td>
+                                    {{ item.status }}
+                                </td>
+                                <td>
+                                    <small>{{ item.summary.length > 60 ? item.summary.substring(0,60) + ' ...':'' }}</small>
+                                </td>
+                                <td>
+                                    {{ item.creator ? item.creator.first_name + ' ' + item.creator.last_name:'' }}
+                                </td>
+                                <td>
+                                    {{ item.content_length_video }}
+                                </td>
+<!--                                <td>-->
+<!--                                    {{ item.total_quantity_sold }}-->
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    {{ item.total_profit }}-->
+<!--                                </td>-->
+                                <td v-if="showActions">
+                                    <div class="flex flex-row items-center justify-end -mx-1">
+                                        <button
+                                            v-if="userCan('courses.publish')"
+                                            class="
+                                                flex flex-row items-center inline-flex mx-1 px-2 py-1 rounded text-theme-base-subtle-contrast text-sm tracking-wide
+                                                focus:outline-none focus:ring
+                                                hover:bg-theme-success hover:text-theme-success-contrast
+                                            "
+                                            title="Publish"
+                                            @click="checkPublishCourse(item)"
+                                        >
+                                            <icon-check
+                                                class="w-4"
+                                            />
+                                        </button>
+                                        <inertia-link
+                                            v-if="userCan('courses.edit')"
+                                            class="
+                                                flex flex-row items-center inline-flex mx-1 px-2 py-1 rounded text-theme-base-subtle-contrast text-sm tracking-wide
+                                                focus:outline-none focus:ring
+                                                hover:bg-theme-info hover:text-theme-info-contrast
+                                            "
+                                            :href="$route('admin.edu.courses.edit', item.id)"
+                                            title="Edit"
+                                        >
+                                            <icon-edit
+                                                class="w-4"
+                                            />
+                                        </inertia-link>
+                                        <inertia-link
+                                            v-if="userCan('courses.view')"
+                                            class="
+                                                flex flex-row items-center inline-flex mx-1 px-2 py-1 rounded text-theme-base-subtle-contrast text-sm tracking-wide
+                                                focus:outline-none focus:ring
+                                                hover:bg-theme-info hover:text-theme-info-contrast
+                                            "
+                                            :href="$route('admin.edu.courses.preview', item.id)"
+                                            title="Preview"
+                                        >
+                                            <icon-eye
+                                                class="w-4"
+                                            />
+                                        </inertia-link>
+                                        <button
+                                            v-if="userCan('courses.delete')"
+                                            class="
+                                                flex flex-row items-center inline-flex mx-1 px-2 py-1 rounded text-theme-base-subtle-contrast text-sm tracking-wide
+                                                focus:outline-none focus:ring
+                                                hover:bg-theme-danger hover:text-theme-danger-contrast
+                                            "
+                                            title="Delete"
+                                            @click="checkDelete(item)"
+                                        >
+                                            <icon-trash
+                                                class="w-4"
+                                            />
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

@@ -191,7 +191,13 @@
                     return optionValue === this.inputValue;
                 }
 
-                return optionValue == this.inputValue;
+                // console.log(optionValue);
+                // console.log(this.inputValue);
+                if (Array.isArray(this.inputValue)) {
+                    return optionValue == this.inputValue[0].id;
+                }
+
+                return optionValue == this.inputValue.id;
             },
         },
     }

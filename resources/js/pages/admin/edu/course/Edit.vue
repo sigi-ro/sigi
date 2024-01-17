@@ -374,22 +374,24 @@
             />
         </div>
 
-        <div class="bg-white mt-6 p-6 shadow-subtle rounded-lg">
-            <h2>Labels - SEO</h2>
-            <select-multiple-group
-                class="mt-4"
-                :label-hidden="true"
-                label-text="Labels"
-                :input-any-option-enabled="false"
-                input-class="form-control form-control-short"
-                input-id="labels"
-                input-name="labels"
-                input-option-label-key="name"
-                input-option-value-key="id"
-                :input-options="labels"
-                v-model="formData.labels"
-            />
-        </div>
+<!--        <div class="bg-white mt-6 p-6 shadow-subtle rounded-lg">-->
+<!--            <h2>Labels - SEO</h2>-->
+<!--            <select-multiple-group-->
+<!--                class="mt-4"-->
+<!--                :label-hidden="true"-->
+<!--                label-text="Labels"-->
+<!--                :input-any-option-enabled="false"-->
+<!--                input-class="form-control form-control-short"-->
+<!--                input-id="labels"-->
+<!--                input-name="labels"-->
+<!--                input-value="id"-->
+<!--                input-option-label-key="name"-->
+<!--                input-option-value-key="id"-->
+<!--                :input-options="labels"-->
+<!--                :input-any-option-value="formData.labels"-->
+<!--                v-model="formData.labels"-->
+<!--            />-->
+<!--        </div>-->
     </form>
 </template>
 
@@ -470,6 +472,7 @@
                 has_pdfs: this.course.has_pdfs,
                 has_free_seo_exposure: this.course.has_free_seo_exposure,
                 sections: this.course.sections,
+                labels: this.course.labels,
                 templateField: { type: 'wysiwyg'}
             };
         },

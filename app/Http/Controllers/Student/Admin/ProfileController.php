@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student\Admin;
 
 use App\Http\Controllers\AdminController;
  use App\Http\Requests\Admin\Profile\ProfileUpdateRequest;
+use App\Http\Requests\Admin\Profile\RefundRequest;
 use App\Interfaces\PermissionInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -51,5 +52,11 @@ class ProfileController extends AdminController
     {
         Auth::user()->update($request->validated());
         return Redirect::to(route('student.admin.profile.index'))->with('success', 'Profile updated.');
+    }
+
+    public function refund(RefundRequest $request)
+    {
+
+        return Redirect::to(route('student.admin.profile.index'))->with('success', 'Refund requested.');
     }
 }

@@ -123,7 +123,6 @@ class CourseController extends AdminController
 
     public function update(CourseUpdateRequest $request, Course $course): RedirectResponse
     {
-        dd($request->input('labels'));
         $course = app(CourseUpdateAction::class)->handle($course, $request->validated());
 
         return Redirect::to(route('admin.edu.courses.edit', $course))

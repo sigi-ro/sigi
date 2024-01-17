@@ -145,7 +145,7 @@ trait CourseActions
                 }
             }
 
-            $course->labels->sync($labels);
+//            $course->labels->sync($labels);
             $course->fresh();
             $course->load('sections');
 
