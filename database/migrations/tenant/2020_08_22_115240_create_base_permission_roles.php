@@ -140,6 +140,12 @@ class CreateBasePermissionRoles extends Migration
             PermissionInterface::EDIT_EDU_WEBINARS,
             PermissionInterface::VIEW_EDU_WEBINARS,
 
+            // EDU Refunds
+            PermissionInterface::CREATE_EDU_REFUNDS,
+            PermissionInterface::DELETE_EDU_REFUNDS,
+            PermissionInterface::EDIT_EDU_REFUNDS,
+            PermissionInterface::VIEW_EDU_REFUNDS,
+
             // EDU Announcements
             PermissionInterface::CREATE_EDU_ANNOUNCEMENTS,
             PermissionInterface::DELETE_EDU_ANNOUNCEMENTS,
@@ -267,6 +273,12 @@ class CreateBasePermissionRoles extends Migration
                 PermissionInterface::DELETE_EDU_WEBINARS,
                 PermissionInterface::EDIT_EDU_WEBINARS,
                 PermissionInterface::VIEW_EDU_WEBINARS,
+
+                // EDU Webinars
+                PermissionInterface::CREATE_EDU_REFUNDS,
+                PermissionInterface::DELETE_EDU_REFUNDS,
+                PermissionInterface::EDIT_EDU_REFUNDS,
+                PermissionInterface::VIEW_EDU_REFUNDS,
 
                 // EDU Announcements
                 PermissionInterface::CREATE_EDU_ANNOUNCEMENTS,
