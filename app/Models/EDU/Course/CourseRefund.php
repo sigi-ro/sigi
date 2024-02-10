@@ -25,17 +25,6 @@ class CourseRefund extends Model
 
     protected $guarded = [];
 
-    protected $fillable = [
-        'course_name',
-        'course_id',
-        'course_purchase_id',
-        'user_id',
-        'full_refund_issued_at',
-        'refunded',
-        'status',
-        'reason',
-    ];
-
     protected $casts = [
         'full_refund_issued_at' => 'datetime',
         'refunded' => 'bool',

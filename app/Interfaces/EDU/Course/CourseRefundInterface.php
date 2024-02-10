@@ -2,8 +2,6 @@
 
 namespace App\Interfaces\EDU\Course;
 
-use Illuminate\Support\Arr;
-
 class CourseRefundInterface
 {
 

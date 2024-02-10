@@ -27,6 +27,15 @@ class ProfileController extends AdminController
         $this->middleware(
             PermissionInterface::getMiddlewareString(PermissionInterface::VIEW_PROFILE)
         )->only('index');
+
+        $this->middleware(
+            PermissionInterface::getMiddlewareString(PermissionInterface::VIEW_EDU_REFUNDS)
+        )->only('index');
+
+        $this->middleware(
+            PermissionInterface::getMiddlewareString(PermissionInterface::CREATE_EDU_REFUNDS)
+        )->only(['refund']);
+
     }
 
     /**
@@ -67,7 +76,7 @@ class ProfileController extends AdminController
 
     public function refund(CoursePurchaseRefundRequest $request, CoursePurchase $coursePurchase): RedirectResponse
     {
-        app(RequestRefundAction::class)->handle($request->validated(), $coursePurchase);
+        app(RequestRefundAction::class)->handle($coursePurchase, $request->validated());
 
         return Redirect::back(303)->with(
             'success',

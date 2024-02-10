@@ -23,7 +23,6 @@ return new class extends Migration
             $table->longText('reason_message');
             $table->longText('notes');
 
-
             $table->timestamps();
 
             // Indexes
