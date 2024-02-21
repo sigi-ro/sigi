@@ -100,6 +100,12 @@ class PermissionInterface
     const EDIT_EDU_WEBINARS    = 'edit edu_webinars';
     const VIEW_EDU_WEBINARS    = 'view edu_webinars';
 
+    // EDU Refund Permissions
+    const CREATE_EDU_REFUNDS  = 'create edu_refunds';
+    const DELETE_EDU_REFUNDS  = 'delete edu_refunds';
+    const EDIT_EDU_REFUNDS    = 'edit edu_refunds';
+    const VIEW_EDU_REFUNDS    = 'view edu_refunds';
+
     // Email Preview
     const VIEW_EMAIL_PREVIEW = 'view email_preview';
 
@@ -213,6 +219,12 @@ class PermissionInterface
             'delete' => self::DELETE_EDU_WEBINARS,
             'edit' => self::EDIT_EDU_WEBINARS,
             'view' => self::VIEW_EDU_WEBINARS,
+        ],
+        'edu_refunds' => [
+            'create' => self::CREATE_EDU_REFUNDS,
+            'delete' => self::DELETE_EDU_REFUNDS,
+            'edit' => self::EDIT_EDU_REFUNDS,
+            'view' => self::VIEW_EDU_REFUNDS,
         ],
         'edu_course_purchases' => [
             'view' => self::VIEW_EDU_COURSE_PURCHASES,

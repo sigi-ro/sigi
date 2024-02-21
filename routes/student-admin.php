@@ -29,4 +29,5 @@ Route::group([
     Route::get('/', [ProfileController::class, 'index'])->name('index');
     Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
     Route::put('/', [ProfileController::class, 'update'])->name('update');
+    Route::post('/{coursePurchase}/refund', [ProfileController::class, 'refund'])->name('refund');
 });
