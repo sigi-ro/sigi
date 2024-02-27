@@ -35,7 +35,6 @@ class ProfileController extends AdminController
         $this->middleware(
             PermissionInterface::getMiddlewareString(PermissionInterface::CREATE_EDU_REFUNDS)
         )->only(['refund']);
-
     }
 
     /**
@@ -47,11 +46,10 @@ class ProfileController extends AdminController
         $this->shareMeta();
 
         $user = Auth::user();
-        $canRequestRefund = true;
 
         return Inertia::render('student/admin/profile/Edit', [
             'profile' => $user,
-            'can_request_refund' => $canRequestRefund,
+            'useRefundSection' => true,
         ]);
     }
 

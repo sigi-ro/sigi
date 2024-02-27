@@ -21,6 +21,12 @@ class EduSettingEditResource extends JsonResource
                'label' => 'Course Checkout Cancel URL',
                'description' => 'The URL to redirect to after a cancelled course checkout.',
            ],
+           'course_use_refund_section' => [
+               'value' => $this->course_use_refund_section,
+               'type' => 'bool',
+               'label' => 'Use Refund Section',
+               'description' => 'Allow users to easily request refunds.',
+           ],
        ];
     }
 }

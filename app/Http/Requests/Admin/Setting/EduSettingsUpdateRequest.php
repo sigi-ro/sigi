@@ -11,6 +11,7 @@ class EduSettingsUpdateRequest extends BaseRequest
         return [
             'course_checkout_success_url' => 'nullable|string',
             'course_checkout_cancel_url' => 'nullable|string',
+            'course_use_refund_section' => 'nullable|string',
         ];
     }
 }

@@ -14,5 +14,9 @@ return new class extends SettingsMigration
             'edu.course_checkout_cancel_url',
             null
         );
+        $this->migrator->add(
+            'edu.course_use_refund_section',
+            false
+        );
     }
 };

@@ -9,7 +9,7 @@
             class="flex flex-row items-center mb-6"
         >
             <h1 class="font-medium mr-auto text-lg">
-                Edit {{ settingsName }} Settings
+                {{ __('settings.edit', {setting: settingsName}) }}
             </h1>
 
             <button
@@ -28,26 +28,45 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Save Changes
+                    {{ __('form.buttons.save') }}
                 </span>
             </button>
         </div>
 
         <div class="bg-white py-6 shadow-subtle rounded-lg">
             <div class="block -mt-4 px-6 w-full">
-                <input-group
+                <template
                     v-for="(setting, key) in settings"
-                    :key="key"
-                    class="mt-4"
-                    :error-message="getPageErrorMessage(key)"
-                    input-autocomplete="off"
-                    :input-id="key"
-                    :input-name="key"
-                    :input-type="setting.type"
-                    :label-text="setting.label"
-                    @errorHidden="clearPageErrorMessage(key)"
-                    v-model="formData[key]"
-                />
+                >
+                    <select-group
+                        v-if="setting.type === 'select'"
+                        class="mt-4"
+                        :key="key"
+                        :error-message="getPageErrorMessage(key)"
+                        input-autocomplete="off"
+                        :input-id="key"
+                        :input-name="key"
+                        :input-type="setting.type"
+                        :label-text="setting.label"
+                        :input-options="setting.options"
+                        @errorHidden="clearPageErrorMessage(key)"
+                        v-model="formData[key]"
+                    />
+
+                    <input-group
+                        v-else
+                        class="mt-4"
+                        :key="key"
+                        :error-message="getPageErrorMessage(key)"
+                        input-autocomplete="off"
+                        :input-id="key"
+                        :input-name="key"
+                        :input-type="setting.type"
+                        :label-text="setting.label"
+                        @errorHidden="clearPageErrorMessage(key)"
+                        v-model="formData[key]"
+                    />
+                </template>
             </div>
         </div>
     </form>
@@ -56,10 +75,11 @@
 <script>
     import _ from 'lodash';
     import InputGroup from "../../../components/core/forms/InputGroup.vue";
+    import SelectGroup from "../../../components/core/forms/SelectGroup.vue";
 
     export default {
         name: "AdminSettingEdit",
-        components: {InputGroup},
+        components: {SelectGroup, InputGroup},
         layout: 'admin-layout',
         props: {
             settings: {
@@ -99,8 +119,12 @@
 
                 this.$inertia.put(
                     this.$route('admin.settings.update', this.settingsGroup),
-                    formattedSettings
-                );
+                    formattedSettings,
+                    {
+                        // Some settings may need a page reload to take effect
+                        onSuccess: () => { window.location.reload() }
+                    }
+                )
             }
         },
     }

@@ -31,6 +31,8 @@ use Illuminate\Support\Collection;
  * @property string $current_price
  * @property string $description
  * @property string $discount_price
+ * @property string $vat
+ * @property string $price_vat
  * @property bool $has_certificate
  * @property bool $has_captions
  * @property bool $has_free_seo_exposure
@@ -146,7 +148,7 @@ class Course extends Model
     {
         return $this->hasMany(Section::class)
             ->with('childItems')
-            ->orderBy('index');
+            ->orderBy('index', 'asc');
     }
 
     public function webinars(): HasMany
@@ -201,6 +203,6 @@ class Course extends Model
 
     public function getCurrentPriceAttribute(): string
     {
-        return $this->discount_price ? $this->discount_price : $this->price;
+        return ($this->discount_price ?: $this->price) * 100;
     }
 }

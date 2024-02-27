@@ -6,7 +6,7 @@
     >
         <div
             v-if="userCan('courses.edit')"
-            class="flex flex-row items-center mb-6"
+            class="flex flex-row items-center mb-6 course-menu"
         >
             <h1 class="font-medium mr-auto text-lg">
                 Edit - <b>{{ course.name }}</b>
@@ -37,6 +37,7 @@
                     flex flex-row items-center mr-2
                 "
                 :href="$route('admin.edu.courses.preview', course.id)"
+                target="_blank"
             >
                 <icon-eye
                     class="w-5 md:mr-2"
@@ -266,13 +267,38 @@
                     v-model="formData.discount_price"
                 />
 
+                <input-group
+                    class="mt-4"
+                    :error-message="getPageErrorMessage('vat')"
+                    input-autocomplete="vat"
+                    input-id="vat"
+                    input-name="vat"
+                    :input-required="false"
+                    input-type="text"
+                    label-text="VAT"
+                    @errorHidden="clearPageErrorMessage('vat')"
+                    v-model="formData.vat"
+                />
+
+                <input-group
+                    class="mt-4"
+                    :error-message="getPageErrorMessage('price_vat')"
+                    input-autocomplete="price_vat"
+                    input-id="price_vat"
+                    input-name="price_vat"
+                    :input-required="false"
+                    input-type="text"
+                    label-text="Price VAT"
+                    @errorHidden="clearPageErrorMessage('price_vat')"
+                    v-model="formData.price_vat"
+                />
+
                 <select-group
                     class="mt-4"
-                    :label-hidden="true"
                     label-text="Currency"
                     :input-any-option-enabled="true"
                     input-any-option-label="Currency"
-                    input-class="form-control form-control-short"
+                    input-class="input-group-input"
                     input-id="currency"
                     input-name="currency"
                     input-option-label-key="name"
@@ -436,6 +462,8 @@
                 video_preview: this.course.video_preview,
                 price: this.course.price,
                 discount_price: this.course.discount_price,
+                vat: this.course.vat,
+                price_vat: this.course.price_vat,
                 currency: this.course.currency,
                 languages: this.course.languages,
                 has_webinars: this.course.has_webinars,
