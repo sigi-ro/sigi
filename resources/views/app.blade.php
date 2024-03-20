@@ -8,10 +8,10 @@
 
         <title>SIGI</title>
 
-        <link href="{{ mix('/css/app.css') }}" rel="stylesheet"/>
+        @vite('resources/css/app.css')
 
         @routes
-        <script src="{{ mix('/js/app.js') }}" defer></script>
+        @vite('resources/js/app.js')
 
         @if(tenant())
             @include('partials.tenant-head')
