@@ -1,4 +1,4 @@
-require('./bootstrap');
+import './bootstrap';
 
 import Vue from 'vue';
 import { store } from './store/admin';
@@ -8,21 +8,21 @@ dayjs.locale('ro');
 
 import { createInertiaApp } from '@inertiajs/vue2';
 
-require('./plugins/toasted');
-require('./plugins/vue2-datepicker');
-require('./plugins/vue-cookies');
-require('./plugins/vue-meta');
-require('./plugins/ziggy');
-require('./plugins/zora');
+import './plugins/toasted';
+import './plugins/vue2-datepicker';
+import './plugins/vue-cookies';
+import './plugins/vue-meta';
+import './plugins/ziggy';
+import './plugins/zora';
 
-require('./filters/date-times');
-require('./filters/prices');
+import './filters/date-times';
+import './filters/prices';
 
-require('./mixins/page-error');
+import './mixins/page-error';
 
-require('./component-registration');
+import './component-registration';
 
-require('./inertia-events');
+import './inertia-events';
 
 const app = createInertiaApp({
     progress: {
