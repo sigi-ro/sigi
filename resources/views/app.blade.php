@@ -8,8 +8,6 @@
 
         <title>SIGI</title>
 
-        @vite('resources/css/app.css')
-
         @routes
         @vite('resources/js/app.js')
 
@@ -22,7 +20,7 @@
         </script>
     </head>
 
-    <body>
+    <body class="html-base">
         @inertia
     </body>
 </html>

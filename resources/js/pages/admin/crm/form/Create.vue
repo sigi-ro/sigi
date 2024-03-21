@@ -162,7 +162,7 @@
 
 <script>
     import slugify from 'slugify';
-    import ArrayGroup from "../../../../components/core/forms/ArrayGroup.";
+    import ArrayGroup from "../../../../components/core/forms/ArrayGroup.vue";
     import FormFieldEditor from "../../../../components/admin/crm/forms/FormFieldEditor.vue";
     import InlineCheckboxGroup from "../../../../components/core/forms/InlineCheckboxGroup.vue";
     import InputGroup from "../../../../components/core/forms/InputGroup.vue";

@@ -6,14 +6,11 @@
 
         <title>SIGI</title>
 
-        @vite('resources/css/landlord/app.css')</link>
-
-
         @routes
         @vite('resources/js/landlord/app.js')
     </head>
 
-    <body>
+    <body class="html-base">
         @inertia
     </body>
 </html>

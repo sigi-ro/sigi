@@ -17,6 +17,10 @@ import '../filters/date-times';
 
 import '../mixins/page-error';
 
+import '../../css/landlord/app.css';
+import '../../css/landlord/tinymce/content.css';
+import '../../css/landlord/tinymce/skin.css';
+
 const app = createInertiaApp({
     progress: {
         // The delay after which the progress bar will
@@ -30,7 +34,11 @@ const app = createInertiaApp({
         showSpinner: false,
 
     },
-    resolve: (name) => require(`./pages/${name}.vue`),
+    resolve: async (name) => {
+        const pages = import.meta.glob('./pages/**/*.vue');
+
+        return (await pages[`./pages/${name}.vue`]()).default;
+    },
     setup({ el, App, props, plugin }) {
         Vue.use(plugin)
 

@@ -71,7 +71,7 @@
 
 <script>
     import slugify from 'slugify';
-    import ArrayGroup from "../../../../components/core/forms/ArrayGroup.";
+    import ArrayGroup from "../../../../components/core/forms/ArrayGroup.vue";
     import InputGroup from "../../../../components/core/forms/InputGroup.vue";
 
     export default {
