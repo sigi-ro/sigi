@@ -51,6 +51,17 @@ class FormSubmissionStoreAction
             DB::rollBack();
             throw $e;
         }
+
+        /**
+         * TODO: Implement sending on FormSubmittedInternal
+         * Requirements:
+         *   - Base Form recipient config
+         *   - Form Properties
+         *      - is_internal_notification_enabled -- should the email be sent
+         *      - internal_notification_emails -- individual emails
+         *      - internal_notification_email_groups -- email groups (Model TBC) to allow for easy re-use
+         */
+
     }
 
 
