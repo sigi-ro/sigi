@@ -3,6 +3,7 @@
 namespace App\Bootstrappers;
 
 use App\Traits\Base\ManagesTenancyMailer;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\App;
 use Spatie\LaravelSettings\Exceptions\MissingSettings;
 use Stancl\Tenancy\Contracts\TenancyBootstrapper;
@@ -17,7 +18,7 @@ class ConfigTenancyBootstrapper implements TenancyBootstrapper
         try {
             App::setLocale($tenant->locale);
             $this->setMailConfigForTenant($tenant);
-        } catch (MissingSettings $e) {
+        } catch (QueryException | MissingSettings $e) {
             // For initial migration of setting, this may not be set. No need to fail
         }
     }
