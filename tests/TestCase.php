@@ -3,12 +3,13 @@
 namespace Tests;
 
 use App\Interfaces\RoleInterface;
+use App\Models\Tenant;
 use App\Models\User;
 use Faker\Factory as Faker;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
 
@@ -24,21 +25,38 @@ use PHPUnit\Framework\Assert;
  */
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication,
-        DatabaseMigrations,
-        DatabaseTransactions;
+    use CreatesApplication;
+    use DatabaseTransactions;
 
     /**
      * @var Faker
      */
     protected $faker;
 
+    protected bool $tenancy = false;
+
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->inertiaSetup();
+
         $this->faker = Faker::create();
+
+        if ($this->tenancy) {
+            $this->initializeTenancy();
+        }
     }
+
+    public function initializeTenancy(): void
+    {
+        $tenant = Tenant::make(['id' => 'test']);
+
+        tenancy()->initialize($tenant);
+
+        Artisan::call('tenants:migrate-fresh');
+    }
+
 
     protected function tearDown(): void
     {

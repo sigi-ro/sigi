@@ -185,5 +185,4 @@ class TemplateTest extends AbstractAdminTestCase
     {
         $this->assertIsPermissionAuthenticatedRoute(route('admin.cms.templates.index'));
     }
-
 }

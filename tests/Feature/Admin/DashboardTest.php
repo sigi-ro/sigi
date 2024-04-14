@@ -2,20 +2,18 @@
 
 namespace Tests\Feature\Admin;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
+use App\Interfaces\PermissionInterface;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
 {
-    use RefreshDatabase;
-
+    protected bool $tenancy = true;
 
     /** @test  */
     public function authorised_users_can_view_the_dashboard()
     {
         $response = $this
-            ->signIn()
+            ->signInWithPermissions(PermissionInterface::VIEW_ADMIN)
             ->get(route('admin.index'));
 
         $response->assertStatus(200);
