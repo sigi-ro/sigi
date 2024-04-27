@@ -62,6 +62,7 @@
                         v-model="formData[key]"
                     />
 
+
                     <mailer-setting
                         v-else-if="setting.type === 'mailer'"
                         class="mt-4"
@@ -69,9 +70,11 @@
                         :mailers="setting.mailers"
                         :mailer-setting-keys="setting.mailerSettingKeys"
                         :mailer-setting-labels="setting.mailerSettingLabels"
+                        :mailer-setting-types="setting.mailerSettingTypes"
                         :title="setting.label"
                         v-model="formData[key]"
                     />
+
 
                     <input-group
                         v-else
@@ -125,6 +128,10 @@
         created() {
             _.forEach(this.settings, (setting, key) => {
                 let value = setting.value === null ? '' : setting.value;
+                if (typeof value === 'object') {
+                    value = _.cloneDeep(value);
+                }
+
                 this.$set(this.formData, key, value);
             });
         },

@@ -36,6 +36,7 @@ class ThirdPartySettingEditResource extends JsonResource
                'mailers' => ThirdPartyInterface::ALL_MAILERS_LABELLED,
                'mailerSettingKeys' => ThirdPartyInterface::ALL_MAILER_SETTING_KEYS,
                'mailerSettingLabels' => ThirdPartyInterface::ALL_MAILER_CONFIGS_LABELLED,
+               'mailerSettingTypes' => ThirdPartyInterface::ALL_MAILER_CONFIGS_TYPES,
            ],
        ];
     }

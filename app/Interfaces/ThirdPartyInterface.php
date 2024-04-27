@@ -45,6 +45,22 @@ class ThirdPartyInterface
         self::MAILER_CONFIG_TIMEOUT => 'Timout',
     ];
 
+    const ALL_MAILER_CONFIGS_TYPES = [
+        self::MAILER_CONFIG_ENCRYPTION => 'text',
+        self::MAILER_CONFIG_FROM_ADDRESS => 'text',
+        self::MAILER_CONFIG_FROM_NAME => 'text',
+        self::MAILER_CONFIG_HOST => 'text',
+        self::MAILER_CONFIG_USERNAME => 'text',
+        self::MAILER_CONFIG_PASSWORD => 'password',
+        self::MAILER_CONFIG_PORT => 'number',
+        self::MAILER_CONFIG_SERVICE_DOMAIN => 'text',
+        self::MAILER_CONFIG_SERVICE_ENDPOINT => 'text',
+        self::MAILER_CONFIG_SERVICE_KEY => 'password',
+        self::MAILER_CONFIG_SERVICE_REGION => 'text',
+        self::MAILER_CONFIG_SERVICE_SECRET => 'password',
+        self::MAILER_CONFIG_TIMEOUT => 'number',
+    ];
+
     const MAILER_SETTING_KEYS_MAILGUN = [
         self::MAILER_CONFIG_FROM_ADDRESS,
         self::MAILER_CONFIG_FROM_NAME,
