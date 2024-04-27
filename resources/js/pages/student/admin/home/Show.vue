@@ -1,88 +1,138 @@
 <template>
     <div>
         <div class="mb-4">
-            <h1 class="font-semibold mr-auto text-3xl">
+            <h1 class="font-semibold mr-auto text-lg md:text-3xl">
                 {{ course.name }}
             </h1>
             <small>{{ __('messages.created-by') }} <b>{{ course.creator.name }}</b></small>
         </div>
 
-        <div class="flex flex-row space-x-4">
-            <div class="max-w-sm w-full ">
+        <transition name="slide-right">
+            <div
+                v-if="section && lecture && !isLoadingLecture"
+                class="mb-6 w-full lg:hidden"
+            >
+                <div
+                    v-if="!showAudioPanel"
+                    class="bg-white overflow-hidden relative rounded-lg shadow-subtle"
+                >
+                    <iframe
+                        class="aspect-ratio-16-9 w-full"
+                        :src="lecture.video_url"
+                        allowfullscreen
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        frameborder="0"
+                    />
+                </div>
+
+                <div
+                    v-if="showAudioPanel && lecture.audio_url"
+                    class="bg-white overflow-hidden relative rounded-lg shadow-subtle"
+                >
+                    <Wavesurfer
+                        :audio-url="lecture.audio_url"
+                        :media-controls="true"
+                    ></Wavesurfer>
+                </div>
+            </div>
+        </transition>
+
+        <div
+            class="
+                flex flex-col overflow-x-hidden space-y-6
+                lg:flex-row lg:space-x-4 lg:space-y-0
+            "
+        >
+            <div class="overflow-hidden relative w-full z-10 lg:max-w-sm">
                 <div class="bg-white rounded-xl shadow-subtle">
-                    <h2 class="border-b font-semibold px-6 py-3">
-                        {{ __('messages.course-content') }}
-                    </h2>
-
                     <div
-                        v-for="(section, sectionIndex) in course.sections"
-                        :key="`section-${sectionIndex}`"
+                        class="bg-white cursor-pointer flex flex-row items-center justify-between px-6 py-3 relative rounded-xl z-10"
+                        @click="toggleCourseContent"
                     >
-                        <div
-                            class="
-                                cursor-pointer px-6 py-3
-                                hover:bg-theme-primary-subtle-hover
-                            "
-                            :class="{
-                                'bg-theme-primary-subtle-hover': sectionIndex === activeSection
-                            }"
-                            @click="toggleSection(sectionIndex)"
-                        >
-                            <div class="flex flex-1 flex-row items-center justify-between">
-                                <h3 class="font-bold">
-                                    {{ sectionIndex + 1 }}. {{ section.title }}
-                                </h3>
+                        <h2 class=" font-semibold">
+                            {{ __('messages.course-content') }}
+                        </h2>
 
-                                <component
-                                    :is="(toggledSections[sectionIndex]) ? 'icon-minus' : 'icon-plus'"
-                                    class="w-5"
-                                />
+                        <component
+                            :is="isCourseContentToggled ? 'icon-minus' : 'icon-plus'"
+                            class="w-5"
+                        />
+                    </div>
+
+                    <transition name="slide-down">
+                        <div v-if="isCourseContentToggled">
+                            <div
+                                v-for="(section, sectionIndex) in course.sections"
+                                :key="`section-${sectionIndex}`"
+                                class="border-t"
+                            >
+                            <div
+                                class="
+                                    cursor-pointer px-6 py-3
+                                    hover:bg-theme-primary-subtle-hover
+                                "
+                                :class="{
+                                    'bg-theme-primary-subtle-hover': sectionIndex === activeSection
+                                }"
+                                @click="toggleSection(sectionIndex)"
+                            >
+                                <div class="flex flex-1 flex-row items-center justify-between">
+                                    <h3 class="font-bold">
+                                        {{ sectionIndex + 1 }}. {{ section.title }}
+                                    </h3>
+
+                                    <component
+                                        :is="(toggledSections[sectionIndex]) ? 'icon-minus' : 'icon-plus'"
+                                        class="w-5"
+                                    />
+                                </div>
+
+                                <p class="text-sm">
+                                    0/{{ section.child_items.length }} | {{ section.content_length }} min
+                                </p>
                             </div>
 
-                            <p class="text-sm">
-                                0/{{ section.child_items.length }} | {{ section.content_length }} min
-                            </p>
-                        </div>
 
-
-                        <transition name="slide-left">
-                            <div
-                                v-if="toggledSections[sectionIndex]"
-                            >
+                            <transition name="slide-left">
                                 <div
-                                    v-for="(lecture, lectureIndex) in section.child_items"
-                                    :key="`lecture-${lectureIndex}`"
-                                    class="
-                                        cursor-pointer flex flex-row px-6 py-1 space-x-1
-                                        hover:bg-theme-primary-subtle-hover
-                                    "
-                                    :class="{
-                                        'bg-theme-primary-subtle-hover': isLectureActive(sectionIndex, lectureIndex)
-                                    }"
+                                    v-if="toggledSections[sectionIndex]"
                                 >
-                                    <button
-                                        type="button"
-                                        @click="checkMarkComplete(lecture)"
-                                    >
-                                        <component
-                                            :is="lecture.completed ? 'icon-square-check-filled' : 'icon-square-check'"
-                                            class="w-5"
-                                            :class="{
-                                                'text-theme-success-contrast' : lecture.completed
-                                            }"
-                                        />
-                                    </button>
-
                                     <div
-                                        @click="setActiveLecture(sectionIndex, lectureIndex, lecture, section)"
+                                        v-for="(lecture, lectureIndex) in section.child_items"
+                                        :key="`lecture-${lectureIndex}`"
+                                        class="
+                                            cursor-pointer flex flex-row px-6 py-1 space-x-1
+                                            hover:bg-theme-primary-subtle-hover
+                                        "
+                                        :class="{
+                                            'bg-theme-primary-subtle-hover': isLectureActive(sectionIndex, lectureIndex)
+                                        }"
                                     >
-                                        <p class="text-sm">{{ (lectureIndex + 1) }}. {{ lecture.title }}</p>
-                                        <p class="text-xs">{{ lecture.content_length}} min</p>
+                                        <button
+                                            type="button"
+                                            @click="checkMarkComplete(lecture)"
+                                        >
+                                            <component
+                                                :is="lecture.completed ? 'icon-square-check-filled' : 'icon-square-check'"
+                                                class="w-5"
+                                                :class="{
+                                                    'text-theme-success-contrast' : lecture.completed
+                                                }"
+                                            />
+                                        </button>
+
+                                        <div
+                                            @click="setActiveLecture(sectionIndex, lectureIndex, lecture, section)"
+                                        >
+                                            <p class="text-sm">{{ (lectureIndex + 1) }}. {{ lecture.title }}</p>
+                                            <p class="text-xs">{{ lecture.content_length}} min</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </transition>
-                    </div>
+                            </transition>
+                        </div>
+                        </div>
+                    </transition>
                 </div>
             </div>
 
@@ -91,30 +141,32 @@
                     v-if="section && lecture && !isLoadingLecture"
                     class="w-full"
                 >
-                    <div
-                        v-if="!showAudioPanel"
-                        class="bg-white overflow-hidden relative rounded-lg shadow-subtle"
-                    >
-                        <iframe
-                            class="aspect-ratio-16-9 w-full"
-                            :src="lecture.video_url"
-                            allowfullscreen
-                            allow="autoplay; fullscreen; picture-in-picture"
-                            frameborder="0"
-                        />
+                    <div class="hidden lg:block">
+                        <div
+                            v-if="!showAudioPanel"
+                            class="bg-white overflow-hidden relative rounded-lg shadow-subtle"
+                        >
+                            <iframe
+                                class="aspect-ratio-16-9 w-full"
+                                :src="lecture.video_url"
+                                allowfullscreen
+                                allow="autoplay; fullscreen; picture-in-picture"
+                                frameborder="0"
+                            />
+                        </div>
+
+                        <div
+                            v-if="showAudioPanel && lecture.audio_url"
+                            class="bg-white overflow-hidden relative rounded-lg shadow-subtle"
+                        >
+                            <Wavesurfer
+                                :audio-url="lecture.audio_url"
+                                :media-controls="true"
+                            ></Wavesurfer>
+                        </div>
                     </div>
 
-                    <div
-                        v-if="showAudioPanel && lecture.audio_url"
-                        class="bg-white overflow-hidden relative rounded-lg shadow-subtle"
-                    >
-                        <Wavesurfer
-                            :audio-url="lecture.audio_url"
-                            :media-controls="true"
-                        ></Wavesurfer>
-                    </div>
-
-                    <div class="bg-white mt-4 p-6 overflow-hidden relative rounded-lg shadow-subtle ">
+                    <div class="bg-white p-6 overflow-hidden relative rounded-lg shadow-subtle lg:mt-4">
                         <div
                             class="flex items-center justify-content-between space-x-6"
                         >
@@ -314,12 +366,13 @@ export default {
             activeSection: 0,
             activeSectionLecture: 0,
             toggledSections: {
-                0: true
+                0: false
             },
             mountedItems: {},
             toggledItems: {},
             lecture: null,
             section: null,
+            isCourseContentToggled: true,
             isLoadingLecture: false,
             isLoadingMarkComplete: false,
             showConfirmMarkCompleteModal: null,
@@ -349,15 +402,60 @@ export default {
         },
         lectureWebinarsFromSection() {
             return this.courseWebinars.filter(webinar => webinar.section_id == this.lecture.section.id);
-        }
+        },
     },
     mounted() {
-        this.isLoadingLecture = true;
-        this.section = this.course.sections[0];
-        this.lecture = this.course.sections[0].child_items[0];
-        this.isLoadingLecture = false;
+        this.determineActiveLecture();
+
+        this.hideToggledSectionsOnMobile();
     },
     methods: {
+        determineActiveLecture() {
+            this.isLoadingLecture = true;
+            let found = false;
+
+            _.forEach(this.course.sections, (section, sectionIndex) => {
+                if (found) {
+                    return
+                }
+
+                _.forEach(section.child_items, (lecture, lectureIndex) => {
+                    if (found) {
+                        return;
+                    }
+
+                    if (!lecture.completed) {
+                        console.log('not completed')
+                        this.setActiveLecture(sectionIndex, lectureIndex, lecture, section);
+                        found = true;
+                        return;
+                    }
+                });
+
+                if (found) {
+                    console.log('found', found);
+                    return true;
+                }
+            });
+
+            this.isLoadingLecture = false;
+        },
+        hideToggledSectionsOnMobile() {
+            try {
+                // TODO: Move to helper
+                if (window.innerWidth < 1024) {
+                    _.forEach(this.toggledSections, (section, index) => {
+                        this.$set(this.toggledSections, index, false);
+                    })
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        toggleCourseContent() {
+            console.log('here');
+            this.isCourseContentToggled = !this.isCourseContentToggled;
+        },
         toggleSection(section) {
             this.$set(this.toggledSections, section, !this.toggledSections[section]);
         },
@@ -371,6 +469,7 @@ export default {
             this.lecture = _.cloneDeep(lecture);
             this.showPDFPanel = false;
             this.showAudioPanel = false;
+            this.$set(this.toggledSections, sectionIndex, true);
 
             // Make it look as if it is loading, as (although counter-intuitive) it's a better UX
             // As it makes it more obvious that the active course has changed

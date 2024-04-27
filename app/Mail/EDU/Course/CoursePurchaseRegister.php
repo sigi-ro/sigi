@@ -3,6 +3,7 @@
 namespace App\Mail\EDU\Course;
 
 use App\Models\EDU\Course\CoursePurchasePayment;
+use App\Models\Settings\ThemeSettings;
 use App\Traits\EDU\Course\CreatesCheckoutSessionForCourse;
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -15,12 +16,15 @@ class CoursePurchaseRegister extends Mailable
 {
     use Queueable, SerializesModels, CreatesCheckoutSessionForCourse;
 
+    public $tenantName;
+
     /**
      * Create a new message instance.
      */
     public function __construct(
         private readonly CoursePurchasePayment $payment
     ) {
+        $this->tenantName = app(ThemeSettings::class)->getSiteName();
     }
 
     /**
@@ -29,7 +33,14 @@ class CoursePurchaseRegister extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: tenant()->name . ' - Register for course ' . $this->payment->purchase->course->name,
+            subject: implode(
+                " - ",
+                collect([
+                    $this->tenantName,
+                    trans('messages.register-for-course'),
+                    $this->payment->purchase->course->name
+                ])->filter()->toArray()
+            ),
         );
     }
 
@@ -45,6 +56,7 @@ class CoursePurchaseRegister extends Mailable
             with: [
                 'url' => url("/student/register"),
                 'payment' => $this->payment,
+                'tenantName' => $this->tenantName,
             ]
         );
     }

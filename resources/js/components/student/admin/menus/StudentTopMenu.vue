@@ -12,7 +12,17 @@
                 class="hover:text-theme-primary-hover"
                 :href="$route(item.route)"
             >
-                {{__('messages.' + item.label) }}
+                <span v-if="!logoUrl">{{__('messages.' + item.label) }}</span>
+                <span
+                    v-else
+                    class="flex flex-row items-center space-x-3"
+                >
+                    <img :src="logoUrl" class="h-8 w-8 md:h-12 md:w-12"/>
+                    <!-- TODO:: Make this more stylish and pass in the tenant name correctly -->
+                    <span class="font-semibold text-lg md:text-xl">
+                         {{ tenantName }}
+                    </span>
+                </span>
             </inertia-link>
         </menu>
 
@@ -82,6 +92,15 @@ export default {
                     route: "student.admin.index",
                 },
             }
+        }
+    },
+    computed: {
+        logoUrl() {
+            // return this.$page.props.layout.logo_url;
+            return 'https://sigi-media-pub.s3.eu-west-1.amazonaws.com/logo-minducate.webp';
+        },
+        tenantName() {
+            return 'Minducate.Us';
         }
     },
     mounted() {
