@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
  * @property int $id
  * @property string $name
  * @property string $slug
- * @proerty ?array<string> $email_recipients
+ * @property ?array<string> $email_recipients
  * @property bool $marketing_email
  * @property bool $marketing_sms
  * @property bool $marketing_telephone
@@ -50,6 +50,11 @@ class Form extends Model
     public function formSubmissions(): HasMany
     {
         return $this->hasMany(FormSubmission::class);
+    }
+
+    public function hasEmailRecipients(): bool
+    {
+        return $this->email_recipients && count($this->email_recipients);
     }
 
 }
