@@ -24,6 +24,8 @@ trait ManagesTenancyMailer
             $mailerSetting = $mailerOverride;
         } else {
             $mailerSetting = app(ThirdPartySettings::class)->mailer;
+
+            // If no settings, use env as normal
             if (is_null($mailerSetting)) {
                 return;
             }
