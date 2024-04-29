@@ -13,10 +13,24 @@ use Stancl\Tenancy\Database\Concerns\HasDomains;
  *
  * @property string $id
  * @property string $locale
+ * @property array $modules
  */
 class Tenant extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains;
+
+    protected $casts = [
+        'modules' => 'array'
+    ];
+
+    public static function getCustomColumns(): array
+    {
+        return [
+            'id',
+            'modules',
+        ];
+    }
+
 
     public function getLocaleAttribute(): string
     {
@@ -26,5 +40,10 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             // For when a tenant is being created
             return 'en';
         }
+    }
+
+    public function hasModule(string $module): bool
+    {
+        return $this->modules && in_array($module, $this->modules);
     }
 }
