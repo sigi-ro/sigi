@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Settings\CoreSettings;
 use Exception;
+use Illuminate\Support\Str;
 use Stancl\Tenancy\Database\Models\Tenant as BaseTenant;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
@@ -44,6 +45,6 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 
     public function hasModule(string $module): bool
     {
-        return $this->modules && in_array($module, $this->modules);
+        return $this->modules && in_array(Str::upper($module), $this->modules);
     }
 }
