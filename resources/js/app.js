@@ -6,6 +6,7 @@ import { store } from './store/admin';
 import { createInertiaApp } from '@inertiajs/vue2';
 
 import './plugins/dayjs';
+import './plugins/tenant';
 import './plugins/toasted';
 import './plugins/vue2-datepicker';
 import './plugins/vue-cookies';

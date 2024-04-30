@@ -146,6 +146,7 @@
                         label: "CMS",
                         requiresAllPermissions: [],
                         requiresAnyPermissions: ["cms.edit", "cms.create", "cms.view"],
+                        requiresTenantModule: 'cms',
                         showLabel: true,
                     },
                     cms_advanced: {
@@ -202,6 +203,7 @@
                         label: "CMS - Advanced",
                         requiresAllPermissions: [],
                         requiresAnyPermissions: ["cms_advanced.create", "cms_advanced.view"],
+                        requiresTenantModule: 'cms',
                         showLabel: true,
                     },
                     crm: {
@@ -290,6 +292,7 @@
                         label: "CRM",
                         requiresAllPermissions: [],
                         requiresAnyPermissions: ["crm_forms.create", "crm_forms.view", "crm_contacts.create", "crm_contacts.view", "crm_organisation_units.create", "crm_organisation_units.view"],
+                        requiresTenantModule: 'crm',
                         showLabel: true,
                     },
                     edu: {
@@ -447,6 +450,7 @@
                             'edu_webinars.view',
                             'edu_webinars.create',
                         ],
+                        requiresTenantModule: 'edu',
                         showLabel: true,
                     },
                     utilities: {
