@@ -86,6 +86,7 @@ return [
     'purchases' => 'Achiziții',
     'webinars' => 'Webinarii',
     'weekly-webinars' => 'Webinarii Săptămânale',
+    'biweekly-webinars' => 'Webinarii Bisăptămânale',
     'file-manager' => 'File Manager',
     'view' => 'Vezi',
     'create' => 'Crează',

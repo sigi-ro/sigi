@@ -85,6 +85,7 @@ return [
     'purchases' => 'Purchases',
     'webinars' => 'Webinars',
     'weekly-webinars' => 'Weekly Webinars',
+    'biweekly-webinars' => 'Biweekly Webinars',
     'file-manager' => 'File Manager',
     'view' => 'View',
     'create' => 'Create',

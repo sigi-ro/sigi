@@ -1,6 +1,6 @@
 <template>
     <main class="bg-theme-base text-theme-base-contrast">
-        <course-header :course="course" />
+        <course-header-full-video :course="course" />
 
         <course-features :course="course" />
 
@@ -56,6 +56,7 @@
     import StandardForm from "../../components/website/cms/forms/StandardForm.vue";
     import CourseInterestForm from "../../components/website/edu/course/CourseInterestForm.vue";
     import CourseCallToAction from "../../components/website/edu/course/CourseCallToAction.vue";
+    import CourseHeaderFullVideo from "../../components/website/edu/course/CourseHeaderFullVideo.vue";
 
     export default {
         name: "CoursePage",
@@ -63,6 +64,7 @@
             pageWithMetaMixin
         ],
         components: {
+            CourseHeaderFullVideo,
             CourseCallToAction,
             CourseInterestForm,
             StandardForm,
