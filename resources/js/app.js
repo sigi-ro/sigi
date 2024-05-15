@@ -26,8 +26,6 @@ import './component-registration';
 import './inertia-events';
 
 import '../css/app.css';
-import '../css/tinymce/content.css';
-import '../css/tinymce/skin.css';
 
 const app = createInertiaApp({
     progress: {

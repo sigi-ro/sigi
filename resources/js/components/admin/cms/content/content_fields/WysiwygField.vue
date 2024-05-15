@@ -4,7 +4,7 @@
 
         <editor
             ref="editor"
-            api-key="yjslf080227w394afqv4gkul5yer7sxjorf08kvjgztc1n0i"
+            api-key="no-api-key"
             :init="editorConfig"
             v-model="editableContent"
         />
@@ -13,6 +13,23 @@
 
 <script>
     import { contentFieldMixin } from "../../../../../mixins/admin/cms/content-field";
+
+    /** TinyMCE core **/
+    import 'tinymce';
+    import 'tinymce/icons/default/icons.min.js';
+
+    /* Required TinyMCE components */
+    import 'tinymce/themes/silver/theme.min.js';
+    import 'tinymce/models/dom/model.min.js';
+
+    /* Import plugins */
+    import 'tinymce/plugins/code';
+    import 'tinymce/plugins/fullscreen';
+    import 'tinymce/plugins/image';
+    import 'tinymce/plugins/link';
+    import 'tinymce/plugins/lists';
+
+    /** Loading this last ensures we use self-hosted **/
     import editor from '@tinymce/tinymce-vue';
 
     export default {
@@ -44,7 +61,7 @@
                         strikethrough: { inline: 'span', classes: 'line-through' },
                     },
                     min_height: 300,
-                    plugins: 'code fullscreen image lists link',
+                    plugins: 'code fullscreen image link lists',
                     skin: 'SIGI',
                     skin_url: '/vendor/tinymce/skins/sigi',
                     toolbar: 'styleselect bold italic alignleft aligncenter alignright numlist bullist link image',
