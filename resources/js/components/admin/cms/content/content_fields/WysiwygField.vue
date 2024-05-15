@@ -2,9 +2,9 @@
     <div>
         <slot />
 
-        <editor
+        <Editor
             ref="editor"
-            api-key="no-api-key"
+            api-key="gpl"
             :init="editorConfig"
             v-model="editableContent"
         />
@@ -30,7 +30,7 @@
     import 'tinymce/plugins/lists';
 
     /** Loading this last ensures we use self-hosted **/
-    import editor from '@tinymce/tinymce-vue';
+    import Editor from '@tinymce/tinymce-vue';
 
     export default {
         name: "WysiwygField",
@@ -38,7 +38,7 @@
             contentFieldMixin,
         ],
         components: {
-            editor,
+            Editor,
         },
         data() {
             return {
