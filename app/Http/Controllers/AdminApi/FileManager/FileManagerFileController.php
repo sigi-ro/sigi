@@ -55,8 +55,7 @@ class FileManagerFileController extends AbstractFileManagerController
             abort(403, 'Uploads are disabled.');
         }
 
-        $tenantId = tenant()->id;
-        $directory = $tenantId . '/' . $request->get('directory', "");
+        $directory = $request->get('directory', "");
         $file = $request->file('file');
 
         $action = new FileManagerFileStoreAction($this->storage_disk);
