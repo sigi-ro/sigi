@@ -32,6 +32,9 @@
     /** Loading this last ensures we use self-hosted **/
     import Editor from '@tinymce/tinymce-vue';
 
+    /** Import the manifest file so we can ascertain the css path **/
+    import manifestJson from '../../../../../../../public/build/manifest.json';
+
     export default {
         name: "WysiwygField",
         mixins: [
@@ -46,6 +49,16 @@
             }
         },
         computed: {
+            cssUrl() {
+                let defaultUrl = '/css/app.css';
+                try {
+                    let manifestUrl = manifestJson['resources/js/app.css'].file;
+
+                    return manifestUrl ? ('/build/' + manifestUrl) : defaultUrl;
+                } catch (e) {
+                    return defaultUrl;
+                }
+            },
             editorConfig() {
                 return {
                     content_css: '/css/app.css',
