@@ -22,6 +22,9 @@
     </head>
 
     <body class="html-base">
+        @if(tenant())
+            @include('partials.tenant-body')
+        @endif
         @inertia
     </body>
 </html>
