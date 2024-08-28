@@ -26,7 +26,7 @@ return [
     'register' => 'Register',
     'already-registered' => 'Already registered?',
     'create-a-new-account' => 'Create a new account',
-    'register-for-course' => 'Register for course',
+    'register-for-course' => 'Register for course :name',
 
     'profile' => 'Profile',
     'my-profile' => 'My Profile',
