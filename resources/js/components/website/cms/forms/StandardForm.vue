@@ -104,7 +104,7 @@
                 type: Object,
             },
             titleClass: {
-                default: 'font-bold text-lg pb-5',
+                default: 'font-bold text-lg',
                 type: String
             },
             titleOverride: {

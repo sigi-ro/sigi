@@ -24,6 +24,7 @@
             class="bg-theme-base-subtle "
             :course="course"
             :form="interestForm"
+            :title-class="`font-bold text-lg pb-5`"
             :button-div-class="`flex flex-row justify-center`"
             :button-class="`animate-bg-primary-to-secondary button button-primary flex flex-row justify-center max-w-250px mt-6 rounded-full text-xl w-full`"
         />
