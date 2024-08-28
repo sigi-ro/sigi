@@ -27,7 +27,7 @@ return [
     'register' => 'Înregistrează-te',
     'already-registered' => 'Deja înregistrat?',
     'create-a-new-account' => 'Creați un cont nou',
-    'register-for-course' => 'Înregistrează-te la curs',
+    'register-for-course' => 'Înregistrează-te la cursul ":name"',
 
     'profile' => 'Profil',
     'my-profile' => 'Profilul meu',

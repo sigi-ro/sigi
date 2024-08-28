@@ -8,7 +8,10 @@
 
         <course-description :course="course" />
 
-        <course-call-to-action :data="courseCallToActionText" />
+        <course-call-to-action
+            :data="courseCallToActionText"
+            :url="`#interest-form`"
+        />
 
         <faq :faqs="faqs" />
 
@@ -17,17 +20,12 @@
             :name="authorName"
         />
 
-        <purchase
-            v-if="course.status === 'PUBLISHED'"
-            class="bg-theme-base-subtle"
-            :course="course"
-        />
-
         <course-interest-form
-            v-else-if="interestForm"
             class="bg-theme-base-subtle "
             :course="course"
             :form="interestForm"
+            :button-div-class="`flex flex-row justify-center`"
+            :button-class="`animate-bg-primary-to-secondary button button-primary flex flex-row justify-center max-w-250px mt-6 rounded-full text-xl w-full`"
         />
 
         <testimonials :testimonials="testimonials" />
