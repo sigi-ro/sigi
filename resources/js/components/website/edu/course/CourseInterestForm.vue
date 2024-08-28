@@ -41,6 +41,10 @@
                 default: 'button button-primary ml-auto',
                 type: String,
             },
+            titleClass: {
+                default: 'font-bold text-lg pb-5',
+                type: String
+            },
         }
     }
 </script>
