@@ -9,7 +9,8 @@
             :form-data-overrides="{
                 'course_name': course.name
             }"
-            :title-override="__('messages.register-for-course', { name: course.name })"
+            :title-override="titleOverride"
+            :title-class="titleClass"
             :button-class="buttonClass"
             :button-div-class="buttonDivClass"
         />
@@ -45,6 +46,10 @@
                 default: 'font-bold text-lg pb-5',
                 type: String
             },
+            titleOverride: {
+                default: '',
+                type: String,
+            }
         }
     }
 </script>

@@ -27,6 +27,7 @@
             :title-class="`font-bold text-lg pb-5`"
             :button-div-class="`flex flex-row justify-center`"
             :button-class="`animate-bg-primary-to-secondary button button-primary flex flex-row justify-center max-w-250px mt-6 rounded-full text-xl w-full`"
+            :title-override="courseInterestFormTitleOverride"
         />
 
         <testimonials :testimonials="testimonials" />
@@ -127,6 +128,9 @@
                     return null;
                 }
             },
+            courseInterestFormTitleOverride() {
+                return 'Aplică acum și programează o întâlnire gratuită cu mine! Află dacă acest program este exact ceea ce ai nevoie pentru a-ți transforma viața și a învinge panica!';
+            }
         },
         methods: {
 
