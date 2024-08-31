@@ -28,6 +28,7 @@ return [
     'already-registered' => 'Deja înregistrat?',
     'create-a-new-account' => 'Creați un cont nou',
     'register-for-course' => 'Înregistrează-te la cursul ":name"',
+    'apply-now' => 'Aplică acum',
 
     'profile' => 'Profil',
     'my-profile' => 'Profilul meu',

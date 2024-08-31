@@ -30,7 +30,7 @@
                         class="animate-bg-primary-to-secondary button button-primary font-semibold rounded-full"
                         href="#interest-form"
                     >
-                        {{ __('messages.sign-up') }}
+                        {{ __('messages.apply-now') }}
                     </a>
                 </div>
             </nav>

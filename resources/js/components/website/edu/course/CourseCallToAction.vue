@@ -10,7 +10,7 @@
                         class="animate-bg-primary-to-secondary button button-primary flex flex-row justify-center max-w-250px mt-6 rounded-full text-xl w-full"
                         :href="url"
                     >
-                        {{ __('messages.sign-up') }}
+                        {{ __('messages.apply-now') }}
                     </a>
                 </div>
             </div>
