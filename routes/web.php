@@ -26,8 +26,8 @@ Auth::routes([
 Route::group([
     'as' => 'website.',
 ], function() {
-    // If you want to use the CMS to control the home page - delete this route
-    Route::get('/', [HomeController::class, 'index'])->name('index');
+    // Homepage - using CMS PageController instead of HomeController
+    Route::get('/', [PageController::class, 'show'])->name('index');
 
     Route::group([
         'as' => 'edu.',

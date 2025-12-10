@@ -26,7 +26,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back','Back') }}
                 </span>
             </inertia-link>
 
@@ -42,7 +42,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Save Changes
+                    {{ transWithFallback('save-changes','Save Changes') }}
                 </span>
             </button>
         </div>
@@ -227,8 +227,8 @@
                     this.setNewTemplateContent();
                 }).catch(e => {
                     if (!axios.isCancel(e)) {
-                        this.$errorToast('Failed to load selected template');
-                        console.log(e); // TODO: This should go through to a log tracker once available
+                        this.$errorToast(this.transWithFallback('admin-pages-template-load-failed','Failed to load selected template'));
+                        // Error suppressed here; send to logging/tracker if configured
                     }
                 }).finally(() => {
                     this.isLoadingTemplate = false;

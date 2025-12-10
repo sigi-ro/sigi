@@ -21,8 +21,8 @@
                 <span
                     class="hidden md:inline"
                 >
-                        Create Contact
-                    </span>
+                    {{ transWithFallback('admin-crm-contacts-create','Create Contact') }}
+                </span>
             </inertia-link>
         </div>
 
@@ -211,7 +211,7 @@
 
             <!-- Modals -->
             <confirmation-modal
-                confirm-text="Delete"
+                :confirm-text="transWithFallback('delete','Delete')"
                 confirm-type="danger"
                 :show-modal="showDeleteModal"
                 :message-text="deleteModalText"

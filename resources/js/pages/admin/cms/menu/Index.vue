@@ -20,7 +20,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Create Menu
+                    {{ transWithFallback('admin-menus-create','Create Menu') }}
                 </span>
             </inertia-link>
         </div>

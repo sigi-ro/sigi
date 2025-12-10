@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Admin;
 
-use Tests\TestCase;
+use Tests\TenantTestCase;
 
-abstract class AbstractAdminTestCase extends TestCase
+abstract class AbstractAdminTestCase extends TenantTestCase
 {
 
     /**

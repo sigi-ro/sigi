@@ -61,7 +61,11 @@
             },
             editorConfig() {
                 return {
-                    content_css: '/css/app.css',
+                    // Use the built asset path from the manifest when available
+                    // (computed in cssUrl). Falling back to '/css/app.css' was causing
+                    // many 404s in dev/preview when the file wasn't served from that
+                    // location.
+                    content_css: this.cssUrl,
                     file_picker_callback: this.onEditorFilePicker,
                     formats: {
                         alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes: 'text-left' },

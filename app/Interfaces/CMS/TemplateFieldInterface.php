@@ -5,19 +5,23 @@ namespace App\Interfaces\CMS;
 class TemplateFieldInterface
 {
     // Template field types
+    const TYPE_CHECKBOX = 'checkbox';
     const TYPE_CMS_MENU = 'cms_menu';
     const TYPE_COMPONENT = 'component';
     const TYPE_CRM_FORM = 'crm_form';
     const TYPE_CRM_ORGANISATION_UNIT = 'crm_organisation_unit';
     const TYPE_EDU_COURSE = 'edu_course';
     const TYPE_IMAGE    = 'image';
+    const TYPE_COLOR    = 'color';
     const TYPE_NUMBER   = 'number';
     const TYPE_REPEATER = 'repeater';
+    const TYPE_SELECT   = 'select';
     const TYPE_TEXT     = 'text';
     const TYPE_TEXTAREA = 'textarea';
     const TYPE_WYSIWYG  = 'wysiwyg';
 
     const ALL_TYPES = [
+        self::TYPE_CHECKBOX,
         self::TYPE_CMS_MENU,
         self::TYPE_COMPONENT,
         self::TYPE_CRM_FORM,
@@ -26,13 +30,15 @@ class TemplateFieldInterface
         self::TYPE_IMAGE,
         self::TYPE_NUMBER,
         self::TYPE_REPEATER,
+        self::TYPE_COLOR,
+        self::TYPE_SELECT,
         self::TYPE_TEXT,
         self::TYPE_TEXTAREA,
         self::TYPE_WYSIWYG,
     ];
 
-    // Labelled types - typically used for showing the types to a user
     const ALL_TYPES_LABELLED = [
+        self::TYPE_CHECKBOX                 => "Checkbox",
         self::TYPE_COMPONENT                => "Component",
         self::TYPE_CMS_MENU                 => "CMS Menu",
         self::TYPE_CRM_FORM                 => "CRM Form",
@@ -41,6 +47,8 @@ class TemplateFieldInterface
         self::TYPE_IMAGE                    => "Image",
         self::TYPE_NUMBER                   => "Number",
         self::TYPE_REPEATER                 => "Repeater",
+        self::TYPE_SELECT                   => "Select (Dropdown)",
+        self::TYPE_COLOR                    => "Color Picker",
         self::TYPE_TEXT                     => "Text",
         self::TYPE_TEXTAREA                 => "Text Area",
         self::TYPE_WYSIWYG                  => "WYSIWYG",
@@ -48,9 +56,12 @@ class TemplateFieldInterface
 
     // Types that are allowed to be used in a component -- essentially any that don't have relationships
     const COMPONENT_TYPES = [
+        self::TYPE_CHECKBOX,
         self::TYPE_IMAGE,
         self::TYPE_NUMBER,
         self::TYPE_REPEATER,
+        self::TYPE_SELECT,
+        self::TYPE_COLOR,
         self::TYPE_TEXT,
         self::TYPE_TEXTAREA,
         self::TYPE_WYSIWYG,
@@ -58,8 +69,12 @@ class TemplateFieldInterface
 
     // Types that are allowed to be used in a repeater -- essentially any that don't have relationships
     const REPEATER_TYPES = [
+        self::TYPE_CHECKBOX,
         self::TYPE_IMAGE,
         self::TYPE_NUMBER,
+        self::TYPE_SELECT,
+        self::TYPE_COLOR,
+        self::TYPE_COLOR,
         self::TYPE_TEXT,
         self::TYPE_TEXTAREA,
         self::TYPE_WYSIWYG,
@@ -96,6 +111,7 @@ class TemplateFieldInterface
 
     // Default settings for each type
     const SETTINGS = [
+        self::TYPE_CHECKBOX => [],
         self::TYPE_CMS_MENU => [],
         self::TYPE_COMPONENT => [
             'template_id' => '',
@@ -110,6 +126,14 @@ class TemplateFieldInterface
         ],
         self::TYPE_REPEATER => [
             'template_id' => '',
+        ],
+        self::TYPE_SELECT => [
+            'options' => [],
+            'default' => null,
+        ],
+        self::TYPE_COLOR => [
+            'default' => '#FFFFFF',
+            'help_text' => 'Hex color (e.g., #FFFFFF)'
         ],
         self::TYPE_TEXT => [
             'max_length' => null,

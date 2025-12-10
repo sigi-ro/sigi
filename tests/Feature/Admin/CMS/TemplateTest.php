@@ -19,7 +19,10 @@ class TemplateTest extends AbstractAdminTestCase
     public function authorised_users_can_create_templates()
     {
         $response = $this
-            ->signInWithPermissions(PermissionInterface::CREATE_CMS_ADVANCED)
+            ->signInWithPermissions([
+                PermissionInterface::CREATE_CMS_ADVANCED,
+                PermissionInterface::VIEW_CMS_ADVANCED
+            ])
             ->get(route('admin.cms.templates.create'));
         $response->assertStatus(200);
     }
@@ -30,7 +33,10 @@ class TemplateTest extends AbstractAdminTestCase
         $template = Template::factory()->create();
 
         $this
-            ->signInWithPermissions(PermissionInterface::DELETE_CMS_ADVANCED)
+            ->signInWithPermissions([
+                PermissionInterface::DELETE_CMS_ADVANCED,
+                PermissionInterface::VIEW_CMS_ADVANCED
+            ])
             ->delete(route('admin.cms.templates.destroy', $template));
 
         $this->expectException(ModelNotFoundException::class);
@@ -47,7 +53,10 @@ class TemplateTest extends AbstractAdminTestCase
             ->create();
 
         $response = $this
-            ->signInWithPermissions(PermissionInterface::EDIT_CMS_ADVANCED)
+            ->signInWithPermissions([
+                PermissionInterface::EDIT_CMS_ADVANCED,
+                PermissionInterface::VIEW_CMS_ADVANCED
+            ])
             ->get(route('admin.cms.templates.edit', $template));
 
         $response
@@ -87,8 +96,11 @@ class TemplateTest extends AbstractAdminTestCase
         ];
 
         $this
-            ->signInWithPermissions(PermissionInterface::CREATE_CMS_ADVANCED)
-            ->post(route('admin.cms.templates.store', $template));
+            ->signInWithPermissions([
+                PermissionInterface::CREATE_CMS_ADVANCED,
+                PermissionInterface::VIEW_CMS_ADVANCED
+            ])
+            ->post(route('admin.cms.templates.store'), $template);
 
         // Ensure the template was created
         $new_template_query = Template::where('slug', $template['slug']);
@@ -119,7 +131,10 @@ class TemplateTest extends AbstractAdminTestCase
         unset($updated_template['template_fields'][2]);
 
         $response = $this
-            ->signInWithPermissions(PermissionInterface::EDIT_CMS_ADVANCED)
+            ->signInWithPermissions([
+                PermissionInterface::EDIT_CMS_ADVANCED,
+                PermissionInterface::VIEW_CMS_ADVANCED
+            ])
             ->put(route('admin.cms.templates.update', $original_template), $updated_template);
 
 

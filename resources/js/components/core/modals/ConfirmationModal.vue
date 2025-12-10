@@ -65,7 +65,7 @@
                         type="button"
                         @click="cancelAction"
                     >
-                        {{ cancelText }}
+                        {{ cancelTextComputed }}
                     </button>
 
                     <button
@@ -85,7 +85,7 @@
                             class="animate-spin-slow mr-2 w-5"
                         />
                         <span v-else>
-                            {{ confirmText }}
+                            {{ confirmTextComputed }}
                         </span>
                     </button>
                 </div>
@@ -106,11 +106,11 @@
                 type: String
             },
             cancelText: {
-                default: "Cancel",
+                default: '',
                 type: String
             },
             confirmText: {
-                default: "Confirm",
+                default: '',
                 type: String
             },
             confirmType: {
@@ -122,11 +122,11 @@
                 type: Boolean,
             },
             messageText: {
-                default: 'Do you really want to continue?',
+                default: '',
                 type: String
             },
             messageTitle: {
-                default: 'Are you sure?',
+                default: '',
                 type: String
             },
             showModal: {
@@ -135,6 +135,18 @@
             }
         },
         computed: {
+            cancelTextComputed() {
+                return this.cancelText && this.cancelText.length ? this.cancelText : this.transWithFallback('cancel','Cancel');
+            },
+            confirmTextComputed() {
+                return this.confirmText && this.confirmText.length ? this.confirmText : this.transWithFallback('confirm','Confirm');
+            },
+            messageTextComputed() {
+                return this.messageText && this.messageText.length ? this.messageText : this.transWithFallback('perform-action-check','Do you really want to perform this action?');
+            },
+            messageTitleComputed() {
+                return this.messageTitle && this.messageTitle.length ? this.messageTitle : this.transWithFallback('are-you-sure','Are you sure');
+            },
             confirmButtonClass() {
                 let classList = [];
 
@@ -151,10 +163,10 @@
                 return this.isMessageText && this.isMessageTitle;
             },
             isMessageText() {
-                return !!this.messageText.length
+                return !!this.messageTextComputed.length
             },
             isMessageTitle() {
-                return !!this.messageTitle.length;
+                return !!this.messageTitleComputed.length;
             },
         },
         methods: {

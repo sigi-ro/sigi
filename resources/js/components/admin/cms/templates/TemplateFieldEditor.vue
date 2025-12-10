@@ -1,13 +1,13 @@
 <template>
     <div>
         <div class="flex flex-row items-center">
-            <span class="text-lg">Template Fields</span>
+            <span class="text-lg">{{ transWithFallback('template-fields', 'Template Fields') }}</span>
             <button
                 class="button button-primary-subtle button-small ml-auto text-sm"
                 type="button"
                 @click="addTemplateField"
             >
-                Add Field
+                {{ transWithFallback('add','Add Field') }}
             </button>
         </div>
 
@@ -15,7 +15,7 @@
             v-if="!editableTemplateFields.length"
             class="bg-theme-base-subtle mt-6 px-4 py-3 rounded text-center text-theme-base-subtle-contrast"
         >
-            No template fields
+            {{ transWithFallback('no-template-fields','No template fields') }}
         </p>
 
         <template v-else>
@@ -53,7 +53,7 @@
                                     {{ templateField.name }}
                                 </template>
                                 <template v-else>
-                                    New Template Field
+                                    {{ transWithFallback('new-template-field','New Template Field') }}
                                 </template>
                             </span>
                         </header>
@@ -79,7 +79,7 @@
                                 @click="deleteTemplateField(index)"
                             >
                                 <icon-trash class="h-4 w-4" />
-                                <span class="pl-2">Delete</span>
+                                <span class="pl-2">{{ transWithFallback('delete','Delete') }}</span>
                             </button>
                         </footer>
 
@@ -175,7 +175,7 @@
                     this.reorderTemplateFields();
                 } catch (e) {
                     this.$errorToast('Failed to delete field');
-                    console.log(e); // TODO: This should go through to a log tracker once available
+                    // Error suppressed here; send to logging/tracker if configured
                 }
             },
             getTemplateFieldTypesKeys() {
@@ -210,7 +210,7 @@
 
                     this.updateTemplateFields();
                 } catch (e) {
-                    console.log(e); // TODO: Replace with error tracker
+                    // Error suppressed here; send to logging/tracker if configured
                 }
             },
             reorderTemplateFields() {

@@ -28,7 +28,10 @@ abstract class TenantTestCase extends TestCase
         }
 
         if ($this->tenancy) {
-            $tenant = $this->createTenant([], 'phpunit');
+            // Enable CMS and CRM modules for tests (exclude EDU as requested)
+            // Use consistent domain for tenant identification
+            $domain = 'phpunit';
+            $tenant = $this->createTenant(['modules' => ['CMS', 'CRM']], $domain);
             tenancy()->initialize($tenant);
 
             config(['app.url' => 'http://phpunit.localhost']);
@@ -41,6 +44,11 @@ abstract class TenantTestCase extends TestCase
                 'SERVER_NAME' => 'phpunit.localhost',
                 'HTTP_HOST' => 'phpunit.localhost',
             ]);
+
+            // Seed tenant DB with deterministic permissions/roles during testing
+            if (app()->environment('testing')) {
+                $this->artisan('db:seed', ['--class' => 'Database\\Seeders\\TestPermissionsSeeder']);
+            }
         }
     }
 

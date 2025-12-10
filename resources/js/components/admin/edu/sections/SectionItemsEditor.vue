@@ -1,14 +1,14 @@
 <template>
     <div>
         <div class="flex flex-row items-center">
-            <span class="text-lg">Sections</span>
+            <span class="text-lg">{{ transWithFallback('sections','Sections') }}</span>
 
             <button
                 class="button button-primary-subtle button-small ml-auto text-sm"
                 type="button"
                 @click="addSectionItem"
             >
-                Add Section
+                {{ transWithFallback('add-section','Add Section') }}
             </button>
         </div>
 
@@ -16,7 +16,7 @@
             v-if="!sectionItems.length"
             class="bg-theme-base-subtle mt-6 px-4 py-3 rounded text-center text-theme-base-subtle-contrast"
         >
-            Nothing found
+            {{ transWithFallback('nothing-found','Nothing found') }}
         </p>
 
         <div v-else>

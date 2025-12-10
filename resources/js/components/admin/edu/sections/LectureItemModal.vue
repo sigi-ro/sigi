@@ -74,7 +74,7 @@
                         type="button"
                         @click="cancelAction"
                     >
-                        Cancel
+                        {{ transWithFallback('cancel','Cancel') }}
                     </button>
 
                     <button
@@ -172,7 +172,7 @@
         },
         computed: {
             confirmText() {
-                return 'Add';
+                return this.transWithFallback('add','Add');
             },
             isLectureItemValid() {
                 try {
@@ -182,7 +182,7 @@
                 }
             },
             headerText() {
-                return 'Add Lecture';
+                return this.transWithFallback('add-lecture','Add Lecture');
             },
         },
         methods: {

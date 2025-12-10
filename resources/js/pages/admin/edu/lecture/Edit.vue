@@ -52,7 +52,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back','Back') }}
                 </span>
             </inertia-link>
 
@@ -322,7 +322,7 @@ export default {
                 }
             }).catch(e => {
                 if (!axios.isCancel(e)) {
-                    this.$errorToast('Failed to load files');
+                    this.$errorToast(this.transWithFallback('file-manager-load-files-failed','Failed to load files'));
                 }
             }).finally(() => {
                 this.isLoadingFiles = false;

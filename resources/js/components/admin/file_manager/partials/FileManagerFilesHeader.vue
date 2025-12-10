@@ -1,7 +1,7 @@
 <template>
     <h2 class="flex flex-row items-center justify-between">
         <span class="text-theme-base-subtle-contrast">
-            Files
+            {{ transWithFallback('files','Files') }}
         </span>
 
         <span
@@ -25,7 +25,7 @@
                         @click="changeDirectoryViaBreadcrumb(index)"
                     >
                         <template v-if="index === 0">
-                            root
+                                {{ transWithFallback('root','root') }}
                         </template>
                         <template v-else>
                             {{ breadcrumb }}

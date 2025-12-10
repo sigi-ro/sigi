@@ -28,5 +28,16 @@ class AppServiceProvider extends ServiceProvider
         Contact::observe([
             ContactObserver::class
         ]);
+
+        // When running tests we need the migrator to be aware of the
+        // additional migration folders used by this project (landlord and
+        // tenant). This ensures the RefreshDatabase trait and artisan
+        // migrations pick up those migrations automatically during tests.
+        if ($this->app->environment('testing')) {
+            $this->loadMigrationsFrom([
+                database_path('migrations/landlord'),
+                database_path('migrations/tenant'),
+            ]);
+        }
     }
 }

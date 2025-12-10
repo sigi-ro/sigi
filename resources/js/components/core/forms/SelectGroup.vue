@@ -38,17 +38,12 @@
 
             <option
                 v-for="(option, key) in formattedOptions"
-                :key="`${inputId}-option-${option.value}`"
+                :key="`${inputId}-option-${key}`"
                 :disabled="isOptionDisabled(option.value)"
                 :selected="isOptionSelected(option.value)"
                 :value="option.value"
             >
-                <slot
-                    name="option.label"
-                    :option="inputOptions[key]"
-                >
-                    {{ option.label }}
-                </slot>
+                {{ option.label }}
             </option>
         </select>
 
@@ -117,45 +112,57 @@
         },
         computed: {
             formattedOptions() {
-                let options = {};
+                let options = [];
 
-                // If the options are just an array
-                if (Array.isArray(this.inputOptions) && !this.inputOptionForceFormatting) {
-                    _.forEach(this.inputOptions, option => {
-                        options[option] = {
-                            label: option,
-                            value: option,
-                        };
-                    });
-                } else {
-                    _.forEach(this.inputOptions, (option, key) => {
-                        // Default the label and value for the select
+                // DEBUG: log input form to investigate dropdown rendering issues
+                // debug logs removed
+
+                // If the options are just an array of strings (primitive values)
+                if (Array.isArray(this.inputOptions) && (this.inputOptionForceFormatting === true ? false : (this.inputOptions.length === 0 || typeof this.inputOptions[0] !== 'object'))) {
+                    options = this.inputOptions.map(option => ({
+                        label: option,
+                        value: option,
+                    }));
+                } else if (Array.isArray(this.inputOptions)) {
+                    // If already array of objects
+                    options = this.inputOptions.map(option => {
                         let label = option;
-                        let value = key;
-
-                        // Set a custom label if necessary
+                        let value = option;
                         if (
                             this.inputOptionLabelKey !== false &&
                             option.hasOwnProperty(this.inputOptionLabelKey)
                         ) {
                             label = option[this.inputOptionLabelKey];
                         }
-
-                        // Set a custom value if necessary
                         if (
                             this.inputOptionValueKey !== false &&
                             option.hasOwnProperty(this.inputOptionValueKey)
                         ) {
                             value = option[this.inputOptionValueKey];
                         }
-
-                        options[key] = {
-                            label: label,
-                            value: value,
-                        };
+                        return { label, value };
+                    });
+                } else {
+                    // If inputOptions is an object
+                    options = Object.keys(this.inputOptions).map(key => {
+                        let option = this.inputOptions[key];
+                        let label = option;
+                        let value = key;
+                        if (
+                            this.inputOptionLabelKey !== false &&
+                            option.hasOwnProperty(this.inputOptionLabelKey)
+                        ) {
+                            label = option[this.inputOptionLabelKey];
+                        }
+                        if (
+                            this.inputOptionValueKey !== false &&
+                            option.hasOwnProperty(this.inputOptionValueKey)
+                        ) {
+                            value = option[this.inputOptionValueKey];
+                        }
+                        return { label, value };
                     });
                 }
-
                 return options;
             },
             formattedInputClass() {

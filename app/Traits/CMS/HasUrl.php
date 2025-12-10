@@ -44,14 +44,28 @@ trait HasUrl
         $ordered_ids = Url::where('urlable_type', '=', self::class)
             ->orderBy('url_full',  $order_direction)
             ->pluck('urlable_id')
-            ->implode(',');
+            ->toArray();
 
-        if (!$ordered_ids) {
-            return $query;
+        if (empty($ordered_ids)) {
+            return $query->whereHas('url')->with('url');
         }
 
-        return $query->whereHas('url')
-            ->with('url')
-            ->orderByRaw('FIELD (id, ' . $ordered_ids . ')');
+        // Use database-agnostic ordering
+        $connection = $query->getConnection()->getDriverName();
+        if ($connection === 'sqlite') {
+            // SQLite doesn't support FIELD(), use CASE instead
+            $cases = collect($ordered_ids)->map(function ($id, $index) {
+                return "WHEN {$id} THEN {$index}";
+            })->implode(' ');
+            
+            return $query->whereHas('url')
+                ->with('url')
+                ->orderByRaw("CASE id {$cases} END");
+        } else {
+            // MySQL/MariaDB support FIELD()
+            return $query->whereHas('url')
+                ->with('url')
+                ->orderByRaw('FIELD (id, ' . implode(',', $ordered_ids) . ')');
+        }
     }
 }

@@ -27,7 +27,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back','Back') }}
                 </span>
             </inertia-link>
 
@@ -47,7 +47,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Save Changes
+                    {{ transWithFallback('save-changes','Save Changes') }}
                 </span>
             </button>
         </div>
@@ -423,7 +423,7 @@
                     this.companies = response.data.data
                 }).catch(e => {
                     if (!axios.isCancel(e)) {
-                        this.$errorToast('Failed to load companies');
+                        this.$errorToast(this.transWithFallback('failed-to-load-companies','Failed to load companies'));
                     }
                 }).finally(() => {
                     this.isLoadingCompanies = false;
@@ -449,7 +449,7 @@
                     this.locations = response.data.data
                 }).catch(e => {
                     if (!axios.isCancel(e)) {
-                        this.$errorToast('Failed to load locations');
+                        this.$errorToast(this.transWithFallback('failed-to-load-locations','Failed to load locations'));
                     }
                 }).finally(() => {
                     this.isLoadingLocations = false;

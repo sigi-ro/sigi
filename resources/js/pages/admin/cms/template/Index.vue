@@ -20,7 +20,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Create Template
+                    {{ transWithFallback('admin-cms_advanced-templates-create','Create Template') }}
                 </span>
             </inertia-link>
         </div>

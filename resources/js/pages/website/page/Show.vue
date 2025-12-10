@@ -27,6 +27,8 @@
     import BasicPage from "../../../page-templates/web/BasicPage.vue";
     import CourseLayout from "../../../layouts/website/CourseLayout.vue";
     import CoursePage from "../../../page-templates/web/CoursePage.vue";
+    import PortfolioGalleryPage from "../../../page-templates/web/PortfolioGalleryPage.vue";
+    import PortfolioHomePage from "../../../page-templates/web/PortfolioHomePage.vue";
 
     export default {
         name: 'PageShow',
@@ -40,6 +42,8 @@
             // Page Templates
             BasicPage,
             CoursePage,
+            PortfolioGalleryPage,
+            PortfolioHomePage,
         },
     }
 </script>

@@ -7,7 +7,7 @@
                 mb-6 text-lg
             "
         >
-            <h1>File Manager</h1>
+            <h1>{{ transWithFallback('file-manager','File Manager') }}</h1>
         </div>
 
         <file-manager

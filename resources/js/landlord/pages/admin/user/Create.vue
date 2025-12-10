@@ -26,7 +26,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back','Back') }}
                 </span>
             </inertia-link>
 
@@ -46,7 +46,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Create User
+                    {{ transWithFallback('admin-users-create','Create User') }}
                 </span>
             </button>
         </div>

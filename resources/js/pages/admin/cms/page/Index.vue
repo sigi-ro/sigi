@@ -3,9 +3,9 @@
         <div
             class="flex flex-row items-center mb-6"
         >
-            <h1 class="font-medium mr-auto text-lg">
-                 Page
-            </h1>
+              <h1 class="font-medium mr-auto text-lg">
+                  {{ transWithFallback('admin-page', 'Page') }}
+              </h1>
 
             <inertia-link
                 v-if="userCan('cms.create')"
@@ -20,14 +20,14 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Create Page
+                    {{ transWithFallback('admin-pages-create', 'Create Page') }}
                 </span>
             </inertia-link>
         </div>
 
         <div class="bg-white py-6 shadow-subtle rounded-lg">
             <h1 class="font-semibold px-6 text-gray-850">
-                Search
+                {{ transWithFallback('search', 'Search') }}
                 <button
                     class="
                         text-sm text-theme-base-subtle-contrast
@@ -36,7 +36,7 @@
                     "
                     @click="setSearchOptions"
                 >
-                    (Clear)
+                    {{ '(' + transWithFallback('clear', 'Clear') + ')' }}
                 </button>
             </h1>
 
@@ -53,16 +53,16 @@
                         lg:w-1/4
                     "
                 >
-                    <input-group
+                        <input-group
                         class="mx-4"
                         input-autocomplete="page_name_search"
                         input-class="form-control form-control-short"
                         input-id="page_name"
                         input-name="page_name"
-                        input-placeholder="Page Name"
+                        :input-placeholder="transWithFallback('page-name', 'Page Name')"
                         input-type="text"
                         :label-hidden="true"
-                        label-text="Page Name"
+                        :label-text="transWithFallback('page-name', 'Page Name')"
                         v-model="editableSearchOptions.page_name"
                     />
                 </div>
@@ -74,16 +74,16 @@
                         lg:w-1/4
                     "
                 >
-                    <input-group
+                        <input-group
                         class="mx-4"
                         input-autocomplete="page_slug_search"
                         input-class="form-control form-control-short"
                         input-id="page_slug"
                         input-name="page_slug"
-                        input-placeholder="Page Slug"
+                        :input-placeholder="transWithFallback('page-slug', 'Page Slug')"
                         input-type="text"
                         :label-hidden="true"
-                        label-text="Page Slug"
+                        :label-text="transWithFallback('page-slug', 'Page Slug')"
                         v-model="editableSearchOptions.page_slug"
                     />
                 </div>
@@ -99,9 +99,9 @@
                     <select-group
                         class="mx-4"
                         :label-hidden="true"
-                        label-text="Layout"
+                        :label-text="transWithFallback('layout', 'Layout')"
                         :input-any-option-enabled="true"
-                        input-any-option-label="Layout"
+                        :input-any-option-label="transWithFallback('layout', 'Layout')"
                         input-class="form-control form-control-short"
                         input-id="template_id"
                         input-name="template_id"
@@ -123,9 +123,9 @@
                     <select-group
                         class="mx-4"
                         :label-hidden="true"
-                        label-text="Template"
+                        :label-text="transWithFallback('template', 'Template')"
                         :input-any-option-enabled="true"
-                        input-any-option-label="Template"
+                        :input-any-option-label="transWithFallback('template', 'Template')"
                         input-class="form-control form-control-short"
                         input-id="template_id"
                         input-name="template_id"
@@ -138,11 +138,11 @@
 
             </div>
 
-            <p
+                <p
                 v-if="!pagesData"
                 class="bg-theme-base-subtle mt-8 mx-6 px-6 py-4 rounded text-center text-theme-base-subtle-contrast"
             >
-                No pages
+                {{ transWithFallback('no-pages', 'No pages') }}
             </p>
 
             <template v-else>
@@ -153,11 +153,11 @@
                         <thead>
                         <tr>
                             <th class="indicator-column"></th>
-                            <th>Name</th>
-                            <th>URL</th>
-                            <th class="text-center">Enabled</th>
-                            <th class="text-center">Publish / Expiry Date</th>
-                            <th>Layout / Template</th>
+                            <th>{{ transWithFallback('admin-pages-name','Name') }}</th>
+                            <th>{{ transWithFallback('admin-pages-url','URL') }}</th>
+                            <th class="text-center">{{ transWithFallback('admin-pages-enabled','Enabled') }}</th>
+                            <th class="text-center">{{ transWithFallback('admin-pages-publish-expiry','Publish / Expiry Date') }}</th>
+                            <th>{{ transWithFallback('admin-pages-layout-template','Layout / Template') }}</th>
                             <th v-if="showPageActions"></th>
                         </tr>
                         </thead>
@@ -237,7 +237,7 @@
                                             hover:bg-theme-info hover:text-theme-info-contrast
                                         "
                                         :href="$route('admin.cms.pages.edit', page.id)"
-                                        title="Edit Page"
+                                        :title="transWithFallback('admin-pages-edit','Edit Page')"
                                     >
                                         <icon-edit
                                             class="w-4"
@@ -251,7 +251,7 @@
                                             focus:outline-none focus:ring
                                             hover:bg-theme-danger hover:text-theme-danger-contrast
                                         "
-                                        title="Delete Page"
+                                        :title="transWithFallback('admin-pages-delete','Delete Page')"
                                         @click="checkDelete(page)"
                                     >
                                         <icon-trash
@@ -275,7 +275,7 @@
             </template>
 
             <confirmation-modal
-                confirm-text="Delete"
+                :confirm-text="transWithFallback('delete','Delete')"
                 confirm-type="danger"
                 :show-modal="showDeleteModal"
                 :message-text="deleteModalText"
@@ -341,7 +341,12 @@
         computed: {
             deleteModalText() {
                 try {
-                    return 'Do you really want to delete \'' + this.pageToDelete.name + '\'?';
+                    try {
+                        // Try translation with placeholder replacement
+                        return this.transWithFallback('admin-pages-delete-confirm', 'Do you really want to delete :name?').replace(':name', this.pageToDelete.name);
+                    } catch (e) {
+                        return 'Do you really want to delete \'' + this.pageToDelete.name + '\'?';
+                    }
                 } catch (e) {
                     return 'Do you really want to delete this page?'
                 }
@@ -391,7 +396,7 @@
             },
             confirmDelete() {
                 if (this.isLoadingDelete) {
-                    return this.$errorToast('It\'s only possible to delete one page at a time.');
+                    return this.$errorToast(this.transWithFallback('admin-pages-delete-one-at-time', "It's only possible to delete one page at a time."));
                 }
                 this.$inertia.delete(
                     this.$route('admin.cms.pages.destroy', this.pageToDelete.id),

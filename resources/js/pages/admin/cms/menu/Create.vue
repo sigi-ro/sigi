@@ -9,7 +9,7 @@
             class="flex flex-row items-center mb-6 sticky-menu"
         >
             <h1 class="font-medium mr-auto text-lg">
-                Create Menu
+                {{ transWithFallback('admin-menus-create','Create Menu') }}
             </h1>
 
             <inertia-link
@@ -26,7 +26,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back','Back') }}
                 </span>
             </inertia-link>
 
@@ -42,14 +42,14 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Create Menu
+                    {{ transWithFallback('admin-menus-create','Create Menu') }}
                 </span>
             </button>
         </div>
 
 
         <div class="bg-white p-6 shadow-subtle rounded-lg">
-            <input-group
+                <input-group
                 class="mt-4"
                 :error-message="getPageErrorMessage('name')"
                 input-autocomplete="menu_name"
@@ -57,13 +57,13 @@
                 input-name="name"
                 :input-required="true"
                 input-type="text"
-                label-text="Menu Name"
+                    :label-text="transWithFallback('menu-name','Menu Name')"
                 @errorHidden="clearPageErrorMessage('name')"
                 @input="onNameInput"
                 v-model="formData.name"
             />
 
-            <input-group
+                <input-group
                 class="mt-4"
                 :error-message="getPageErrorMessage('slug')"
                 input-autocomplete="menu_slug"
@@ -71,7 +71,7 @@
                 input-name="slug"
                 :input-required="true"
                 input-type="text"
-                label-text="Menu Slug"
+                    :label-text="transWithFallback('menu-slug','Menu Slug')"
                 @blur="onSlugBlur"
                 @errorHidden="clearPageErrorMessage('slug')"
                 @input="onSlugInput"

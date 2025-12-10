@@ -10,7 +10,7 @@
             class="flex flex-row items-center mb-6"
         >
             <h1 class="font-medium mr-auto text-lg">
-                Create Organisation Unit
+                {{ transWithFallback('admin-crm-organisation_units-create','Create Organisation Unit') }}
             </h1>
 
             <inertia-link
@@ -27,7 +27,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back','Back') }}
                 </span>
             </inertia-link>
 
@@ -47,7 +47,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Create Organisation Unit
+                    {{ transWithFallback('admin-crm-organisation_units-create','Create Organisation Unit') }}
                 </span>
             </button>
         </div>
@@ -406,7 +406,7 @@
                     this.companies = response.data.data
                 }).catch(e => {
                     if (!axios.isCancel(e)) {
-                        this.$errorToast('Failed to load companies');
+                        this.$errorToast(this.transWithFallback('failed-to-load-companies','Failed to load companies'));
                     }
                 }).finally(() => {
                     this.isLoadingCompanies = false;
@@ -432,7 +432,7 @@
                     this.locations = response.data.data
                 }).catch(e => {
                     if (!axios.isCancel(e)) {
-                        this.$errorToast('Failed to load locations');
+                        this.$errorToast(this.transWithFallback('failed-to-load-locations','Failed to load locations'));
                     }
                 }).finally(() => {
                     this.isLoadingLocations = false;

@@ -14,7 +14,8 @@ class CreateCmsTemplatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cms_templates', function (Blueprint $table) {
+        if (!Schema::hasTable('cms_templates')) {
+            Schema::create('cms_templates', function (Blueprint $table) {
             // Field Creation
             $table->id();
             $table->string('type', TemplateInterface::FIELD_TYPE_MAX_LENGTH);
@@ -29,7 +30,8 @@ class CreateCmsTemplatesTable extends Migration
             $table->index('name');
             $table->index('slug');
             $table->unique(['type', 'slug']);
-        });
+            });
+        }
     }
 
     /**

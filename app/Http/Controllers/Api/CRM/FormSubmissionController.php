@@ -13,12 +13,14 @@ class FormSubmissionController extends Controller
 {
     /**
      * @param Request $request
-     * @param Form $form
+     * @param string $slug
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function store(Request $request, Form $form)
+    public function store(Request $request, string $slug)
     {
+        $form = Form::where('slug', $slug)->firstOrFail();
+        
         app(FormSubmissionStoreAction::class)->handle($form, $request->all());
 
         return new JsonResponse([

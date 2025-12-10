@@ -20,7 +20,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Create User
+                    {{ transWithFallback('admin-users-create','Create User') }}
                 </span>
             </inertia-link>
         </div>
@@ -170,7 +170,7 @@
             </div>
 
             <confirmation-modal
-                confirm-text="Delete"
+                :confirm-text="transWithFallback('delete','Delete')"
                 confirm-type="danger"
                 :show-modal="showDeleteModal"
                 :message-text="deleteModalText"

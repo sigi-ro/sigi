@@ -63,9 +63,23 @@ class PageQueryAction extends AbstractQueryAction
             $ordered_ids = Url::where('urlable_type', '=', Page::class)
                 ->orderBy('url_full',  $order_direction)
                 ->pluck('urlable_id')
-                ->implode(',');
+                ->toArray();
 
-            $this->query->orderByRaw('FIELD (id, ' . $ordered_ids . ')');
+            if (!empty($ordered_ids)) {
+                $connection = $this->query->getConnection()->getDriverName();
+                if ($connection === 'sqlite') {
+                    // SQLite doesn't support FIELD(), use CASE instead
+                    $cases = collect($ordered_ids)->map(function ($id, $index) {
+                        return "WHEN {$id} THEN {$index}";
+                    })->implode(' ');
+                    $this->query->orderByRaw("CASE id {$cases} END");
+                } else {
+                    // MySQL/MariaDB support FIELD()
+                    $this->query->orderByRaw('FIELD (id, ' . implode(',', $ordered_ids) . ')');
+                }
+            } else {
+                $this->query->orderBy('id', $order_direction);
+            }
         } else {
             $this->query->orderBy($order_by, $order_direction);
         }

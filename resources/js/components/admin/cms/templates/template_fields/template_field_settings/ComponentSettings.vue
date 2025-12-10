@@ -81,7 +81,7 @@
                     this.componentTemplates = response.data.data;
                 }).catch(e => {
                     this.$errorToast('Failed to load selected template');
-                    console.log(e); // TODO: This should go through to a log tracker once available
+                    // Error suppressed here; send to logging/tracker if configured
                 }).finally(() => {
                     this.isLoadingTemplates = false;
                 });

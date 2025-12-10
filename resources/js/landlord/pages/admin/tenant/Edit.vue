@@ -29,7 +29,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back','Back') }}
                 </span>
             </inertia-link>
 
@@ -221,7 +221,7 @@
         </generic-modal>
 
         <confirmation-modal
-            confirm-text="Delete"
+            :confirm-text="transWithFallback('delete','Delete')"
             confirm-type="danger"
             :show-modal="showDeleteDomainModal"
             :message-text="deleteDomainModalText"

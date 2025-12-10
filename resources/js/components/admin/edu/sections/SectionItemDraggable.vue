@@ -101,7 +101,7 @@
                             focus:outline-none focus:ring
                             hover:bg-theme-danger hover:text-theme-danger-contrast
                         "
-                        title="Delete"
+                        :title="transWithFallback('delete','Delete')"
                         type="button"
                         @click="checkDelete(key)"
                     >
@@ -124,7 +124,7 @@
         </draggable>
 
         <confirmation-modal
-            confirm-text="Delete"
+            :confirm-text="transWithFallback('delete','Delete')"
             confirm-type="danger"
             :show-modal="showDeleteModal"
             :message-text="deleteModalText"

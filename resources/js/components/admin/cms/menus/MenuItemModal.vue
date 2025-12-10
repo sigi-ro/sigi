@@ -42,8 +42,8 @@
                             :input-autofocus="true"
                             input-id="menu_item_label"
                             input-name="menu_item_label"
-                            input-placeholder="Label"
-                            label-text="Label"
+                            :input-placeholder="transWithFallback('label','Label')"
+                            :label-text="transWithFallback('label','Label')"
                             v-model="editableMenuItem.label"
                         />
 
@@ -51,8 +51,8 @@
                             class="mt-4"
                             input-id="menu_item_href"
                             input-name="menu_item_href"
-                            input-placeholder="URL/Href"
-                            label-text="URL/Href"
+                            :input-placeholder="transWithFallback('url-href','URL/Href')"
+                            :label-text="transWithFallback('url-href','URL/Href')"
                             v-model="editableMenuItem.href"
                         />
 
@@ -60,8 +60,8 @@
                             class="mt-4"
                             input-id="menu_item_custom_class"
                             input-name="menu_item_custom_class"
-                            input-placeholder="Custom Class"
-                            label-text="Custom Class"
+                            :input-placeholder="transWithFallback('custom-class','Custom Class')"
+                            :label-text="transWithFallback('custom-class','Custom Class')"
                             v-model="editableMenuItem.custom_class"
                         />
 
@@ -69,8 +69,8 @@
                             class="mt-4"
                             input-id="menu_item_target"
                             input-name="menu_item_target"
-                            input-placeholder="Target"
-                            label-text="Target"
+                            :input-placeholder="transWithFallback('target','Target')"
+                            :label-text="transWithFallback('target','Target')"
                             v-model="editableMenuItem.target"
                         />
 
@@ -78,8 +78,8 @@
                             class="mt-4"
                             input-id="menu_item_rel"
                             input-name="menu_item_rel"
-                            input-placeholder="Rel"
-                            label-text="Rel"
+                            :input-placeholder="transWithFallback('rel','Rel')"
+                            :label-text="transWithFallback('rel','Rel')"
                             v-model="editableMenuItem.rel"
                         />
 
@@ -105,7 +105,7 @@
                         type="button"
                         @click="cancelAction"
                     >
-                        Cancel
+                        {{ transWithFallback('cancel','Cancel') }}
                     </button>
 
                     <button
@@ -191,8 +191,8 @@
         computed: {
             confirmText() {
                 return this.isCreate ?
-                    'Add' :
-                    'Update';
+                    this.transWithFallback('add','Add') :
+                    this.transWithFallback('update','Update');
             },
             isMenuItemValid() {
                 try {
@@ -203,8 +203,8 @@
             },
             headerText() {
                 return this.isCreate ?
-                    'Add Menu Item' :
-                    'Update Menu Item';
+                    this.transWithFallback('add-menu-item','Add Menu Item') :
+                    this.transWithFallback('update-menu-item','Update Menu Item');
             }
         },
         methods: {

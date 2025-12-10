@@ -52,8 +52,9 @@
         },
         props: {
             menuItems: {
-                required: true,
+                required: false,
                 type: Array,
+                default: () => []
             }
         },
         data() {

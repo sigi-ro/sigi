@@ -141,7 +141,7 @@
             </div>
 
             <confirmation-modal
-                confirm-text="Delete"
+                :confirm-text="transWithFallback('delete','Delete')"
                 confirm-type="danger"
                 :show-modal="showDeleteModal"
                 :message-text="deleteModalText"

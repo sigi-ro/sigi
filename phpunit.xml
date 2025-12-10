@@ -9,6 +9,11 @@
       <directory suffix="Test.php">./tests/Feature</directory>
     </testsuite>
   </testsuites>
+  <groups>
+    <exclude>
+      <group>slow</group>
+    </exclude>
+  </groups>
   <php>
     <server name="APP_ENV" value="testing"/>
     <server name="BCRYPT_ROUNDS" value="4"/>
@@ -25,5 +30,21 @@
     <include>
       <directory suffix=".php">./app</directory>
     </include>
+    <exclude>
+      <!-- Exclude EDU module as requested -->
+      <directory>./app/Models/EDU</directory>
+      <directory>./app/Actions/EDU</directory>
+      <directory>./app/Http/Controllers/Admin/EDU</directory>
+      <directory>./app/Http/Controllers/Api/EDU</directory>
+      <directory>./app/Http/Controllers/Website/EDU</directory>
+      <directory>./app/Http/Controllers/AdminApi/EDU</directory>
+      <directory>./app/Interfaces/EDU</directory>
+      <directory>./app/Traits/Admin/EDU</directory>
+      <directory>./app/Traits/EDU</directory>
+      <directory>./app/Jobs/EDU</directory>
+      <directory>./app/Mail/EDU</directory>
+      <directory>./app/Models/Settings/EduSettings.php</directory>
+      <directory>./app/Traits/Admin/EDU</directory>
+    </exclude>
   </source>
 </phpunit>

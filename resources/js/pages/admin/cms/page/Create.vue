@@ -9,7 +9,7 @@
             class="flex flex-row items-center mb-6 sticky-menu"
         >
             <h1 class="font-medium mr-auto text-lg">
-                Create Page
+                {{ transWithFallback('admin-pages-create', 'Create Page') }}
             </h1>
 
             <inertia-link
@@ -26,7 +26,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back', 'Back') }}
                 </span>
             </inertia-link>
 
@@ -42,19 +42,19 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Create Page
+                    {{ transWithFallback('admin-pages-create', 'Create Page') }}
                 </span>
             </button>
         </div>
 
 
         <div class="bg-white py-6 shadow-subtle rounded-lg">
-            <div class="block px-6 w-full">
+                <div class="block px-6 w-full">
                 <select-group
                     :error-message="getPageErrorMessage('layout_id')"
-                    label-text="Layout"
+                    :label-text="transWithFallback('layout','Layout')"
                     :input-any-option-enabled="true"
-                    input-any-option-label="Please select a Layout"
+                    :input-any-option-label="transWithFallback('please-select-layout','Please select a Layout')"
                     :input-autofocus="true"
                     input-id="layout_id"
                     input-name="layout_id"
@@ -69,9 +69,9 @@
                 <select-group
                     class="mt-4"
                     :error-message="getPageErrorMessage('template_id')"
-                    label-text="Template"
+                    :label-text="transWithFallback('template','Template')"
                     :input-any-option-enabled="true"
-                    input-any-option-label="Please select a template"
+                    :input-any-option-label="transWithFallback('please-select-template','Please select a Template')"
                     input-id="template_id"
                     input-name="template_id"
                     :input-options="isTemplates ? templates : {}"
@@ -86,9 +86,9 @@
                     v-if="parentPagesUrls"
                     class="mt-4"
                     :error-message="getPageErrorMessage('parent_id')"
-                    label-text="Parent Page"
+                    :label-text="transWithFallback('parent-page','Parent Page')"
                     :input-any-option-enabled="true"
-                    input-any-option-label="Please select a parent (optional)"
+                    :input-any-option-label="transWithFallback('please-select-parent-optional','Please select a parent (optional)')"
                     input-id="parent_id"
                     input-name="parent_id"
                     :input-options="parentPagesUrls"
@@ -106,7 +106,7 @@
                     input-name="name"
                     :input-required="true"
                     input-type="text"
-                    label-text="Page Name"
+                    :label-text="transWithFallback('page-name','Page Name')"
                     @errorHidden="clearPageErrorMessage('name')"
                     @input="onNameInput"
                     v-model="formData.name"
@@ -120,7 +120,7 @@
                     input-name="slug"
                     :input-required="true"
                     input-type="text"
-                    label-text="Page Slug"
+                    :label-text="transWithFallback('page-slug','Page Slug')"
                     @blur="onSlugBlur"
                     @errorHidden="clearPageErrorMessage('slug')"
                     @input="onSlugInput"
@@ -152,7 +152,7 @@
             v-if="!this.isLoadingTemplate && selectedTemplateHasFields"
             class="bg-white mt-6 px-6 py-6 shadow-subtle rounded-lg"
         >
-            <p class="text-lg">Fields</p>
+            <p class="text-lg">{{ transWithFallback('fields','Fields') }}</p>
 
             <content-editor
                 class="mt-4"
@@ -333,8 +333,8 @@
                     this.setNewTemplateContent();
                 }).catch(e => {
                     if (!axios.isCancel(e)) {
-                        this.$errorToast('Failed to load selected template');
-                        console.log(e); // TODO: This should go through to a log tracker once available
+                        this.$errorToast(this.transWithFallback('admin-pages-template-load-failed', 'Failed to load selected template'));
+                        // Error suppressed here; send to logging/tracker if configured
                     }
                 }).finally(() => {
                     this.isLoadingTemplate = false;
@@ -380,7 +380,7 @@
             },
             submit() {
                 if (!this.isUrlAvailable) {
-                    this.$errorToast('Unable to create page. URL is unavailable');
+                    this.$errorToast(this.transWithFallback('admin-pages-url-unavailable','Unable to create page. URL is unavailable'));
                     return;
                 }
 

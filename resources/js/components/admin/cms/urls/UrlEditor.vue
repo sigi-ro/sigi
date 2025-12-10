@@ -185,6 +185,8 @@
 
                 if (this.urlInput && this.urlInput !== '') {
                     this.autoUpdateUrl = false;
+                    // proactively check URL availability on load so parent can receive availability
+                    this.checkUrlIsAvailable();
                 }
             } catch (e) {
                 return;

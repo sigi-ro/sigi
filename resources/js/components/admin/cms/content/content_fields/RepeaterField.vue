@@ -3,12 +3,12 @@
         <slot />
 
         <div class="border-2 border-theme-subtle p-4 rounded">
-            <div
+                <div
                 v-if="isLoadingRepeaterTemplate"
                 class="flex flex-row items-start text-theme-base-subtle-contrast w-full"
             >
                 <icon-loader-circle class="animate-spin-slow mr-2 w-5"/>
-                <span class="text-left">Loading</span>
+                <span class="text-left">{{ transWithFallback('loading','Loading') }}</span>
             </div>
 
             <div v-else-if="isInitialisedContent && isRepeaterTemplateFields">
@@ -33,9 +33,9 @@
                                     hover:bg-theme-danger-contrast hover:text-theme-danger
                                 "
                                 type="button"
-                                @click="deleteRepeaterRow(key)"
+                                @click.prevent.stop="deleteRepeaterRow(key)"
                             >
-                                Delete Row
+                                {{ transWithFallback('delete','Delete') }} {{ transWithFallback('row','Row') }}
                             </button>
                         </div>
                     </div>
@@ -45,26 +45,26 @@
                     <button
                         class="button button-primary-subtle button-small text-sm"
                         type="button"
-                        @click="addRepeaterRow"
+                        @click.prevent.stop="addRepeaterRow"
                     >
-                        Add Row
+                        {{ transWithFallback('add','Add') }} {{ transWithFallback('row','Row') }}
                     </button>
                 </div>
             </div>
 
-            <p
+                <p
                 v-else-if="isInitialisedContent && !isRepeaterTemplateFields"
                 class="text-theme-base-subtle-contrast"
             >
-                Repeater template has no fields.
+                {{ transWithFallback('repeater-template-no-fields','Repeater template has no fields.') }}
             </p>
         </div>
 
         <confirmation-modal
-            confirm-text="Delete"
+            :confirm-text="transWithFallback('delete','Delete')"
             confirm-type="danger"
             :show-modal="showDeleteModal"
-            message-text="Are you sure you want to delete this repeater row?"
+            :message-text="transWithFallback('repeater-delete-row-confirm','Are you sure you want to delete this repeater row?')"
             @cancelAction="cancelDeleteRepeaterRow"
             @closeModal="cancelDeleteRepeaterRow"
             @confirmAction="confirmDeleteRepeaterRow"
@@ -112,8 +112,16 @@
             },
             repeaterTemplateId() {
                 try {
-                    return this.templateField.settings.template_id;
+                    const settings = typeof this.templateField.settings === 'string'
+                        ? JSON.parse(this.templateField.settings)
+                        : this.templateField.settings;
+                    try {
+                        return settings && settings.template_id ? settings.template_id : false;
+                    } catch (e) {
+                        return false;
+                    }
                 } catch (e) {
+                    // parsing failed; treat as not present
                     return false;
                 }
             },
@@ -169,7 +177,7 @@
                 this.isLoadingRepeaterTemplate = true;
 
                 if (!this.repeaterTemplateId) {
-                    this.$errorToast('No repeater template id set.');
+                    this.$errorToast(this.transWithFallback('no-repeater-template-id','No repeater template id set.'));
                     return;
                 }
 
@@ -179,8 +187,7 @@
                     this.repeaterTemplate = response.data.data;
                     this.setInitialContent();
                 }).catch(e => {
-                    this.$errorToast('Failed to load repeater template');
-                    console.log(e); // TODO: This should go through to a log tracker once available
+                    this.$errorToast(this.transWithFallback('failed-to-load-repeater-template','Failed to load repeater template'));
                 }).finally(() => {
                     this.isLoadingRepeaterTemplate = false;
                 });

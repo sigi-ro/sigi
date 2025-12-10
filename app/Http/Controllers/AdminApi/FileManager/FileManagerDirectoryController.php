@@ -23,7 +23,13 @@ class FileManagerDirectoryController extends AbstractFileManagerController
                 $label = explode('/', $directory);
                 $label = $label[count($label) - 1];
 
-                return compact('directory', 'label');
+                // Return both legacy (`name`, `path`) and current (`label`, `directory`) keys
+                return [
+                    'directory' => $directory,
+                    'label' => $label,
+                    'path' => $directory,
+                    'name' => $label,
+                ];
             });
 
         return response()->json(compact('directories'));

@@ -12,9 +12,9 @@
                     md:w-72
                 "
             >
-                <h2 class="flex flex-row justify-between">
+                    <h2 class="flex flex-row justify-between">
                     <span class="text-theme-base-subtle-contrast">
-                        Directories
+                        {{ transWithFallback('directories','Directories') }}
                     </span>
                 </h2>
 
@@ -48,7 +48,7 @@
                                     type="button"
                                     @click="startCreatingDirectory"
                                 >
-                                    Create Directory
+                                    {{ transWithFallback('create-directory','Create Directory') }}
                                 </button>
                             </div>
 
@@ -60,7 +60,7 @@
                                     for="new_directory"
                                     hidden
                                 >
-                                    New Directory Name
+                                    {{ transWithFallback('directory-name','New Directory Name') }}
                                 </label>
                                 <input
                                     id="new_directory"
@@ -68,7 +68,7 @@
                                         appearance-none border border-theme-base-subtle-contrast px-4 py-1 rounded shadow-none
                                         focus:outline-none focus:ring focus:ring-primary
                                     "
-                                    placeholder="Directory Name"
+                                    :placeholder="transWithFallback('directory-name','Directory Name')"
                                     ref="new_directory"
                                     type="text"
                                     v-model="newDirectoryName"
@@ -298,7 +298,7 @@
             },
             changeDirectory(newDirectory = '/') {
                 if (!this.canChangeDirectory) {
-                    this.$errorToast('Unable to change directory');
+                    this.$errorToast(this.transWithFallback('file-manager-unable-change-directory','Unable to change directory'));
                     return;
                 }
 
@@ -317,7 +317,7 @@
             },
             createDirectory() {
                 if (!this.canCreateDirectory) {
-                    this.$errorToast('Please enter a valid directory name');
+                    this.$errorToast(this.transWithFallback('file-manager-please-enter-valid-directory-name','Please enter a valid directory name'));
                     return;
                 }
 
@@ -334,7 +334,7 @@
                     this.changeDirectory(this.newDirectoryNameFormatted)
                     this.stopCreatingDirectory();
                 }).catch(e => {
-                    let message = 'Failed to create directory';
+                    let message = this.transWithFallback('file-manager-create-directory-failed','Failed to create directory');
                     if (e && e.response && e.response.data && e.response.data.message) {
                         message += ' - ' + e.response.data.message;
                     }
@@ -382,7 +382,7 @@
 
                     this.loadFiles();
                 }).catch(e => {
-                    this.$errorToast('Failed to load directories');
+                    this.$errorToast(this.transWithFallback('file-manager-load-directories-failed','Failed to load directories'));
                 }).finally(() => {
                     this.isLoadingDirectories = false;
                 });
@@ -414,7 +414,7 @@
                     }
                 }).catch(e => {
                     if (!axios.isCancel(e)) {
-                        this.$errorToast('Failed to load files');
+                        this.$errorToast(this.transWithFallback('file-manager-load-files-failed','Failed to load files'));
                     }
                 }).finally(() => {
                     this.isLoadingFiles = false;

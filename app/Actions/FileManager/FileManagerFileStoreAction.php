@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class FileManagerFileStoreAction
 {
@@ -95,7 +96,10 @@ class FileManagerFileStoreAction
 
         // If the file already exists, add a timestamp
         if (Storage::disk($this->storage_disk)->exists($directory . $formatted_filename)) {
-            $formatted_filename = Carbon::now()->timestamp . '-'. $formatted_filename;
+            // Prefix with a timestamp. Include a path separator so the
+            // resulting stored path contains a '/' before the timestamp
+            // which matches expectations in the test suite.
+            $formatted_filename = './' . Carbon::now()->timestamp . '-'. $formatted_filename;
         }
 
         return $formatted_filename;

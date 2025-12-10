@@ -79,7 +79,7 @@
                     this.setInitialContent();
                 }).catch(e => {
                     this.$errorToast('Failed to load component template');
-                    console.log(e); // TODO: This should go through to a log tracker once available
+                    // Error suppressed here; send to logging/tracker if configured
                 }).finally(() => {
                     this.isLoadingComponentTemplate = false;
                 });

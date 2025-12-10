@@ -9,7 +9,7 @@
             class="flex flex-row items-center mb-6 sticky-menu"
         >
             <h1 class="font-medium mr-auto text-lg">
-                Create Redirect
+                {{ transWithFallback('admin-cms_advanced-redirects-create','Create Redirect') }}
             </h1>
 
             <inertia-link
@@ -26,7 +26,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back','Back') }}
                 </span>
             </inertia-link>
 
@@ -42,7 +42,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Create Redirect
+                    {{ transWithFallback('admin-cms_advanced-redirects-create','Create Redirect') }}
                 </span>
             </button>
         </div>

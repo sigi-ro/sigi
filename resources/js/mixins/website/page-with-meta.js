@@ -67,12 +67,13 @@ export const pageWithMetaMixin = {
         layoutComponent() {
             switch (this.layoutSlug) {
                 case 'basic-layout':
+                case 'default-layout':
                     return 'basic-layout';
                 case 'course-layout':
                     return 'course-layout';
             }
 
-            console.log('No layout found');
+            console.log('No layout found for slug:', this.layoutSlug);
         },
         layoutSlug() {
             try {
@@ -115,10 +116,15 @@ export const pageWithMetaMixin = {
                 case 'course-page':
                     return 'course-page';
                 case 'basic-page':
+                case 'default-page-template':
                     return 'basic-page';
+                case 'portfolio-gallery-page':
+                    return 'portfolio-gallery-page';
+                case 'portfolio-home-page':
+                    return 'portfolio-home-page';
             }
 
-            console.log('No template found');
+            console.log('No template found for slug:', this.templateSlug);
         },
         templateSlug() {
             try {

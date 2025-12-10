@@ -42,8 +42,8 @@
                             :input-autofocus="true"
                             input-id="section_item_title"
                             input-name="section_item_title"
-                            input-placeholder="Title"
-                            label-text="Title"
+                            :input-placeholder="transWithFallback('title','Title')"
+                            :label-text="transWithFallback('title','Title')"
                             v-model="editableSectionItem.title"
                         />
 
@@ -51,8 +51,8 @@
                             class="mt-4"
                             input-id="section_item_lecture_count"
                             input-name="section_item_lecture_count"
-                            input-placeholder="Total Number of Lectures"
-                            label-text="Total Number of Lectures"
+                            :input-placeholder="transWithFallback('total-number-of-lectures','Total Number of Lectures')"
+                            :label-text="transWithFallback('total-number-of-lectures','Total Number of Lectures')"
                             v-model="editableSectionItem.lecture_count"
                         />
 
@@ -60,17 +60,17 @@
                             class="mt-4"
                             input-id="section_item_content_length"
                             input-name="section_item_content_length"
-                            input-placeholder="Total Length in minutes"
-                            label-text="Total Length in minutes"
+                            :input-placeholder="transWithFallback('total-length-minutes','Total Length in minutes')"
+                            :label-text="transWithFallback('total-length-minutes','Total Length in minutes')"
                             v-model="editableSectionItem.content_length"
                         />
                     </div>
 
                     <div class="bg-white p-6 shadow-subtle rounded-lg mt-4">
-                        <h2>Files details</h2>
+                        <h2>{{ transWithFallback('files-details','Files details') }}</h2>
                         <div class="mt-4 px-4 space-y-2" v-if="editableSectionItem.id">
                             <!-- TODO:: Create a new uploader that only uploads when Add is clicked? -->
-                            <label for="file-uploader">Upload resources (PDFs, etc...)</label>
+                            <label for="file-uploader">{{ transWithFallback('upload-resources','Upload resources (PDFs, etc...)') }}</label>
                             <file-manager-file-uploader
                                 id="file-uploader"
                                 :directory="uploaderDirectory"
@@ -82,7 +82,7 @@
                         </div>
 
                         <div class="mb-4 px-4 space-y-2 mt-4" v-if="editableSectionItem.files">
-                            <label>Files</label>
+                            <label>{{ transWithFallback('files','Files') }}</label>
                             <ul class="list-group">
                                 <li
                                     v-for="file in editableSectionItem.files"
@@ -140,7 +140,7 @@
                         type="button"
                         @click="cancelAction"
                     >
-                        Cancel
+                        {{ transWithFallback('cancel','Cancel') }}
                     </button>
 
                     <button
@@ -227,8 +227,8 @@
         computed: {
             confirmText() {
                 return this.isCreate ?
-                    'Add' :
-                    'Update';
+                    this.transWithFallback('add','Add') :
+                    this.transWithFallback('update','Update');
             },
             isSectionItemValid() {
                 try {
@@ -239,8 +239,8 @@
             },
             headerText() {
                 return this.isCreate ?
-                    'Add Section' :
-                    'Update Section';
+                    this.transWithFallback('add-section','Add Section') :
+                    this.transWithFallback('update-section','Update Section');
             },
             showFileUploader() {
                 return this.canUploadFiles && this.userCan('file_manager.edit');

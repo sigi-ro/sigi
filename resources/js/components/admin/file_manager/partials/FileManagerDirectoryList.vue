@@ -5,7 +5,7 @@
                 class="flex flex-row items-start text-theme-base-subtle-contrast py-1 w-full"
             >
                 <icon-loader-circle class="animate-spin-slow mr-2 w-5"/>
-                <span class="text-left">Loading</span>
+                <span class="text-left">{{ transWithFallback('loading','Loading') }}</span>
             </li>
         </template>
         <template v-else>
@@ -23,7 +23,7 @@
                     @click="changeDirectory(parentDirectory)"
                 >
                     <icon-arrow-bar-up class="mr-2 w-5"/>
-                    <span class="text-left">Parent Directory</span>
+                    <span class="text-left">{{ transWithFallback('parent-directory','Parent Directory') }}</span>
                 </button>
             </li>
             <li

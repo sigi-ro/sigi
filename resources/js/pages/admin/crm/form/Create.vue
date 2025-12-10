@@ -9,7 +9,7 @@
             class="flex flex-row items-center mb-6"
         >
             <h1 class="font-medium mr-auto text-lg">
-                Create Form
+                {{ transWithFallback('admin-crm-forms-create','Create Form') }}
             </h1>
 
             <inertia-link
@@ -26,7 +26,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back','Back') }}
                 </span>
             </inertia-link>
 
@@ -43,7 +43,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Create Form
+                    {{ transWithFallback('admin-crm-forms-create','Create Form') }}
                 </span>
             </button>
         </div>

@@ -43,6 +43,9 @@
                     'X-XSRF-TOKEN': this.$cookies.get('XSRF-TOKEN')
                 }
 
+                // Use translated placeholder text for the dropzone default message
+                options.dictDefaultMessage = this.transWithFallback('file-upload-text', 'Drop files to upload');
+
                 return options;
             },
             isUploadEnabled() {

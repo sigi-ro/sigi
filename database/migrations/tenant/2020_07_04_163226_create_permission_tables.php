@@ -20,21 +20,26 @@ class CreatePermissionTables extends Migration
             throw new \Exception('Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
 
-        Schema::create($tableNames['permissions'], function (Blueprint $table) {
+        if (!Schema::hasTable($tableNames['permissions'])) {
+            Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('guard_name');
             $table->timestamps();
-        });
+            });
+        }
 
-        Schema::create($tableNames['roles'], function (Blueprint $table) {
+        if (!Schema::hasTable($tableNames['roles'])) {
+            Schema::create($tableNames['roles'], function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('guard_name');
             $table->timestamps();
-        });
+            });
+        }
 
-        Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames) {
+        if (!Schema::hasTable($tableNames['model_has_permissions'])) {
+            Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames) {
             $table->unsignedBigInteger('permission_id');
 
             $table->string('model_type');
@@ -48,9 +53,11 @@ class CreatePermissionTables extends Migration
 
             $table->primary(['permission_id', $columnNames['model_morph_key'], 'model_type'],
                     'model_has_permissions_permission_model_type_primary');
-        });
+            });
+        }
 
-        Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames) {
+        if (!Schema::hasTable($tableNames['model_has_roles'])) {
+            Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames) {
             $table->unsignedBigInteger('role_id');
 
             $table->string('model_type');
@@ -64,9 +71,11 @@ class CreatePermissionTables extends Migration
 
             $table->primary(['role_id', $columnNames['model_morph_key'], 'model_type'],
                     'model_has_roles_role_model_type_primary');
-        });
+            });
+        }
 
-        Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {
+        if (!Schema::hasTable($tableNames['role_has_permissions'])) {
+            Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {
             $table->unsignedBigInteger('permission_id');
             $table->unsignedBigInteger('role_id');
 
@@ -81,7 +90,8 @@ class CreatePermissionTables extends Migration
                 ->onDelete('cascade');
 
             $table->primary(['permission_id', 'role_id'], 'role_has_permissions_permission_id_role_id_primary');
-        });
+            });
+        }
 
         app('cache')
             ->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)

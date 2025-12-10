@@ -1,6 +1,5 @@
 <template>
-    <div v-if="!isLoading"
-        class="bg-gray-100 flex flex-col min-h-screen min-w-screen">
+    <div class="bg-gray-100 flex flex-col min-h-screen min-w-screen">
         <nav class="bg-white py-3">
             <div class="container flex flex-row justify-between mx-auto px-4">
                 <inertia-link
@@ -135,9 +134,7 @@
             }
         },
         data() {
-            return {
-                isLoading: true
-            }
+            return {}
         },
     }
 </script>

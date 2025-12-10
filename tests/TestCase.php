@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Actions\Landlord\Tenant\TenantStoreAction;
+use App\Interfaces\PermissionInterface;
 use App\Interfaces\RoleInterface;
 use App\Models\Tenant;
 use App\Models\User;
@@ -12,6 +13,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Assert;
+use Spatie\Permission\PermissionRegistrar;
+use Database\Seeders\TestPermissionsSeeder;
 
 /**
  * Class TestCase
@@ -41,18 +44,48 @@ abstract class TestCase extends BaseTestCase
         $this->inertiaSetup();
         $this->faker = Faker::create();
         config(['tenancy.database.prefix' => 'test_tenant_']);
+        // Ensure both landlord and tenant migrations run in the in-memory
+        // testing database. Migrations in this project are split into
+        // `database/migrations/landlord` and `database/migrations/tenant`.
+        // Running them here guarantees the permission tables, roles and
+        // tenant-specific tables exist for tests that rely on them.
+        // Migration application is handled by the RefreshDatabase trait
+        // and the migrator. We previously attempted to run migrations
+        // here manually which caused duplicate-migration issues. The
+        // test environment now registers the landlord/tenant migration
+        // folders via AppServiceProvider so RefreshDatabase will include
+        // them automatically.
+
+        // Clear permission cache before each test so freshly created/assigned
+        // permissions are respected by authorization checks.
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
+        // Seed deterministic permissions and roles for tests. This ensures
+        // middleware checks and permission lookups are reliable without
+        // requiring manual seeding steps.
+        if (app()->environment('testing')) {
+            $this->artisan('db:seed', ['--class' => TestPermissionsSeeder::class]);
+        }
     }
 
     protected function createTenant(array $data = [], string $domain = null): Tenant
     {
+        // Use unique ID to avoid database conflicts, but reuse if tenant exists
         $data = array_merge(
             [
-                'id' => 'test'
+                'id' => 'test-' . ($domain ?? 'default')
             ],
             $data
         );
 
-        $domain = $domain ?? Str::random('10');
+        $domain = $domain ?? 'test-' . Str::random('10');
+
+        // Check if tenant already exists
+        $existingTenant = \App\Models\Tenant::find($data['id']);
+        if ($existingTenant) {
+            $this->tenant = $existingTenant;
+            return $this->tenant;
+        }
 
         $this->tenant = app(TenantStoreAction::class)->handle($data, $domain);
 
@@ -62,7 +95,8 @@ abstract class TestCase extends BaseTestCase
 
     protected function tearDown(): void
     {
-        $this->artisan('migrate:reset');
+        // RefreshDatabase trait handles cleanup automatically
+        // migrate:reset is inefficient and unnecessary here
         parent::tearDown();
     }
 
@@ -120,6 +154,9 @@ abstract class TestCase extends BaseTestCase
 
         $this->actingAs($user);
 
+        // Clear permission cache so recently assigned permissions are recognised
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
         // Navigating to admin ensures that any 'redirect back' go to admin index instead of web index
         // Going to web index causes issues when following redirects and web routes are not disabled
         // As an additional redirect to admin causes any shared data to be lost from the response
@@ -137,7 +174,14 @@ abstract class TestCase extends BaseTestCase
     protected function signInWithPermissions($permissions, User $user = null)
     {
         $user = $user ?: User::factory()->create();
-        $user->givePermissionTo($permissions);
+        
+        // Ensure user has VIEW_ADMIN permission to access admin routes
+        $permissionsArray = is_array($permissions) ? $permissions : [$permissions];
+        if (!in_array(PermissionInterface::VIEW_ADMIN, $permissionsArray)) {
+            $permissionsArray[] = PermissionInterface::VIEW_ADMIN;
+        }
+        
+        $user->givePermissionTo($permissionsArray);
 
         return $this->signIn($user);
     }

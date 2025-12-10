@@ -9,7 +9,7 @@
             class="flex flex-row items-center mb-6 sticky-menu"
         >
             <h1 class="font-medium mr-auto text-lg">
-                Edit Page
+                {{ transWithFallback('admin-pages-edit','Edit Page') }}
             </h1>
 
             <inertia-link
@@ -26,7 +26,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back','Back') }}
                 </span>
             </inertia-link>
 
@@ -42,19 +42,68 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Save Changes
+                    {{ transWithFallback('save-changes','Save Changes') }}
                 </span>
             </button>
         </div>
 
+        <!-- Top tabs: Layout / Meta / URL / Fields -->
+        <div class="mt-4">
+            <nav class="flex items-center space-x-2 px-1" role="tablist" aria-label="Page editor tabs" @keydown="onTabListKeydown">
+                <button
+                    type="button"
+                    role="tab"
+                    :aria-selected="activeTab === 'layout'"
+                    tabindex="0"
+                    :class="['px-3 py-2 text-sm rounded-md focus:outline-none', activeTab === 'layout' ? 'bg-blue-100 text-theme-primary' : 'bg-white text-gray-700 border border-gray-200']"
+                    @click="setActiveTab('layout')"
+                >
+                    {{ transWithFallback('layout','Layout') }}
+                </button>
 
-        <div class="bg-white py-6 shadow-subtle rounded-lg">
+                <button
+                    type="button"
+                    role="tab"
+                    :aria-selected="activeTab === 'meta'"
+                    tabindex="0"
+                    :class="['px-3 py-2 text-sm rounded-md focus:outline-none', activeTab === 'meta' ? 'bg-blue-100 text-theme-primary' : 'bg-white text-gray-700 border border-gray-200']"
+                    @click="setActiveTab('meta')"
+                >
+                    {{ transWithFallback('meta','Meta') }}
+                </button>
+
+                <button
+                    type="button"
+                    role="tab"
+                    :aria-selected="activeTab === 'url'"
+                    tabindex="0"
+                    :class="['px-3 py-2 text-sm rounded-md focus:outline-none', activeTab === 'url' ? 'bg-blue-100 text-theme-primary' : 'bg-white text-gray-700 border border-gray-200']"
+                    @click="setActiveTab('url')"
+                >
+                    {{ transWithFallback('url','URL') }}
+                </button>
+
+                <button
+                    type="button"
+                    role="tab"
+                    :aria-selected="activeTab === 'fields'"
+                    tabindex="0"
+                    :class="['px-3 py-2 text-sm rounded-md focus:outline-none', activeTab === 'fields' ? 'bg-blue-100 text-theme-primary' : 'bg-white text-gray-700 border border-gray-200']"
+                    @click="setActiveTab('fields')"
+                >
+                    {{ transWithFallback('fields','Fields') }}
+                </button>
+            </nav>
+        </div>
+
+
+        <div v-if="activeTab === 'layout'" class="bg-white mt-6 py-6 shadow-subtle rounded-lg">
             <div class="block px-6 w-full">
                 <select-group
                     :error-message="getPageErrorMessage('layout_id')"
-                    label-text="Layout"
+                    :label-text="transWithFallback('layout','Layout')"
                     :input-any-option-enabled="true"
-                    input-any-option-label="Please select a Layout"
+                    :input-any-option-label="transWithFallback('please-select-layout','Please select a Layout')"
                     :input-autofocus="true"
                     input-id="layout_id"
                     input-name="layout_id"
@@ -69,9 +118,9 @@
                 <select-group
                     class="mt-4"
                     :error-message="getPageErrorMessage('template_id')"
-                    label-text="Template"
+                    :label-text="transWithFallback('template','Template')"
                     :input-any-option-enabled="true"
-                    input-any-option-label="Please select a template"
+                    :input-any-option-label="transWithFallback('please-select-template','Please select a template')"
                     input-id="template_id"
                     input-name="template_id"
                     :input-options="templates"
@@ -86,9 +135,9 @@
                     v-if="parentPagesUrls"
                     class="mt-4"
                     :error-message="getPageErrorMessage('parent_id')"
-                    label-text="Parent Page"
+                    :label-text="transWithFallback('parent-page','Parent Page')"
                     :input-any-option-enabled="true"
-                    input-any-option-label="Please select a parent (optional)"
+                    :input-any-option-label="transWithFallback('please-select-parent-optional','Please select a parent (optional)')"
                     input-id="parent_id"
                     input-name="parent_id"
                     :input-options="parentPagesUrls"
@@ -106,7 +155,7 @@
                     input-name="name"
                     :input-required="true"
                     input-type="text"
-                    label-text="Page Name"
+                    :label-text="transWithFallback('page-name','Page Name')"
                     @errorHidden="clearPageErrorMessage('name')"
                     @input="onNameInput"
                     v-model="formData.name"
@@ -120,7 +169,7 @@
                     input-name="slug"
                     :input-required="true"
                     input-type="text"
-                    label-text="Page Slug"
+                    :label-text="transWithFallback('page-slug','Page Slug')"
                     @blur="onSlugBlur"
                     @errorHidden="clearPageErrorMessage('slug')"
                     @input="onSlugInput"
@@ -133,7 +182,7 @@
                     input-name="full_page_slug"
                     :input-disabled="true"
                     input-type="text"
-                    label-text="Full Page Slug"
+                    :label-text="transWithFallback('full-page-slug','Full Page Slug')"
                     v-model="fullPageSlug"
                 />
             </div>
@@ -141,6 +190,7 @@
 
 
         <div
+            v-if="activeTab === 'meta'"
             class="bg-white mt-6 overflow-x-hidden px-6 py-6 shadow-subtle rounded-lg"
         >
             <metadata-editor
@@ -150,7 +200,7 @@
 
 
         <div
-            v-if="isInitialised_url"
+            v-show="activeTab === 'url' && isInitialised_url"
             class="bg-white mt-6 px-6 py-6 shadow-subtle rounded-lg"
         >
             <url-editor
@@ -161,10 +211,10 @@
         </div>
 
         <div
-            v-if="!this.isLoadingTemplate && selectedTemplateHasFields && isInitialisedContent"
+            v-if="activeTab === 'fields' && !this.isLoadingTemplate && selectedTemplateHasFields && isInitialisedContent"
             class="bg-white mt-6 px-4 py-6 shadow-subtle rounded-lg"
         >
-            <p class="text-lg">Fields</p>
+            <p class="text-lg">{{ transWithFallback('fields','Fields') }}</p>
 
             <content-editor
                 class="mt-4"
@@ -215,6 +265,10 @@
         },
         data() {
             return {
+                // activeTab: one of 'layout'|'meta'|'url'|'fields'
+                activeTab: (localStorage && localStorage.getItem && localStorage.getItem('admin_page_edit_active_tab_' + (this.page && this.page.id ? this.page.id : ''))
+                    ? localStorage.getItem('admin_page_edit_active_tab_' + (this.page && this.page.id ? this.page.id : ''))
+                    : 'layout'),
                 autoUpdateSlug: false,
                 formData: {},
                 isInitialisedTemplate: false,
@@ -327,6 +381,12 @@
             this.setInitialContent();
             this.setInitialUrl();
         },
+        mounted() {
+            // ensure activeTab is set if localStorage value is missing or invalid
+            if (!['layout','meta','url','fields'].includes(this.activeTab)) {
+                this.activeTab = 'layout';
+            }
+        },
         methods: {
             cancelLoadTemplate() {
                 if (this.isLoadingTemplate) {
@@ -378,8 +438,8 @@
                     this.setNewTemplateContent();
                 }).catch(e => {
                     if (!axios.isCancel(e)) {
-                        this.$errorToast('Failed to load selected template');
-                        console.log(e); // TODO: This should go through to a log tracker once available
+                        this.$errorToast(this.transWithFallback('admin-pages-template-load-failed','Failed to load selected template'));
+                        // error details intentionally not logged to console here
                     }
                 }).finally(() => {
                     this.isLoadingTemplate = false;
@@ -453,15 +513,57 @@
                 );
             },
             submit() {
-                if (!this.isUrlAvailable) {
-                    this.$errorToast('Unable to save page. URL is unavailable');
-                    return;
+                // Only require URL availability if the URL was changed by the editor.
+                try {
+                    const originalUrlMain = this.page && this.page.url ? this.page.url.url_main || '' : '';
+                    const currentUrlMain = this.formData && this.formData.url ? this.formData.url.url_main || '' : '';
+
+                    if (originalUrlMain !== currentUrlMain && !this.isUrlAvailable) {
+                        this.$errorToast(this.transWithFallback('admin-pages-url-unavailable','Unable to save page. URL is unavailable'));
+                        return;
+                    }
+                } catch (e) {
+                    // If anything goes wrong checking URL state, fall back to blocking save when unavailable
+                    if (!this.isUrlAvailable) {
+                        this.$errorToast(this.transWithFallback('admin-pages-url-unavailable','Unable to save page. URL is unavailable'));
+                        return;
+                    }
                 }
 
                 this.$inertia.put(
                     this.$route('admin.cms.pages.update', this.page.id),
                     this.formData
                 );
+            }
+            ,
+            // Tab helpers
+            setActiveTab(tab) {
+                if (!['layout','meta','url','fields'].includes(tab)) return;
+                this.activeTab = tab;
+                try {
+                    localStorage.setItem('admin_page_edit_active_tab_' + (this.page && this.page.id ? this.page.id : ''), tab);
+                } catch (e) {
+                    // ignore (cookie/localStorage disabled)
+                }
+            }
+            ,
+            onTabListKeydown(e) {
+                // handle arrow key navigation between tabs
+                const tabs = ['layout','meta','url','fields'];
+                const currentIndex = tabs.indexOf(this.activeTab);
+                if (e.key === 'ArrowRight') {
+                    const next = tabs[(currentIndex + 1) % tabs.length];
+                    this.setActiveTab(next);
+                    e.preventDefault();
+                    return;
+                }
+
+                if (e.key === 'ArrowLeft') {
+                    const prev = tabs[(currentIndex - 1 + tabs.length) % tabs.length];
+                    this.setActiveTab(prev);
+                    e.preventDefault();
+                    return;
+                }
             }
         },
         watch: {

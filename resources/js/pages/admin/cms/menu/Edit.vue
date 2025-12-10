@@ -26,7 +26,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Back
+                    {{ transWithFallback('back','Back') }}
                 </span>
             </inertia-link>
 
@@ -42,7 +42,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Save Changes
+                    {{ transWithFallback('save-changes','Save Changes') }}
                 </span>
             </button>
         </div>
@@ -82,7 +82,8 @@
 
         <div class="bg-white mt-6 p-6 shadow-subtle rounded-lg">
             <menu-items-editor
-                v-model="formData.menu_items"
+                v-if="formData.menu_items"
+                :menu-items="formData.menu_items"
             />
         </div>
 
@@ -110,13 +111,18 @@
         data() {
             return {
                 autoUpdateSlug: false,
-                formData: {}
+                formData: {
+                    id: null,
+                    menu_items: [],
+                    name: '',
+                    slug: '',
+                }
             }
         },
         created() {
             this.formData = {
                 id:         this.menu.id,
-                menu_items: this.menu.menu_items ? _.cloneDeep(this.menu.menu_items) : [],
+                menu_items: Array.isArray(this.menu.menu_items) ? _.cloneDeep(this.menu.menu_items) : [],
                 name:       this.menu.name,
                 slug:       this.menu.slug,
             };

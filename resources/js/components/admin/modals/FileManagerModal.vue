@@ -23,7 +23,7 @@
                     "
                 >
                     <h1 class="font-medium  text-lg">
-                        File Manager
+                        {{ transWithFallback('file-manager','File Manager') }}
                     </h1>
 
                     <button

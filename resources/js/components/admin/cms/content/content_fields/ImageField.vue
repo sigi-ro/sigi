@@ -21,7 +21,7 @@
                 <button
                     class="border border-l-0 border-theme-primary-subtle button button-primary-subtle rounded-l-none"
                     type="button"
-                    @click="openFileManagerModal"
+                    @click.prevent.stop="openFileManagerModal"
                 >
                     Browse...
                 </button>

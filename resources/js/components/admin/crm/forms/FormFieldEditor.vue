@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="flex flex-row items-center">
+                <div class="flex flex-row items-center">
             <span class="font-medium mb-4 text-theme-base-contrast tracking-wider">
-                Form Fields
+                {{ transWithFallback('form-fields','Form Fields') }}
             </span>
         </div>
 
@@ -10,7 +10,7 @@
             v-if="!editableFormFields.length"
             class="bg-theme-base-subtle mt-6 px-4 py-3 rounded text-center text-theme-base-subtle-contrast"
         >
-            No form fields
+            {{ transWithFallback('no-form-fields','No form fields') }}
         </p>
 
         <draggable
@@ -48,7 +48,7 @@
                                 {{ formField.name }}
                             </template>
                             <template v-else>
-                                New Form Field
+                                {{ transWithFallback('new-form-field','New Form Field') }}
                             </template>
                         </span>
                     </header>
@@ -75,7 +75,7 @@
                             @click="deleteFormField(index)"
                         >
                             <icon-trash class="h-4 w-4" />
-                            <span class="pl-2">Delete</span>
+                            <span class="pl-2">{{ transWithFallback('delete','Delete') }}</span>
                         </button>
                     </footer>
 
@@ -89,7 +89,7 @@
                 type="button"
                 @click="addFormField"
             >
-                Add Field
+                {{ transWithFallback('add','Add Field') }}
             </button>
         </div>
 
@@ -196,7 +196,7 @@
                     this.reorderFormFields();
                 } catch (e) {
                     this.$errorToast('Failed to delete field');
-                    console.log(e); // TODO: This should go through to a log tracker once available
+                    // Error suppressed here; send to logging/tracker if configured
                 }
             },
             onDraggableEnd() {

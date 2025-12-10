@@ -57,13 +57,13 @@
                             dashboard: {
                                 children: false,
                                 icon: "icon-home",
-                                label: "Dashboard",
+                                label: this.transWithFallback('admin-dashboard', 'Dashboard'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: [],
                                 route: "admin.index",
                             },
                         },
-                        label: "Main",
+                        label: this.transWithFallback('admin-main', 'Main'),
                         requiresAllPermissions: [],
                         requiresAnyPermissions: [],
                         showLabel: false,
@@ -75,7 +75,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Pages",
+                                        label: this.transWithFallback('admin-pages-view', 'View Pages'),
                                         requiresAllPermissions: ["cms.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.cms.pages.index",
@@ -83,14 +83,14 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Page",
+                                        label: this.transWithFallback('admin-pages-create', 'Create Page'),
                                         requiresAllPermissions: ["cms.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.cms.pages.create",
                                     },
                                 },
                                 icon: "icon-layout-navbar",
-                                label: "Pages",
+                                label: this.transWithFallback('admin-pages', 'Pages'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["cms.create", "cms.view"],
                             },
@@ -99,7 +99,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Layouts",
+                                        label: this.transWithFallback('admin-layouts-view', 'View Layouts'),
                                         requiresAllPermissions: ["cms.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.cms.layouts.index",
@@ -107,14 +107,14 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Layout",
+                                        label: this.transWithFallback('admin-layouts-create', 'Create Layout'),
                                         requiresAllPermissions: ["cms_advanced.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.cms.layouts.create",
                                     },
                                 },
                                 icon: "icon-layout",
-                                label: "Layouts",
+                                label: this.transWithFallback('admin-layouts', 'Layouts'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["cms.create", "cms.view"],
                             },
@@ -123,7 +123,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Menus",
+                                        label: this.transWithFallback('admin-menus-view', 'View Menus'),
                                         requiresAllPermissions: ["cms.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.cms.menus.index",
@@ -131,19 +131,19 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Menu",
+                                        label: this.transWithFallback('admin-menus-create', 'Create Menu'),
                                         requiresAllPermissions: ["cms.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.cms.menus.create",
                                     },
                                 },
                                 icon: "icon-columns",
-                                label: "Menus",
+                                label: this.transWithFallback('admin-menus', 'Menus'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["cms.create", "cms.view"],
                             },
                         },
-                        label: "CMS",
+                        label: this.transWithFallback('admin-cms', 'CMS'),
                         requiresAllPermissions: [],
                         requiresAnyPermissions: ["cms.edit", "cms.create", "cms.view"],
                         requiresTenantModule: 'cms',
@@ -156,7 +156,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Redirects",
+                                        label: this.transWithFallback('admin-cms_advanced-redirects-view','View Redirects'),
                                         requiresAllPermissions: ["cms_advanced.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.cms.redirects.index",
@@ -164,14 +164,14 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Redirects",
+                                        label: this.transWithFallback('admin-cms_advanced-redirects-create','Create Redirects'),
                                         requiresAllPermissions: ["cms_advanced.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.cms.redirects.create",
                                     },
                                 },
                                 icon: "icon-arrows-shuffle",
-                                label: "Redirects",
+                                label: this.transWithFallback('admin-cms_advanced-redirects','Redirects'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["cms_advanced.create", "cms_advanced.view"],
                             },
@@ -180,7 +180,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Templates",
+                                        label: this.transWithFallback('admin-cms_advanced-templates-view','View Templates'),
                                         requiresAllPermissions: ["cms_advanced.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.cms.templates.index",
@@ -188,19 +188,19 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Template",
+                                        label: this.transWithFallback('admin-cms_advanced-templates-create','Create Template'),
                                         requiresAllPermissions: ["cms_advanced.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.cms.templates.create",
                                     },
                                 },
                                 icon: "icon-template",
-                                label: "Templates",
+                                label: this.transWithFallback('admin-cms_advanced-templates','Templates'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["cms_advanced.create", "cms_advanced.view"],
                             },
                         },
-                        label: "CMS - Advanced",
+                        label: this.transWithFallback('admin-cms_advanced','CMS - Advanced'),
                         requiresAllPermissions: [],
                         requiresAnyPermissions: ["cms_advanced.create", "cms_advanced.view"],
                         requiresTenantModule: 'cms',
@@ -213,7 +213,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Forms",
+                                        label: this.transWithFallback('admin-crm-forms-view','View Forms'),
                                         requiresAllPermissions: ["crm_forms.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.crm.forms.index",
@@ -221,7 +221,7 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Form",
+                                        label: this.transWithFallback('admin-crm-forms-create','Create Form'),
                                         requiresAllPermissions: ["crm_forms.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.crm.forms.create",
@@ -229,14 +229,14 @@
                                     submissions: {
                                         activeRoutes: ["admin.crm.form-submissions.index", "admin.crm.form-submissions.show"],
                                         icon: false,
-                                        label: "View Form Submissions",
+                                        label: this.transWithFallback('admin-crm-forms-submissions','View Form Submissions'),
                                         requiresAllPermissions: ["crm_form_submissions.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.crm.form-submissions.index",
                                     },
                                 },
                                 icon: "icon-forms",
-                                label: "Forms",
+                                label: this.transWithFallback('admin-crm-forms','Forms'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["crm_forms.create", "crm_forms.view"],
                             },
@@ -245,7 +245,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Contacts",
+                                        label: this.transWithFallback('admin-crm-contacts-view','View Contacts'),
                                         requiresAllPermissions: ["crm_contacts.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.crm.contacts.index",
@@ -253,14 +253,14 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Contact",
+                                        label: this.transWithFallback('admin-crm-contacts-create','Create Contact'),
                                         requiresAllPermissions: ["crm_contacts.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.crm.contacts.create",
                                     },
                                 },
                                 icon: "icon-id",
-                                label: "Contacts",
+                                label: this.transWithFallback('admin-crm-contacts','Contacts'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["crm_contacts.create", "crm_contacts.view"],
                             },
@@ -269,7 +269,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Units",
+                                        label: this.transWithFallback('admin-crm-organisation_units-view','View Units'),
                                         requiresAllPermissions: ["crm_organisation_units.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.crm.organisation-units.index",
@@ -277,19 +277,19 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Unit",
+                                        label: this.transWithFallback('admin-crm-organisation_units-create','Create Unit'),
                                         requiresAllPermissions: ["crm_organisation_units.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.crm.organisation-units.create",
                                     },
                                 },
                                 icon: "icon-building",
-                                label: "Organisation Units",
+                                label: this.transWithFallback('admin-crm-organisation_units','Organisation Units'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["crm_organisation_units.create", "crm_organisation_units.view"],
                             }
                         },
-                        label: "CRM",
+                        label: this.transWithFallback('admin-crm','CRM'),
                         requiresAllPermissions: [],
                         requiresAnyPermissions: ["crm_forms.create", "crm_forms.view", "crm_contacts.create", "crm_contacts.view", "crm_organisation_units.create", "crm_organisation_units.view"],
                         requiresTenantModule: 'crm',
@@ -302,7 +302,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View",
+                                        label: this.transWithFallback('admin-edu-announcements-view','View'),
                                         requiresAllPermissions: ["edu_announcements.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.edu.announcements.index",
@@ -310,14 +310,14 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create",
+                                        label: this.transWithFallback('admin-edu-announcements-create','Create'),
                                         requiresAllPermissions: ["edu_announcements.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.edu.announcements.create",
                                     }
                                 },
                                 icon: "icon-speaker-phone",
-                                label: "Announcements",
+                                label: this.transWithFallback('admin-edu-announcements','Announcements'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["edu_announcements.create", "edu_announcements.view"],
                             },
@@ -326,7 +326,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Courses",
+                                        label: this.transWithFallback('admin-edu-courses-view','View Courses'),
                                         requiresAllPermissions: ["edu_courses.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.edu.courses.index",
@@ -334,14 +334,14 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Course",
+                                        label: this.transWithFallback('admin-edu-courses-create','Create Course'),
                                         requiresAllPermissions: ["edu_courses.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.edu.courses.create",
                                     }
                                 },
                                 icon: "icon-chalkboard",
-                                label: "Courses",
+                                label: this.transWithFallback('admin-edu-courses','Courses'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["edu_courses.create", "edu_courses.view"],
                             },
@@ -350,7 +350,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Programmes",
+                                        label: this.transWithFallback('admin-edu-programmes-view','View Programmes'),
                                         requiresAllPermissions: ["edu_programmes.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.edu.programmes.index",
@@ -358,14 +358,14 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Programme",
+                                        label: this.transWithFallback('admin-edu-programmes-create','Create Programme'),
                                         requiresAllPermissions: ["edu_programmes.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.edu.programmes.create",
                                     }
                                 },
                                 icon: "icon-box-multiple",
-                                label: "Programmes",
+                                label: this.transWithFallback('admin-edu-programmes','Programmes'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["edu_programmes.create", "edu_programmes.view"],
                             },
@@ -374,7 +374,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Labels",
+                                        label: this.transWithFallback('admin-edu-labels-view','View Labels'),
                                         requiresAllPermissions: ["edu_labels.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.edu.labels.index",
@@ -382,14 +382,14 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Label",
+                                        label: this.transWithFallback('admin-edu-labels-create','Create Label'),
                                         requiresAllPermissions: ["edu_labels.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.edu.labels.create",
                                     }
                                 },
                                 icon: "icon-tags",
-                                label: "Labels",
+                                label: this.transWithFallback('admin-edu-labels','Labels'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["edu_labels.create", "edu_labels.view"],
                             },
@@ -398,7 +398,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View",
+                                        label: this.transWithFallback('admin-edu-purchases-view','View'),
                                         activeRoutes: ["admin.edu.course-purchases.index", "admin.edu.course-purchases.show"],
                                         requiresAllPermissions: ["edu_course_purchases.view"],
                                         requiresAnyPermissions: [],
@@ -406,7 +406,7 @@
                                     }
                                 },
                                 icon: "icon-moneybag",
-                                label: "Purchases",
+                                label: this.transWithFallback('admin-edu-purchases','Purchases'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["edu_course_purchases.view"],
                             },
@@ -415,7 +415,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View",
+                                        label: this.transWithFallback('admin-edu-webinars-view','View'),
                                         requiresAllPermissions: ["edu_webinars.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.edu.webinars.index",
@@ -423,19 +423,19 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create",
+                                        label: this.transWithFallback('admin-edu-webinars-create','Create'),
                                         requiresAllPermissions: ["edu_webinars.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.edu.webinars.create",
                                     }
                                 },
                                 icon: "icon-camera-check",
-                                label: "Webinars",
+                                label: this.transWithFallback('admin-webinars','Webinars'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["edu_webinars.create", "edu_webinars.view"],
                             },
                         },
-                        label: "EDU",
+                        label: this.transWithFallback('admin-edu','EDU'),
                         requiresAllPermissions: [],
                         requiresAnyPermissions: [
                             'edu_announcements.create',
@@ -458,13 +458,13 @@
                             file_manager: {
                                 children: false,
                                 icon: "icon-folders",
-                                label: "File Manager",
+                                label: this.transWithFallback('file-manager','File Manager'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["file_manager.view"],
                                 route: 'admin.file_manager.index',
                             }
                         },
-                        label: "Utilities",
+                        label: this.transWithFallback('admin-utilities','Utilities'),
                         requiresAllPermissions: [],
                         requiresAnyPermissions: ["file_manager.view"],
                         showLabel: true,
@@ -476,14 +476,14 @@
                                 children: {
                                     core: {
                                         icon: false,
-                                        label: "Core",
+                                        label: this.transWithFallback('admin-core','Core'),
                                         requiresAllPermissions: ["settings.edit"],
                                         requiresAnyPermissions: [],
                                         route: ["admin.settings.edit", 'core'],
                                     },
                                     edu: {
                                         icon: false,
-                                        label: "Edu",
+                                        label: this.transWithFallback('admin-edu','Edu'),
                                         requiresAllPermissions: ["settings.edit"],
                                         requiresAnyPermissions: [],
                                         route: ["admin.settings.edit", 'edu'],
@@ -491,7 +491,7 @@
                                     theme: {
                                         children: false,
                                         icon: false,
-                                        label: "Theme",
+                                        label: this.transWithFallback('admin-theme','Theme'),
                                         requiresAllPermissions: ["settings.edit"],
                                         requiresAnyPermissions: [],
                                         route: ["admin.settings.edit", 'theme'],
@@ -499,14 +499,14 @@
                                     thirdParty: {
                                         children: false,
                                         icon: false,
-                                        label: "Third Party",
+                                        label: this.transWithFallback('admin-third-party','Third Party'),
                                         requiresAllPermissions: ["settings.edit"],
                                         requiresAnyPermissions: [],
                                         route: ["admin.settings.edit", 'third-party'],
                                     },
                                 },
                                 icon: "icon-settings",
-                                label: "Settings",
+                                label: this.transWithFallback('admin-settings','Settings'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["settings.edit"],
                                 route: false,
@@ -516,7 +516,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Users",
+                                        label: this.transWithFallback('admin-users-view','View Users'),
                                         requiresAllPermissions: ["users.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.users.index",
@@ -524,14 +524,14 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create User",
+                                        label: this.transWithFallback('admin-users-create','Create User'),
                                         requiresAllPermissions: ["users.create"],
                                         requiresAnyPermissions: [],
                                         route: "admin.users.create",
                                     },
                                 },
                                 icon: "icon-users",
-                                label: "Users",
+                                label: this.transWithFallback('admin-users','Users'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["users.view", "users.create"],
                                 route: false,
@@ -541,21 +541,21 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Emails",
+                                        label: this.transWithFallback('admin-admin-email_preview-view','View Emails'),
                                         requiresAllPermissions: ["email_preview.view"],
                                         requiresAnyPermissions: [],
                                         route: "admin.email.preview.index",
                                     },
                                 },
                                 icon: "icon-mail",
-                                label: "Email Preview",
+                                label: this.transWithFallback('admin-admin-email_preview','Email Preview'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["admin.email.preview.index", "admin.email.preview.show"],
                                 route: false,
                             },
 
                         },
-                        label: "Admin",
+                        label: this.transWithFallback('admin-admin','Admin'),
                         requiresAllPermissions: [],
                         requiresAnyPermissions: ["users.view", "users.create"],
                         showLabel: true,
@@ -581,6 +581,16 @@
             router.on('success', event => {
                 this.hideMobileSideMenu();
             })
+
+            // Debug: log translation lookups for menu labels
+            try {
+                console.debug('ZORA LOCALE', window.locale);
+                console.debug('trans admin-dashboard ->', this.trans('admin-dashboard'));
+                console.debug('trans messages.admin-dashboard ->', this.trans('messages.admin-dashboard'));
+                console.debug('transWithFallback admin-dashboard ->', this.transWithFallback('admin-dashboard', 'Dashboard'));
+            } catch (e) {
+                console.error('Translation debug error', e);
+            }
         },
         methods: {
             getMetaDataField(slug, fallback = '') {

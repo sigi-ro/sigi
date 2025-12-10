@@ -20,7 +20,7 @@
                 <span
                     class="hidden md:inline"
                 >
-                    Create
+                    {{ transWithFallback('admin-edu-labels-create','Create') }}
                 </span>
             </inertia-link>
         </div>
@@ -116,7 +116,7 @@
                                             focus:outline-none focus:ring
                                             hover:bg-theme-danger hover:text-theme-danger-contrast
                                         "
-                                        title="Delete"
+                                        :title="transWithFallback('delete','Delete')"
                                         @click="checkDelete(item)"
                                     >
                                         <icon-trash
@@ -140,7 +140,7 @@
             </template>
 
             <confirmation-modal
-                confirm-text="Delete"
+                :confirm-text="transWithFallback('delete','Delete')"
                 confirm-type="danger"
                 :show-modal="showDeleteModal"
                 :message-text="deleteModalText"

@@ -51,13 +51,13 @@
                             dashboard: {
                                 children: false,
                                 icon: "icon-home",
-                                label: "Dashboard",
+                                label: this.transWithFallback('admin-dashboard', 'Dashboard'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: [],
                                 route: "landlord.admin.index",
                             },
                         },
-                        label: "Main",
+                        label: this.transWithFallback('admin-main', 'Main'),
                         requiresAllPermissions: [],
                         requiresAnyPermissions: [],
                         showLabel: false,
@@ -69,7 +69,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Tenants",
+                                        label: this.transWithFallback('admin-tenants-view','View Tenants'),
                                         requiresAllPermissions: ["tenants.view"],
                                         requiresAnyPermissions: [],
                                         route: "landlord.admin.tenants.index",
@@ -77,14 +77,14 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create Tenant",
+                                        label: this.transWithFallback('admin-tenants-create','Create Tenant'),
                                         requiresAllPermissions: ["tenants.create"],
                                         requiresAnyPermissions: [],
                                         route: "landlord.admin.tenants.create",
                                     },
                                 },
                                 icon: "icon-app-window",
-                                label: "Tenants",
+                                label: this.transWithFallback('admin-tenants','Tenants'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["tenants.view", "tenants.create"],
                                 route: false,
@@ -94,7 +94,7 @@
                                 children: {
                                     index: {
                                         icon: false,
-                                        label: "View Users",
+                                        label: this.transWithFallback('admin-users-view','View Users'),
                                         requiresAllPermissions: ["users.view"],
                                         requiresAnyPermissions: [],
                                         route: "landlord.admin.users.index",
@@ -102,20 +102,20 @@
                                     create: {
                                         children: false,
                                         icon: false,
-                                        label: "Create User",
+                                        label: this.transWithFallback('admin-users-create','Create User'),
                                         requiresAllPermissions: ["users.create"],
                                         requiresAnyPermissions: [],
                                         route: "landlord.admin.users.create",
                                     },
                                 },
                                 icon: "icon-users",
-                                label: "Users",
+                                label: this.transWithFallback('admin-users','Users'),
                                 requiresAllPermissions: [],
                                 requiresAnyPermissions: ["users.view", "users.create"],
                                 route: false,
                             },
                         },
-                        label: "Admin",
+                        label: this.transWithFallback('admin-admin','Admin'),
                         requiresAllPermissions: [],
                         requiresAnyPermissions: ["users.view", "users.create", "tenants.view", "tenants.create"],
                         showLabel: true,
@@ -142,6 +142,16 @@
             router.on('success', event => {
                 this.hideMobileSideMenu();
             })
+
+            // Debug: log translation lookups for menu labels
+            try {
+                console.debug('ZORA LOCALE (landlord)', window.locale);
+                console.debug('trans admin-dashboard ->', this.trans('admin-dashboard'));
+                console.debug('trans messages.admin-dashboard ->', this.trans('messages.admin-dashboard'));
+                console.debug('transWithFallback admin-dashboard ->', this.transWithFallback('admin-dashboard', 'Dashboard'));
+            } catch (e) {
+                console.error('Translation debug error (landlord)', e);
+            }
         },
         methods: {
             getMetaDataField(slug, fallback = '') {

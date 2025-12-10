@@ -6,7 +6,7 @@
             >
                 <span class="flex items-center">
                     <icon-loader-circle class="animate-spin-slow mr-2 w-5"/>
-                    <span>Loading</span>
+                    <span>{{ transWithFallback('loading','Loading') }}</span>
                 </span>
             </li>
         </template>
@@ -14,7 +14,7 @@
             <li
                 class="flex flex-row items-center justify-center text-theme-base-subtle-contrast text-sm py-4 w-full"
             >
-                <span>No files</span>
+                <span>{{ transWithFallback('no-files','No files') }}</span>
             </li>
         </template>
         <template v-else>
