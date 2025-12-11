@@ -153,6 +153,13 @@ return [
     'weekly-webinars' => 'Webinarii Săptămânale',
     'biweekly-webinars' => 'Webinarii Bisăptămânale',
     'file-manager' => 'Manager fișiere',
+    'dashboard' => 'Panou',
+    'form-submissions' => 'Subiri formular',
+    'contacts' => 'Contacte',
+    'pages' => 'Pagini',
+    'files' => 'Fișiere',
+    'view-all' => 'Vezi toate',
+    'lets-build-something-great' => 'Hai să construim ceva minunat.',
     'view' => 'Vezi',
     'create' => 'Crează',
 

@@ -32,14 +32,14 @@
         >
 
             <p class="dropdown-subheading mb-2">
-                Hello, {{ $page.props.auth.user.first_name }}
+                {{ transWithFallback('hello','Hello', {name: $page.props.auth?.user?.first_name || ''}) }}
             </p>
 
             <inertia-link
                 class="dropdown-link"
                 :href="$route('website.index')"
             >
-                Homepage
+                {{ transWithFallback('homepage','Homepage') }}
             </inertia-link>
 
             <inertia-link
@@ -48,7 +48,7 @@
                 :href="$route('admin.profile.index')"
                 @click="closeUserDropdown"
             >
-                Profile
+                {{ transWithFallback('profile','Profile') }}
             </inertia-link>
 
             <div class="dropdown-separator"></div>
@@ -59,7 +59,7 @@
                 :href="$route('logout')"
                 method="post"
             >
-                Logout
+                {{ transWithFallback('logout','Logout') }}
             </inertia-link>
         </div>
     </nav>

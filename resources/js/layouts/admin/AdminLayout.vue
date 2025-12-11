@@ -486,6 +486,7 @@
                                         label: this.transWithFallback('admin-edu','Edu'),
                                         requiresAllPermissions: ["settings.edit"],
                                         requiresAnyPermissions: [],
+                                        requiresTenantModule: 'edu',
                                         route: ["admin.settings.edit", 'edu'],
                                     },
                                     theme: {
