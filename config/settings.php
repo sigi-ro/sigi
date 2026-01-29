@@ -10,6 +10,7 @@ return [
         \App\Models\Settings\CoreSettings::class,
         \App\Models\Settings\EduSettings::class,
         \App\Models\Settings\ThirdPartySettings::class,
+        \App\Models\Settings\WebhookSettings::class,
     ],
 
     /*

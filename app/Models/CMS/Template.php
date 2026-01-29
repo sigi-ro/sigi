@@ -18,4 +18,12 @@ class Template extends Model
     {
         return $this->hasMany(TemplateField::class);
     }
+
+    /**
+     * Get the sections for this template.
+     */
+    public function sections() : HasMany
+    {
+        return $this->hasMany(TemplateSection::class);
+    }
 }

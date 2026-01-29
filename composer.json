@@ -37,9 +37,11 @@
         "brianium/paratest": "^7.0",
         "itsgoingd/clockwork": "^5.0",
         "jetstreamlabs/zora": "^4.1",
+        "laravel/pint": "^1.13",
         "laravel/sail": "^1.23",
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^7.0",
+        "nunomaduro/larastan": "^2.0",
         "phpunit/phpunit": "^10.0"
     },
     "config": {
@@ -83,8 +85,17 @@
             "@php artisan key:generate --ansi"
         ],
         "test": "php artisan test",
-        "test:fast": "php artisan test --group=fast",
-        "test:parallel": "vendor/bin/paratest --processes=4",
-        "test:coverage": "php artisan test --coverage"
+        "test:unit": "php artisan test --testsuite=Unit",
+        "test:feature": "php artisan test --testsuite=Feature",
+        "test:fast": "php artisan test --group=fast,unit",
+        "test:api": "php artisan test --group=api",
+        "test:admin": "php artisan test --group=admin",
+        "test:cms": "php artisan test --group=cms",
+        "test:parallel": "vendor/bin/paratest --processes=4 --functional",
+        "test:parallel:fast": "vendor/bin/paratest --processes=4 --functional --group=fast,unit",
+        "test:coverage": "php artisan test --coverage",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=2G",
+        "lint": "vendor/bin/pint",
+        "lint:check": "vendor/bin/pint --test"
     }
 }

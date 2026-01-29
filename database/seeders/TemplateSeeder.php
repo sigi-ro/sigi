@@ -24,50 +24,64 @@ class TemplateSeeder extends Seeder
 
     protected function createLayoutTemplate()
     {
-        $template = Template::create([
-            'description'   => 'Default template for layouts.',
-            'name'          => 'Default Layout Template',
-            'slug'          => 'default-layout-template',
-            'type'          => TemplateInterface::TYPE_LAYOUT,
-        ]);
+        $template = Template::firstOrCreate(
+            [
+                'slug' => 'default-layout-template',
+                'type' => TemplateInterface::TYPE_LAYOUT,
+            ],
+            [
+                'description'   => 'Default template for layouts.',
+                'name'          => 'Default Layout Template',
+            ]
+        );
 
-        $template->templateFields()->create([
-            'name'  => 'Shared Content',
-            'order' => 0,
-            'slug'  => 'shared-content',
-            'type'  => TemplateFieldInterface::TYPE_TEXT,
-        ]);
+        if (!$template->templateFields()->where('slug', 'shared-content')->exists()) {
+            $template->templateFields()->create([
+                'name'  => 'Shared Content',
+                'order' => 0,
+                'slug'  => 'shared-content',
+                'type'  => TemplateFieldInterface::TYPE_TEXT,
+            ]);
+        }
 
-
-        Layout::create([
-            'name'          => 'Default Layout',
-            'slug'          => 'default-layout',
-            'template_id'   => $template->id,
-        ]);
+        Layout::firstOrCreate(
+            ['slug' => 'default-layout'],
+            [
+                'name'          => 'Default Layout',
+                'template_id'   => $template->id,
+            ]
+        );
     }
 
     protected function createPageTemplate()
     {
-        $template = Template::create([
-            'description'   => 'Default template for pages.',
-            'name'          => 'Default Page Template',
-            'slug'          => 'default-page-template',
-            'type'          => TemplateInterface::TYPE_PAGE,
-        ]);
-
-        $template->templateFields()->createMany([
+        $template = Template::firstOrCreate(
             [
+                'slug' => 'default-page-template',
+                'type' => TemplateInterface::TYPE_PAGE,
+            ],
+            [
+                'description'   => 'Default template for pages.',
+                'name'          => 'Default Page Template',
+            ]
+        );
+
+        if (!$template->templateFields()->where('slug', 'header')->exists()) {
+            $template->templateFields()->create([
                 'name'  => 'Header',
                 'order' => 0,
                 'slug'  => 'header',
                 'type'  => TemplateFieldInterface::TYPE_TEXT,
-            ],
-            [
+            ]);
+        }
+
+        if (!$template->templateFields()->where('slug', 'content')->exists()) {
+            $template->templateFields()->create([
                 'name'  => 'Content',
                 'order' => 1,
                 'slug'  => 'content',
                 'type'  => TemplateFieldInterface::TYPE_WYSIWYG,
-            ],
-        ]);
+            ]);
+        }
     }
 }

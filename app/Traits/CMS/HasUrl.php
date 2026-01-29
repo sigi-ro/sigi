@@ -63,8 +63,8 @@ trait HasUrl
                 ->orderByRaw("CASE id {$cases} END");
         } else {
             // MySQL/MariaDB support FIELD()
-            return $query->whereHas('url')
-                ->with('url')
+        return $query->whereHas('url')
+            ->with('url')
                 ->orderByRaw('FIELD (id, ' . implode(',', $ordered_ids) . ')');
         }
     }

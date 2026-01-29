@@ -9,11 +9,30 @@
         @click="onFileSelected(file)"
     >
         <div class="flex flex-row items-start">
+            <!-- Inline thumbnail for images -->
+            <div v-if="isFileImage && showInlineThumbnail" class="relative min-w-12 w-12 h-12 mr-3 flex-shrink-0">
+                <img
+                    v-if="isThumbnailLoaded"
+                    :src="file.url"
+                    :alt="file.meta.basename"
+                    class="w-12 h-12 object-cover rounded border border-gray-200"
+                    @error="onThumbnailError"
+                />
+                <div
+                    v-else
+                    ref="thumbnailPlaceholder"
+                    class="w-12 h-12 bg-gray-100 rounded border border-gray-200 flex items-center justify-center"
+                >
+                    <icon-photo class="w-5 text-gray-400" />
+                </div>
+            </div>
+            <!-- Icon for non-images or when thumbnails disabled -->
             <component
+                v-else
                 class="min-w-5 mr-2 w-5"
                 :is="fileIcon"
             />
-            <span>{{ file.meta.basename }}</span>
+            <span class="self-center">{{ file.meta.basename }}</span>
         </div>
         <div class="flex flex-row items-center space-x-2">
             <!-- Open file in new tab -->
@@ -107,11 +126,17 @@
             file: {
                 required: true,
                 type: Object
+            },
+            showInlineThumbnail: {
+                default: true,
+                type: Boolean,
             }
         },
         data() {
             return {
                 isDropdownPreviewLoaded: false, // default to false so previews only download when required
+                isThumbnailLoaded: false, // lazy load thumbnails
+                thumbnailError: false,
             }
         },
         computed: {
@@ -205,6 +230,13 @@
         },
         mounted() {
             this.initialiseFileDropdown();
+            this.initialiseThumbnailObserver();
+        },
+        beforeDestroy() {
+            // Clean up the intersection observer
+            if (this.thumbnailObserver) {
+                this.thumbnailObserver.disconnect();
+            }
         },
         methods: {
             initialiseFileDropdown() {
@@ -224,6 +256,34 @@
                     trigger: 'click',
                 });
             },
+            initialiseThumbnailObserver() {
+                // Set up lazy loading for image thumbnails using IntersectionObserver
+                if (!this.isFileImage || !this.showInlineThumbnail) {
+                    return;
+                }
+
+                this.$nextTick(() => {
+                    const placeholder = this.$refs.thumbnailPlaceholder;
+                    if (!placeholder) {
+                        // Already loaded or not an image
+                        return;
+                    }
+
+                    this.thumbnailObserver = new IntersectionObserver(
+                        (entries) => {
+                            entries.forEach((entry) => {
+                                if (entry.isIntersecting) {
+                                    this.isThumbnailLoaded = true;
+                                    this.thumbnailObserver.disconnect();
+                                }
+                            });
+                        },
+                        { rootMargin: '50px' } // Load slightly before coming into view
+                    );
+
+                    this.thumbnailObserver.observe(placeholder);
+                });
+            },
             onDropdownButtonClick() {
                 this.isDropdownPreviewLoaded = true;
             },
@@ -231,6 +291,11 @@
                 if (this.enableFileSelect) {
                     this.$emit('fileSelected', file);
                 }
+            },
+            onThumbnailError() {
+                // Handle failed thumbnail loads gracefully
+                this.thumbnailError = true;
+                this.isThumbnailLoaded = false;
             }
         },
     }

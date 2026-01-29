@@ -5,6 +5,7 @@ namespace App\Actions\FileManager;
 
 use App\Models\EDU\Lecture\LectureFiles;
 use App\Models\EDU\Section\SectionFiles;
+use App\Services\StorageQuotaService;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -16,23 +17,36 @@ class FileManagerFileStoreAction
     /** @var string The file system disk to use for Directory management */
     protected $storage_disk;
 
+    /** @var StorageQuotaService|null */
+    protected ?StorageQuotaService $storageQuotaService;
+
 
     /**
      * FileManagerFileStoreAction constructor.
      * @param $storage_disk
+     * @param StorageQuotaService|null $storageQuotaService
      */
-    public function __construct($storage_disk)
+    public function __construct($storage_disk, ?StorageQuotaService $storageQuotaService = null)
     {
         $this->storage_disk = $storage_disk;
+        $this->storageQuotaService = $storageQuotaService ?? app(StorageQuotaService::class);
     }
 
     /**
      * @param string $directory
      * @param UploadedFile $file
      * @return false|string
+     * @throws \App\Exceptions\StorageQuotaExceededException
      */
     public function handle(string $directory, UploadedFile $file, $request)
     {
+        $fileSize = $file->getSize();
+
+        // Check storage quota before upload
+        if (!$this->storageQuotaService->canUpload($fileSize)) {
+            abort(413, 'Storage quota exceeded. Please delete some files or contact support.');
+        }
+
         $directory = $this->formatDirectory($directory);
         $filename = $this->getFileName($directory, $file);
 
@@ -58,7 +72,14 @@ class FileManagerFileStoreAction
             $sectionFiles->save();
         }
 
-        return $file->storeAs($directory, $filename, $this->storage_disk);
+        $result = $file->storeAs($directory, $filename, $this->storage_disk);
+
+        // Track storage usage after successful upload
+        if ($result !== false) {
+            $this->storageQuotaService->recordUpload($fileSize);
+        }
+
+        return $result;
     }
 
     /**

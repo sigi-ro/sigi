@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
@@ -37,7 +40,57 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->configureRateLimiting();
+
         parent::boot();
+    }
+
+    /**
+     * Configure the rate limiters for the application.
+     *
+     * Rate limiters protect against abuse while allowing legitimate traffic.
+     * Each limiter is identified by a key and can be applied via middleware.
+     *
+     * @return void
+     */
+    protected function configureRateLimiting(): void
+    {
+        // Default API rate limit: 60 requests per minute per IP
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by($request->ip());
+        });
+
+        // Stricter limit for form submissions to prevent spam
+        // 5 submissions per minute per IP, 20 per hour
+        RateLimiter::for('form-submission', function (Request $request) {
+            return [
+                Limit::perMinute(5)->by($request->ip()),
+                Limit::perHour(20)->by($request->ip()),
+            ];
+        });
+
+        // Public content API: Higher limit for static site generation
+        // 120 requests per minute (allows full site rebuild)
+        RateLimiter::for('api-public', function (Request $request) {
+            return Limit::perMinute(120)->by($request->ip());
+        });
+
+        // EDU checkout: Prevent rapid checkout attempts
+        // 10 per minute, 30 per hour per IP
+        RateLimiter::for('checkout', function (Request $request) {
+            return [
+                Limit::perMinute(10)->by($request->ip()),
+                Limit::perHour(30)->by($request->ip()),
+            ];
+        });
+
+        // Admin API: Higher limit for authenticated users
+        // 300 requests per minute (content editors need higher limits)
+        RateLimiter::for('admin-api', function (Request $request) {
+            return Limit::perMinute(300)->by(
+                $request->user()?->id ?: $request->ip()
+            );
+        });
     }
 
     /**
@@ -73,7 +126,7 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapAdminApiRoutes(): void
     {
-        Route::middleware(['admin','tenant'])
+        Route::middleware(['admin', 'tenant', 'throttle:admin-api'])
             ->namespace($this->namespace)
             ->as('admin.api.')
             ->prefix('admin/api')

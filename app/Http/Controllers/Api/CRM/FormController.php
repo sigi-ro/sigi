@@ -22,6 +22,7 @@ class FormController extends Controller
                 'id' => $form->id,
                 'name' => $form->name,
                 'slug' => $form->slug,
+                'submit_button_text' => $form->submit_button_text,
                 'success_message' => $form->success_message,
                 'redirect_url' => $form->redirect_url,
                 'fields' => $form->formFields->map(function ($field) {

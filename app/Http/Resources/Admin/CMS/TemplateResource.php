@@ -23,6 +23,7 @@ class TemplateResource extends JsonResource
                 $this->type
             ),
             'template_fields'   => TemplateFieldResource::collection($this->whenLoaded('templateFields')),
+            'sections'          => TemplateSectionResource::collection($this->whenLoaded('sections')),
         ];
     }
 }

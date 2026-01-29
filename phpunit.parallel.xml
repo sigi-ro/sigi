@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Paratest Configuration for SIGI
+    
+    Run with: vendor/bin/paratest
+    
+    This configuration optimizes parallel test execution by:
+    - Using functional mode for better isolation
+    - Setting appropriate process count based on CPU cores
+    - Configuring per-process database isolation
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd" 
+         bootstrap="vendor/autoload.php" 
+         colors="true"
+         cacheDirectory=".phpunit.cache">
+  <coverage/>
+  <testsuites>
+    <testsuite name="Unit">
+      <directory suffix="Test.php">./tests/Unit</directory>
+    </testsuite>
+    <testsuite name="Feature">
+      <directory suffix="Test.php">./tests/Feature</directory>
+    </testsuite>
+  </testsuites>
+  <groups>
+    <exclude>
+      <group>slow</group>
+    </exclude>
+  </groups>
+  <php>
+    <server name="APP_ENV" value="testing"/>
+    <server name="BCRYPT_ROUNDS" value="4"/>
+    <server name="CACHE_DRIVER" value="array"/>
+    <server name="DB_CONNECTION" value="sqlite"/>
+    <server name="DB_DATABASE" value=":memory:"/>
+    <server name="MAIL_MAILER" value="array"/>
+    <server name="QUEUE_CONNECTION" value="sync"/>
+    <server name="SESSION_DRIVER" value="array"/>
+    <server name="TELESCOPE_ENABLED" value="false"/>
+    <server name="API_DEBUG" value="false"/>
+    <!-- Each parallel process gets unique token for isolation -->
+    <env name="PARALLEL_TEST_TOKEN" value=""/>
+  </php>
+  <source>
+    <include>
+      <directory suffix=".php">./app</directory>
+    </include>
+    <exclude>
+      <directory>./app/Models/EDU</directory>
+      <directory>./app/Actions/EDU</directory>
+      <directory>./app/Http/Controllers/Admin/EDU</directory>
+      <directory>./app/Http/Controllers/Api/EDU</directory>
+      <directory>./app/Http/Controllers/Website/EDU</directory>
+      <directory>./app/Http/Controllers/AdminApi/EDU</directory>
+      <directory>./app/Interfaces/EDU</directory>
+      <directory>./app/Traits/Admin/EDU</directory>
+      <directory>./app/Traits/EDU</directory>
+      <directory>./app/Jobs/EDU</directory>
+      <directory>./app/Mail/EDU</directory>
+      <directory>./app/Models/Settings/EduSettings.php</directory>
+    </exclude>
+  </source>
+</phpunit>

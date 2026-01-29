@@ -5,6 +5,10 @@ namespace Tests\Unit\CMS;
 use App\Interfaces\CMS\TemplateFieldInterface;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @group fast
+ * @group unit
+ */
 class TemplateFieldInterfaceTest extends TestCase
 {
     /** @test */

@@ -6,6 +6,10 @@ use App\Models\CMS\Page;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TenantTestCase;
 
+/**
+ * @group api
+ * @group cms
+ */
 class PageApiTest extends TenantTestCase
 {
     use RefreshDatabase;

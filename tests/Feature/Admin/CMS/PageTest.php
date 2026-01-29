@@ -10,6 +10,10 @@ use App\Models\CMS\Template;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\Admin\AbstractAdminTestCase;
 
+/**
+ * @group admin
+ * @group cms
+ */
 class PageTest extends AbstractAdminTestCase
 {
     use RefreshDatabase;

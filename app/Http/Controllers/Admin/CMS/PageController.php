@@ -73,7 +73,8 @@ class PageController extends AdminCMSController
             'metadata',
             'parent',
             'template',
-            'template.templateFields',
+            'template.templateFields.section',
+            'template.sections.templateFields',
             'url',
         ]);
 

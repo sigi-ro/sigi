@@ -117,6 +117,18 @@ Route::group([
     Route::put('/{group}', [SettingController::class, 'update'])->name('update');
 });
 
+// Webhook Settings
+Route::group([
+    'as' => 'webhooks.',
+    'prefix' => 'webhooks'
+], function() {
+    Route::get('/', [\App\Http\Controllers\Admin\Settings\WebhookSettingsController::class, 'index'])->name('index');
+    Route::put('/', [\App\Http\Controllers\Admin\Settings\WebhookSettingsController::class, 'update'])->name('update');
+    Route::post('/test', [\App\Http\Controllers\Admin\Settings\WebhookSettingsController::class, 'test'])->name('test');
+    Route::get('/logs', [\App\Http\Controllers\Admin\Settings\WebhookSettingsController::class, 'logs'])->name('logs');
+    Route::delete('/logs', [\App\Http\Controllers\Admin\Settings\WebhookSettingsController::class, 'clearLogs'])->name('logs.clear');
+});
+
 Route::resource('users', UserController::class);
 
 Route::group([

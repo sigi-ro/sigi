@@ -34,6 +34,12 @@ abstract class TestCase extends BaseTestCase
     protected ?Tenant $tenant = null;
 
     /**
+     * Track if permissions have been seeded in this process.
+     * This avoids redundant seeding across tests in the same process.
+     */
+    protected static bool $permissionsSeeded = false;
+
+    /**
      * @var Faker
      */
     protected $faker;
@@ -44,28 +50,39 @@ abstract class TestCase extends BaseTestCase
         $this->inertiaSetup();
         $this->faker = Faker::create();
         config(['tenancy.database.prefix' => 'test_tenant_']);
-        // Ensure both landlord and tenant migrations run in the in-memory
-        // testing database. Migrations in this project are split into
-        // `database/migrations/landlord` and `database/migrations/tenant`.
-        // Running them here guarantees the permission tables, roles and
-        // tenant-specific tables exist for tests that rely on them.
-        // Migration application is handled by the RefreshDatabase trait
-        // and the migrator. We previously attempted to run migrations
-        // here manually which caused duplicate-migration issues. The
-        // test environment now registers the landlord/tenant migration
-        // folders via AppServiceProvider so RefreshDatabase will include
-        // them automatically.
-
+        
         // Clear permission cache before each test so freshly created/assigned
         // permissions are respected by authorization checks.
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Seed deterministic permissions and roles for tests. This ensures
-        // middleware checks and permission lookups are reliable without
-        // requiring manual seeding steps.
-        if (app()->environment('testing')) {
-            $this->artisan('db:seed', ['--class' => TestPermissionsSeeder::class]);
+        // Seed permissions once per process, not per test.
+        // This significantly reduces test overhead.
+        $this->seedPermissionsOnce();
+    }
+
+    /**
+     * Seed permissions/roles only once per test process.
+     * Subsequent tests in the same process skip seeding.
+     */
+    protected function seedPermissionsOnce(): void
+    {
+        if (static::$permissionsSeeded) {
+            return;
         }
+
+        if (app()->environment('testing')) {
+            $seeder = new TestPermissionsSeeder();
+            $seeder->run();
+            static::$permissionsSeeded = true;
+        }
+    }
+
+    /**
+     * Reset permission seeding flag. Call this if you need to force re-seeding.
+     */
+    public static function resetPermissionsSeeded(): void
+    {
+        static::$permissionsSeeded = false;
     }
 
     protected function createTenant(array $data = [], string $domain = null): Tenant

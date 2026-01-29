@@ -31,4 +31,12 @@ class TemplateField extends Model
     {
         return $this->belongsTo(Template::class);
     }
+
+    /**
+     * Get the section that this field belongs to.
+     */
+    public function section()
+    {
+        return $this->belongsTo(TemplateSection::class, 'section_id');
+    }
 }

@@ -31,6 +31,21 @@
             </inertia-link>
 
             <button
+                type="button"
+                class="
+                    button button-default-responsive button-secondary
+                    flex flex-row items-center mr-2
+                "
+                :disabled="isGeneratingPreview"
+                @click="generatePreview"
+            >
+                <icon-external-link class="w-5 md:mr-2"/>
+                <span class="hidden md:inline">
+                    {{ isGeneratingPreview ? transWithFallback('loading','Loading...') : transWithFallback('preview','Preview') }}
+                </span>
+            </button>
+
+            <button
                 class="
                     button button-default-responsive button-primary
                     flex flex-row items-center
@@ -219,6 +234,10 @@
             <content-editor
                 class="mt-4"
                 :template-fields="selectedTemplate.template_fields"
+                :template-sections="selectedTemplate.sections || []"
+                :template-id="selectedTemplate.id"
+                :use-sections="selectedTemplateHasFields && selectedTemplate.id"
+                @reload-template="reloadTemplate"
                 v-model="formData.content"
             />
         </div>
@@ -271,6 +290,7 @@
                     : 'layout'),
                 autoUpdateSlug: false,
                 formData: {},
+                isGeneratingPreview: false,
                 isInitialisedTemplate: false,
                 isInitialisedContent: false,
                 isInitialised_url: false,
@@ -401,6 +421,36 @@
                     return false;
                 }
             },
+            async generatePreview() {
+                if (this.isGeneratingPreview) return;
+
+                this.isGeneratingPreview = true;
+                try {
+                    const response = await axios.post(
+                        this.$route('admin.api.cms.pages.preview-token.store', this.page.id)
+                    );
+
+                    if (response.data.preview_url) {
+                        // Open preview in new tab
+                        window.open(response.data.preview_url, '_blank');
+
+                        // Show success toast with expiry info
+                        this.$successToast(
+                            this.transWithFallback(
+                                'preview-generated',
+                                `Preview link generated. Valid for ${response.data.expires_in_minutes} minutes.`
+                            )
+                        );
+                    }
+                } catch (error) {
+                    console.error('Failed to generate preview:', error);
+                    this.$errorToast(
+                        this.transWithFallback('preview-failed', 'Failed to generate preview link')
+                    );
+                } finally {
+                    this.isGeneratingPreview = false;
+                }
+            },
             pageHasContentField(template_field_id) {
                 try {
                     return this.page.content.hasOwnProperty(template_field_id);
@@ -429,6 +479,9 @@
                     return;
                 }
 
+                this.loadTemplate();
+            }, 500),
+            loadTemplate() {
                 this.isLoadingTemplate = true;
 
                 axios.get(
@@ -444,7 +497,11 @@
                 }).finally(() => {
                     this.isLoadingTemplate = false;
                 })
-            }, 500),
+            },
+            reloadTemplate() {
+                if (!this.selectedTemplateId) return;
+                this.loadTemplate();
+            },
             onSlugBlur() {
                 this.formData.slug = this.slugify(this.formData.slug)
             },
@@ -487,15 +544,25 @@
             setNewTemplateContent() {
                 if (!this.selectedTemplateHasFields) {
                     this.formData.content = {};
+                    return;
                 }
 
                 // Get all fields from the template and set the default data
                 let new_content = {};
                 _.forEach(this.selectedTemplate.template_fields, (templateField) => {
-                    new_content[templateField.id] = {
-                        data: '',
-                        template_field_id: templateField.id,
-                    };
+                    // Preserve existing content if it exists, otherwise create new
+                    if (this.formData.content && this.formData.content[templateField.id]) {
+                        // Keep existing content but ensure template_field_id is set
+                        new_content[templateField.id] = {
+                            ...this.formData.content[templateField.id],
+                            template_field_id: templateField.id,
+                        };
+                    } else {
+                        new_content[templateField.id] = {
+                            data: '',
+                            template_field_id: templateField.id,
+                        };
+                    }
                 });
 
                 // Replace the existing content
@@ -530,9 +597,47 @@
                     }
                 }
 
+                // Ensure all content items have template_field_id before submitting
+                if (this.formData.content && typeof this.formData.content === 'object') {
+                    Object.keys(this.formData.content).forEach(fieldId => {
+                        if (this.formData.content[fieldId]) {
+                            // Ensure template_field_id is set
+                            if (!this.formData.content[fieldId].template_field_id) {
+                                this.$set(this.formData.content[fieldId], 'template_field_id', parseInt(fieldId));
+                            }
+                            // Remove 'id' field (content record ID) - it shouldn't be sent in the request
+                            if (this.formData.content[fieldId].id !== undefined) {
+                                this.$delete(this.formData.content[fieldId], 'id');
+                            }
+                        }
+                    });
+                }
+
+                console.log('Submitting form data:', JSON.stringify(this.formData, null, 2));
+
                 this.$inertia.put(
                     this.$route('admin.cms.pages.update', this.page.id),
-                    this.formData
+                    this.formData,
+                    {
+                        onError: (errors) => {
+                            console.error('Validation errors:', errors);
+                            console.error('Full errors object:', JSON.stringify(errors, null, 2));
+                            if (errors && Object.keys(errors).length > 0) {
+                                const errorMessages = Object.entries(errors)
+                                    .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`)
+                                    .join('\n');
+                                this.$errorToast('Validation failed:\n' + errorMessages);
+                            } else {
+                                this.$errorToast('Validation failed. Please check the form for errors.');
+                            }
+                        },
+                        onSuccess: () => {
+                            console.log('Page updated successfully');
+                        },
+                        onFinish: () => {
+                            console.log('Request finished');
+                        }
+                    }
                 );
             }
             ,

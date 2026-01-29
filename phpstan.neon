@@ -1,0 +1,38 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - app/
+
+    # Level 5 is a good starting point - can increase over time
+    # Level 0: basic checks
+    # Level 5: missing method/property checks, strict comparison
+    # Level 9: maximum strictness
+    level: 5
+
+    ignoreErrors:
+        # Ignore tenant() helper dynamic return type
+        - '#Function tenant\(\) has no return type specified#'
+        - '#Cannot access property \$\w+ on mixed#'
+        
+        # Ignore Inertia render return type issues
+        - '#Method .+ should return .+ but returns Inertia\\Response#'
+        
+        # Ignore Laravel magic methods on models
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::#'
+        
+        # Ignore Spatie Settings dynamic properties
+        - '#Access to an undefined property App\\Models\\Settings\\.+::\$#'
+        
+        # Ignore missing array/generic typehints (migrate gradually)
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
+
+    excludePaths:
+        - app/Console/Kernel.php
+        - app/Exceptions/Handler.php
+        - app/Providers/
+    
+    # Treat some PHPDocs as authoritative
+    treatPhpDocTypesAsCertain: false

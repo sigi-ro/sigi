@@ -30,7 +30,6 @@
                 focus:outline-none
             "
         >
-
             <p class="dropdown-subheading mb-2">
                 {{ transWithFallback('hello','Hello', {name: $page.props.auth?.user?.first_name || ''}) }}
             </p>

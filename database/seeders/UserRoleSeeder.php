@@ -20,41 +20,66 @@ class UserRoleSeeder extends Seeder
         $originalDriver = auth()->getDefaultDriver();
         auth()->setDefaultDriver('web');
 
-        $user = User::factory()->create([
-            'first_name'    => 'Admin',
-            'last_name'     => 'Account',
-            'email'         => 'admin@example.com',
-            'password'      => Hash::make('AdminPassword')
-        ]);
-        $user->assignRole(Role::whereName(RoleInterface::ADMIN)->first());
-        $user->assignRole(Role::whereName(RoleInterface::USER)->first());
+        // Create Admin user (idempotent)
+        $user = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'first_name'    => 'Admin',
+                'last_name'     => 'Account',
+                'password'      => Hash::make('AdminPassword')
+            ]
+        );
+        if (!$user->hasRole(RoleInterface::ADMIN)) {
+            $user->assignRole(Role::whereName(RoleInterface::ADMIN)->first());
+        }
+        if (!$user->hasRole(RoleInterface::USER)) {
+            $user->assignRole(Role::whereName(RoleInterface::USER)->first());
+        }
 
-        $user = User::factory()->create([
-            'first_name'    => 'Super',
-            'last_name'     => 'Account',
-            'email'         => 'super@example.com',
-            'password'      => Hash::make('SuperPassword')
-        ]);
-        $user->assignRole(Role::whereName(RoleInterface::ADMIN)->first());
-        $user->assignRole(Role::whereName(RoleInterface::SUPER)->first());
-        $user->assignRole(Role::whereName(RoleInterface::USER)->first());
+        // Create Super user (idempotent)
+        $user = User::firstOrCreate(
+            ['email' => 'super@example.com'],
+            [
+                'first_name'    => 'Super',
+                'last_name'     => 'Account',
+                'password'      => Hash::make('SuperPassword')
+            ]
+        );
+        if (!$user->hasRole(RoleInterface::ADMIN)) {
+            $user->assignRole(Role::whereName(RoleInterface::ADMIN)->first());
+        }
+        if (!$user->hasRole(RoleInterface::SUPER)) {
+            $user->assignRole(Role::whereName(RoleInterface::SUPER)->first());
+        }
+        if (!$user->hasRole(RoleInterface::USER)) {
+            $user->assignRole(Role::whereName(RoleInterface::USER)->first());
+        }
 
-        $user = User::factory()->create([
-            'first_name'    => 'User',
-            'last_name'     => 'Account',
-            'email'         => 'user@example.com',
-            'password'      => Hash::make('UserPassword')
-        ]);
-        $user->assignRole(Role::whereName(RoleInterface::USER)->first());
+        // Create User account (idempotent)
+        $user = User::firstOrCreate(
+            ['email' => 'user@example.com'],
+            [
+                'first_name'    => 'User',
+                'last_name'     => 'Account',
+                'password'      => Hash::make('UserPassword')
+            ]
+        );
+        if (!$user->hasRole(RoleInterface::USER)) {
+            $user->assignRole(Role::whereName(RoleInterface::USER)->first());
+        }
 
-
-        $user = User::factory()->create([
-            'first_name'    => 'Student',
-            'last_name'     => 'Account',
-            'email'         => 'student@example.com',
-            'password'      => Hash::make('StudentPassword')
-        ]);
-        $user->assignRole(Role::whereName(RoleInterface::STUDENT)->first());
+        // Create Student account (idempotent)
+        $user = User::firstOrCreate(
+            ['email' => 'student@example.com'],
+            [
+                'first_name'    => 'Student',
+                'last_name'     => 'Account',
+                'password'      => Hash::make('StudentPassword')
+            ]
+        );
+        if (!$user->hasRole(RoleInterface::STUDENT)) {
+            $user->assignRole(Role::whereName(RoleInterface::STUDENT)->first());
+        }
 
         auth()->setDefaultDriver($originalDriver);
     }

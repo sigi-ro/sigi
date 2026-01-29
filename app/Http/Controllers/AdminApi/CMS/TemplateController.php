@@ -28,7 +28,11 @@ class TemplateController extends Controller
     public function show(Template $template) : TemplateResource
     {
         if (!$template->relationLoaded('templateFields')) {
-            $template->load('templateFields');
+            $template->load('templateFields.section');
+        }
+        
+        if (!$template->relationLoaded('sections')) {
+            $template->load('sections.templateFields');
         }
 
         return TemplateResource::make($template);

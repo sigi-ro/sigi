@@ -27,6 +27,8 @@ class TemplateFieldResource extends JsonResource
             ),
             'template'          => TemplateResource::make($this->whenLoaded('template')),
             'template_id'       => $this->template_id,
+            'section'           => TemplateSectionResource::make($this->whenLoaded('section')),
+            'section_id'        => $this->section_id,
         ];
     }
 }

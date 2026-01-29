@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true" cacheDirectory=".phpunit.cache">
   <coverage/>
   <testsuites>
     <testsuite name="Unit">
@@ -7,6 +7,9 @@
     </testsuite>
     <testsuite name="Feature">
       <directory suffix="Test.php">./tests/Feature</directory>
+    </testsuite>
+    <testsuite name="Fast">
+      <directory suffix="Test.php">./tests/Unit</directory>
     </testsuite>
   </testsuites>
   <groups>
@@ -25,6 +28,8 @@
     <server name="SESSION_DRIVER" value="array"/>
     <server name="TELESCOPE_ENABLED" value="false"/>
     <server name="API_DEBUG" value="false"/>
+    <!-- Parallel test isolation -->
+    <env name="PARALLEL_TEST_TOKEN" value="1"/>
   </php>
   <source>
     <include>

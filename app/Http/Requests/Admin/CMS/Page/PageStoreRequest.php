@@ -9,6 +9,22 @@ use Illuminate\Validation\Rule;
 
 class PageStoreRequest extends BaseRequest
 {
+    protected function prepareForValidation()
+    {
+        // Convert content object keys to array indices for validation
+        // Content comes as {"40": {...}, "41": {...}} but validation expects [0 => {...}, 1 => {...}]
+        if ($this->has('content') && is_array($this->content)) {
+            $content = $this->content;
+            // If keys are numeric (template field IDs), convert to array
+            $keys = array_keys($content);
+            if (!empty($keys) && is_numeric($keys[0])) {
+                $this->merge([
+                    'content' => array_values($content)
+                ]);
+            }
+        }
+    }
+
     public function attributes() : array
     {
         $custom_attributes = [

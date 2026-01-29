@@ -141,6 +141,15 @@
                     @filesAdded="onFileUploaderFilesAdded"
                     @queueCompleted="onFileUploaderCompleted"
                 />
+
+                <!-- Storage Quota Display -->
+                <storage-quota-display
+                    v-if="showStorageQuota"
+                    ref="storageQuotaDisplay"
+                    class="mt-4"
+                    :show-recalculate-button="showRecalculateButton"
+                    @error="onStorageQuotaError"
+                />
             </div>
 
         </div>
@@ -153,6 +162,7 @@
     import FileManagerFilesHeader from "./partials/FileManagerFilesHeader.vue";
     import FileManagerFilesList from "./partials/FileManagerFilesList.vue";
     import FileManagerFileUploader from "./partials/FileManagerFileUploader.vue";
+    import StorageQuotaDisplay from "./partials/StorageQuotaDisplay.vue";
 
     let CancelToken = axios.CancelToken;
     let filesCancelToken = CancelToken.source();
@@ -164,6 +174,7 @@
             FileManagerDirectoryList,
             FileManagerFilesHeader,
             FileManagerFilesList,
+            StorageQuotaDisplay,
         },
         props: {
             enableFileSelect: {
@@ -173,7 +184,15 @@
             initialise: {
                 default: false,
                 type: Boolean
-            }
+            },
+            showStorageQuota: {
+                default: true,
+                type: Boolean,
+            },
+            showRecalculateButton: {
+                default: false,
+                type: Boolean,
+            },
         },
         data() {
             return {
@@ -430,6 +449,17 @@
             onFileUploaderCompleted() {
                 this.isLoadingFileUpload = false;
                 this.loadFiles();
+                // Refresh storage quota after upload completes
+                this.refreshStorageQuota();
+            },
+            onStorageQuotaError(error) {
+                // Handle storage quota fetch errors gracefully
+                console.warn('Storage quota error:', error);
+            },
+            refreshStorageQuota() {
+                if (this.showStorageQuota && this.$refs.storageQuotaDisplay) {
+                    this.$refs.storageQuotaDisplay.refresh();
+                }
             },
             onInitialise() {
                 if (this.initialise) {

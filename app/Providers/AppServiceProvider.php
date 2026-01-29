@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\CMS\Url;
 use App\Models\CRM\Contact;
+use App\Observers\CMS\UrlObserver;
 use App\Observers\CRM\ContactObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Contact::observe([
             ContactObserver::class
+        ]);
+
+        Url::observe([
+            UrlObserver::class
         ]);
 
         // When running tests we need the migrator to be aware of the
